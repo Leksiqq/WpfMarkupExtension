@@ -1,0 +1,775 @@
+﻿<Window x:Class="WpfMarkupExtensionDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfMarkupExtensionDemo"
+        xmlns:l="clr-namespace:Net.Leksi.WpfMarkup;assembly=Net.Leksi.WpfMarkupExtension"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="800" DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Dictionary1.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="CheckBox" x:Key="CheckBoxClickStyle" BasedOn="{StaticResource CheckBoxStyle}">
+                <EventSetter Event="Click" Handler="CheckBoxClick"/>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <CheckBox Grid.Row="0" Grid.Column="0" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb0"/>
+        <CheckBox Grid.Row="0" Grid.Column="1" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb1"/>
+        <CheckBox Grid.Row="0" Grid.Column="2" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb2"/>
+        <CheckBox Grid.Row="0" Grid.Column="3" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb3"/>
+        <CheckBox Grid.Row="0" Grid.Column="4" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb4"/>
+        <CheckBox Grid.Row="0" Grid.Column="5" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb5"/>
+        <CheckBox Grid.Row="0" Grid.Column="6" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb6"/>
+        <CheckBox Grid.Row="0" Grid.Column="7" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb7"/>
+
+        <CheckBox Grid.Row="1" Grid.Column="0" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb8"/>
+        <Button Grid.Row="1" Grid.Column="1">
+            <Button.Style>
+                <l:StyleCombiner TargetType="Button">
+                    <StaticResource ResourceKey="ButtonPositionStyle"/>
+                    <StaticResource ResourceKey="ButtonAtRow1Style"/>
+                    <StaticResource ResourceKey="ButtonAtCol1Style"/>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Col_1_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Row_1_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:LH_1_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:HL_4_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                </l:StyleCombiner>
+            </Button.Style>
+        </Button>
+        <Button Grid.Row="1" Grid.Column="2">
+            <Button.Style>
+                <l:StyleCombiner TargetType="Button">
+                    <StaticResource ResourceKey="ButtonPositionStyle"/>
+                    <StaticResource ResourceKey="ButtonAtRow1Style"/>
+                    <StaticResource ResourceKey="ButtonAtCol2Style"/>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Col_2_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Row_1_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:LH_2_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:HL_5_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                </l:StyleCombiner>
+            </Button.Style>
+        </Button>
+        <Button Grid.Row="1" Grid.Column="3">
+            <Button.Style>
+                <l:StyleCombiner TargetType="Button">
+                    <StaticResource ResourceKey="ButtonPositionStyle"/>
+                    <StaticResource ResourceKey="ButtonAtRow1Style"/>
+                    <StaticResource ResourceKey="ButtonAtCol3Style"/>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Col_3_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Row_1_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:LH_3_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:HL_6_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                </l:StyleCombiner>
+            </Button.Style>
+        </Button>
+        <Button Grid.Row="1" Grid.Column="4">
+            <Button.Style>
+                <l:StyleCombiner TargetType="Button">
+                    <StaticResource ResourceKey="ButtonPositionStyle"/>
+                    <StaticResource ResourceKey="ButtonAtRow1Style"/>
+                    <StaticResource ResourceKey="ButtonAtCol4Style"/>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Col_4_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Row_1_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:LH_4_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:HL_7_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                </l:StyleCombiner>
+            </Button.Style>
+        </Button>
+        <Button Grid.Row="1" Grid.Column="5">
+            <Button.Style>
+                <l:StyleCombiner TargetType="Button">
+                    <StaticResource ResourceKey="ButtonPositionStyle"/>
+                    <StaticResource ResourceKey="ButtonAtRow1Style"/>
+                    <StaticResource ResourceKey="ButtonAtCol5Style"/>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Col_5_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Row_1_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:LH_5_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:HL_8_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                </l:StyleCombiner>
+            </Button.Style>
+        </Button>
+        <Button Grid.Row="1" Grid.Column="6">
+            <Button.Style>
+                <l:StyleCombiner TargetType="Button">
+                    <StaticResource ResourceKey="ButtonPositionStyle"/>
+                    <StaticResource ResourceKey="ButtonAtRow1Style"/>
+                    <StaticResource ResourceKey="ButtonAtCol6Style"/>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Col_6_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Row_1_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:LH_6_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:HL_9_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                </l:StyleCombiner>
+            </Button.Style>
+        </Button>
+        <CheckBox Grid.Row="1" Grid.Column="7" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb9"/>
+
+        <CheckBox Grid.Row="2" Grid.Column="0" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb10"/>
+        <Button Grid.Row="2" Grid.Column="1">
+            <Button.Style>
+                <l:StyleCombiner TargetType="Button">
+                    <StaticResource ResourceKey="ButtonPositionStyle"/>
+                    <StaticResource ResourceKey="ButtonAtRow2Style"/>
+                    <StaticResource ResourceKey="ButtonAtCol1Style"/>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Col_1_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Row_2_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:LH_2_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:HL_3_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                </l:StyleCombiner>
+            </Button.Style>
+        </Button>
+        <Button Grid.Row="2" Grid.Column="2">
+            <Button.Style>
+                <l:StyleCombiner TargetType="Button">
+                    <StaticResource ResourceKey="ButtonPositionStyle"/>
+                    <StaticResource ResourceKey="ButtonAtRow2Style"/>
+                    <StaticResource ResourceKey="ButtonAtCol2Style"/>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Col_2_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Row_2_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:LH_3_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:HL_4_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                </l:StyleCombiner>
+            </Button.Style>
+        </Button>
+        <Button Grid.Row="2" Grid.Column="3">
+            <Button.Style>
+                <l:StyleCombiner TargetType="Button">
+                    <StaticResource ResourceKey="ButtonPositionStyle"/>
+                    <StaticResource ResourceKey="ButtonAtRow2Style"/>
+                    <StaticResource ResourceKey="ButtonAtCol3Style"/>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Col_3_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Row_2_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:LH_4_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:HL_5_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                </l:StyleCombiner>
+            </Button.Style>
+        </Button>
+        <Button Grid.Row="2" Grid.Column="4">
+            <Button.Style>
+                <l:StyleCombiner TargetType="Button">
+                    <StaticResource ResourceKey="ButtonPositionStyle"/>
+                    <StaticResource ResourceKey="ButtonAtRow2Style"/>
+                    <StaticResource ResourceKey="ButtonAtCol4Style"/>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Col_4_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Row_2_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:LH_5_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:HL_6_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                </l:StyleCombiner>
+            </Button.Style>
+        </Button>
+        <Button Grid.Row="2" Grid.Column="5">
+            <Button.Style>
+                <l:StyleCombiner TargetType="Button">
+                    <StaticResource ResourceKey="ButtonPositionStyle"/>
+                    <StaticResource ResourceKey="ButtonAtRow2Style"/>
+                    <StaticResource ResourceKey="ButtonAtCol5Style"/>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Col_5_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Row_2_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:LH_6_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:HL_7_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                </l:StyleCombiner>
+            </Button.Style>
+        </Button>
+        <Button Grid.Row="2" Grid.Column="6">
+            <Button.Style>
+                <l:StyleCombiner TargetType="Button">
+                    <StaticResource ResourceKey="ButtonPositionStyle"/>
+                    <StaticResource ResourceKey="ButtonAtRow2Style"/>
+                    <StaticResource ResourceKey="ButtonAtCol6Style"/>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Col_6_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Row_2_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:LH_7_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:HL_8_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                </l:StyleCombiner>
+            </Button.Style>
+        </Button>
+        <CheckBox Grid.Row="2" Grid.Column="7" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb11"/>
+
+        <CheckBox Grid.Row="3" Grid.Column="0" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb12"/>
+        <Button Grid.Row="3" Grid.Column="1">
+            <Button.Style>
+                <l:StyleCombiner TargetType="Button">
+                    <StaticResource ResourceKey="ButtonPositionStyle"/>
+                    <StaticResource ResourceKey="ButtonAtRow3Style"/>
+                    <StaticResource ResourceKey="ButtonAtCol1Style"/>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Col_1_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Row_3_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:LH_3_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:HL_2_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                </l:StyleCombiner>
+            </Button.Style>
+        </Button>
+        <Button Grid.Row="3" Grid.Column="2">
+            <Button.Style>
+                <l:StyleCombiner TargetType="Button">
+                    <StaticResource ResourceKey="ButtonPositionStyle"/>
+                    <StaticResource ResourceKey="ButtonAtRow3Style"/>
+                    <StaticResource ResourceKey="ButtonAtCol2Style"/>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Col_2_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Row_3_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:LH_4_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:HL_3_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                </l:StyleCombiner>
+            </Button.Style>
+        </Button>
+        <Button Grid.Row="3" Grid.Column="3">
+            <Button.Style>
+                <l:StyleCombiner TargetType="Button">
+                    <StaticResource ResourceKey="ButtonPositionStyle"/>
+                    <StaticResource ResourceKey="ButtonAtRow3Style"/>
+                    <StaticResource ResourceKey="ButtonAtCol3Style"/>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Col_3_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Row_3_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:LH_5_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:HL_4_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                </l:StyleCombiner>
+            </Button.Style>
+        </Button>
+        <Button Grid.Row="3" Grid.Column="4">
+            <Button.Style>
+                <l:StyleCombiner TargetType="Button">
+                    <StaticResource ResourceKey="ButtonPositionStyle"/>
+                    <StaticResource ResourceKey="ButtonAtRow3Style"/>
+                    <StaticResource ResourceKey="ButtonAtCol4Style"/>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Col_4_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Row_3_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:LH_6_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:HL_5_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                </l:StyleCombiner>
+            </Button.Style>
+        </Button>
+        <Button Grid.Row="3" Grid.Column="5">
+            <Button.Style>
+                <l:StyleCombiner TargetType="Button">
+                    <StaticResource ResourceKey="ButtonPositionStyle"/>
+                    <StaticResource ResourceKey="ButtonAtRow3Style"/>
+                    <StaticResource ResourceKey="ButtonAtCol5Style"/>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Col_5_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Row_3_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:LH_7_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:HL_6_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                </l:StyleCombiner>
+            </Button.Style>
+        </Button>
+        <Button Grid.Row="3" Grid.Column="6">
+            <Button.Style>
+                <l:StyleCombiner TargetType="Button">
+                    <StaticResource ResourceKey="ButtonPositionStyle"/>
+                    <StaticResource ResourceKey="ButtonAtRow3Style"/>
+                    <StaticResource ResourceKey="ButtonAtCol6Style"/>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Col_6_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Row_3_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:LH_8_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:HL_7_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                </l:StyleCombiner>
+            </Button.Style>
+        </Button>
+        <CheckBox Grid.Row="3" Grid.Column="7" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb13"/>
+
+        <CheckBox Grid.Row="4" Grid.Column="0" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb14"/>
+        <Button Grid.Row="4" Grid.Column="1">
+            <Button.Style>
+                <l:StyleCombiner TargetType="Button">
+                    <StaticResource ResourceKey="ButtonPositionStyle"/>
+                    <StaticResource ResourceKey="ButtonAtRow4Style"/>
+                    <StaticResource ResourceKey="ButtonAtCol1Style"/>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Col_1_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Row_4_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:LH_4_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:HL_1_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                </l:StyleCombiner>
+            </Button.Style>
+        </Button>
+        <Button Grid.Row="4" Grid.Column="2">
+            <Button.Style>
+                <l:StyleCombiner TargetType="Button">
+                    <StaticResource ResourceKey="ButtonPositionStyle"/>
+                    <StaticResource ResourceKey="ButtonAtRow4Style"/>
+                    <StaticResource ResourceKey="ButtonAtCol2Style"/>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Col_2_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Row_4_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:LH_5_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:HL_2_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                </l:StyleCombiner>
+            </Button.Style>
+        </Button>
+        <Button Grid.Row="4" Grid.Column="3">
+            <Button.Style>
+                <l:StyleCombiner TargetType="Button">
+                    <StaticResource ResourceKey="ButtonPositionStyle"/>
+                    <StaticResource ResourceKey="ButtonAtRow4Style"/>
+                    <StaticResource ResourceKey="ButtonAtCol3Style"/>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Col_3_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Row_4_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:LH_6_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:HL_3_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                </l:StyleCombiner>
+            </Button.Style>
+        </Button>
+        <Button Grid.Row="4" Grid.Column="4">
+            <Button.Style>
+                <l:StyleCombiner TargetType="Button">
+                    <StaticResource ResourceKey="ButtonPositionStyle"/>
+                    <StaticResource ResourceKey="ButtonAtRow4Style"/>
+                    <StaticResource ResourceKey="ButtonAtCol4Style"/>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Col_4_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Row_4_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:LH_7_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:HL_4_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                </l:StyleCombiner>
+            </Button.Style>
+        </Button>
+        <Button Grid.Row="4" Grid.Column="5">
+            <Button.Style>
+                <l:StyleCombiner TargetType="Button">
+                    <StaticResource ResourceKey="ButtonPositionStyle"/>
+                    <StaticResource ResourceKey="ButtonAtRow4Style"/>
+                    <StaticResource ResourceKey="ButtonAtCol5Style"/>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Col_5_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Row_4_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:LH_8_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:HL_5_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                </l:StyleCombiner>
+            </Button.Style>
+        </Button>
+        <Button Grid.Row="4" Grid.Column="6">
+            <Button.Style>
+                <l:StyleCombiner TargetType="Button">
+                    <StaticResource ResourceKey="ButtonPositionStyle"/>
+                    <StaticResource ResourceKey="ButtonAtRow4Style"/>
+                    <StaticResource ResourceKey="ButtonAtCol6Style"/>
+                    <Style TargetType="Button">
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <TextBlock>Это<LineBreak/>нижняя<LineBreak/>правая</TextBlock>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Col_6_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:Row_4_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:LH_9_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                    <l:ParameterizedResource ResourceKey="ButtonShapeStyle">
+                        <x:Array Type="sys:String">
+                            <sys:String>$path:HL_6_On</sys:String>
+                        </x:Array>
+                    </l:ParameterizedResource>
+                </l:StyleCombiner>
+            </Button.Style>
+        </Button>
+        <CheckBox Grid.Row="4" Grid.Column="7" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb15"/>
+
+        <CheckBox Grid.Row="5" Grid.Column="0" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb16"/>
+        <CheckBox Grid.Row="5" Grid.Column="1" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb17"/>
+        <CheckBox Grid.Row="5" Grid.Column="2" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb18"/>
+        <CheckBox Grid.Row="5" Grid.Column="3" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb19"/>
+        <CheckBox Grid.Row="5" Grid.Column="4" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb20"/>
+        <CheckBox Grid.Row="5" Grid.Column="5" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb21"/>
+        <CheckBox Grid.Row="5" Grid.Column="6" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb22"/>
+        <CheckBox Grid.Row="5" Grid.Column="7" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb23"/>
+
+    </Grid>
+</Window>

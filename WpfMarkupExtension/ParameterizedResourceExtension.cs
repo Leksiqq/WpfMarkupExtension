@@ -12,6 +12,7 @@ using XamlParseException = System.Windows.Markup.XamlParseException;
 namespace Net.Leksi.WpfMarkup;
 
 [MarkupExtensionReturnType(typeof(object))]
+[ContentProperty("Replaces")]
 public class ParameterizedResourceExtension : MarkupExtension
 {
     private const string s_indentionStep = "  ";
@@ -239,9 +240,9 @@ public class ParameterizedResourceExtension : MarkupExtension
                 }
                 return result;
             }
-            catch (XamlParseException ex)
+            catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                Console.WriteLine($"{_value.ResourceKey} --- {ex}");
                 throw;
             }
         }
