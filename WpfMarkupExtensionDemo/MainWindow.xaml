@@ -38,16 +38,71 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <CheckBox Grid.Row="0" Grid.Column="0" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb0"/>
-        <CheckBox Grid.Row="0" Grid.Column="1" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb1"/>
-        <CheckBox Grid.Row="0" Grid.Column="2" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb2"/>
-        <CheckBox Grid.Row="0" Grid.Column="3" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb3"/>
-        <CheckBox Grid.Row="0" Grid.Column="4" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb4"/>
-        <CheckBox Grid.Row="0" Grid.Column="5" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb5"/>
-        <CheckBox Grid.Row="0" Grid.Column="6" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb6"/>
-        <CheckBox Grid.Row="0" Grid.Column="7" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb7"/>
+        <CheckBox Grid.Row="0" Grid.Column="0" 
+                  Style="{l:ParameterizedResource CheckBoxClickStyle, Replaces=$checkbox:Cb21}" x:Name="Cb0"/>
+        <CheckBox Grid.Row="0" Grid.Column="1" x:Name="Cb1">
+            <CheckBox.Style>
+                <l:StyleCombiner TargetType="CheckBox">
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb17"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb21"/>
+                </l:StyleCombiner>
+            </CheckBox.Style>
+        </CheckBox>
+        <CheckBox Grid.Row="0" Grid.Column="2" x:Name="Cb2">
+            <CheckBox.Style>
+                <l:StyleCombiner TargetType="CheckBox">
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb10"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb18"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb23"/>
+                </l:StyleCombiner>
+            </CheckBox.Style>
+        </CheckBox>
+        <CheckBox Grid.Row="0" Grid.Column="3" x:Name="Cb3">
+            <CheckBox.Style>
+                <l:StyleCombiner TargetType="CheckBox">
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb12"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb15"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb29"/>
+                </l:StyleCombiner>
+            </CheckBox.Style>
+        </CheckBox>
+        <CheckBox Grid.Row="0" Grid.Column="4" x:Name="Cb4">
+            <CheckBox.Style>
+                <l:StyleCombiner TargetType="CheckBox">
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb14"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb20"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb13"/>
+                </l:StyleCombiner>
+            </CheckBox.Style>
+        </CheckBox>
+        <CheckBox Grid.Row="0" Grid.Column="5" x:Name="Cb5">
+            <CheckBox.Style>
+                <l:StyleCombiner TargetType="CheckBox">
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb16"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb21"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb11"/>
+                </l:StyleCombiner>
+            </CheckBox.Style>
+        </CheckBox>
+        <CheckBox Grid.Row="0" Grid.Column="6" x:Name="Cb6">
+            <CheckBox.Style>
+                <l:StyleCombiner TargetType="CheckBox">
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb17"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb22"/>
+                </l:StyleCombiner>
+            </CheckBox.Style>
+        </CheckBox>
+        <CheckBox Grid.Row="0" Grid.Column="7" 
+                  Style="{l:ParameterizedResource CheckBoxClickStyle, Replaces=$checkbox:Cb18}" x:Name="Cb7"/>
 
-        <CheckBox Grid.Row="1" Grid.Column="0" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb8"/>
+        <CheckBox Grid.Row="1" Grid.Column="0" x:Name="Cb8">
+            <CheckBox.Style>
+                <l:StyleCombiner TargetType="CheckBox">
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb9"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb20"/>
+                </l:StyleCombiner>
+            </CheckBox.Style>
+        </CheckBox>
         <Button Grid.Row="1" Grid.Column="1">
             <Button.Style>
                 <l:StyleCombiner TargetType="Button">
@@ -222,9 +277,24 @@
                 </l:StyleCombiner>
             </Button.Style>
         </Button>
-        <CheckBox Grid.Row="1" Grid.Column="7" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb9"/>
+        <CheckBox Grid.Row="1" Grid.Column="7" x:Name="Cb9">
+            <CheckBox.Style>
+                <l:StyleCombiner TargetType="CheckBox">
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb8"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb19"/>
+                </l:StyleCombiner>
+            </CheckBox.Style>
+        </CheckBox>
 
-        <CheckBox Grid.Row="2" Grid.Column="0" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb10"/>
+        <CheckBox Grid.Row="2" Grid.Column="0" x:Name="Cb10">
+            <CheckBox.Style>
+                <l:StyleCombiner TargetType="CheckBox">
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb2"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb11"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb19"/>
+                </l:StyleCombiner>
+            </CheckBox.Style>
+        </CheckBox>
         <Button Grid.Row="2" Grid.Column="1">
             <Button.Style>
                 <l:StyleCombiner TargetType="Button">
@@ -399,9 +469,25 @@
                 </l:StyleCombiner>
             </Button.Style>
         </Button>
-        <CheckBox Grid.Row="2" Grid.Column="7" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb11"/>
+        <CheckBox Grid.Row="2" Grid.Column="7" x:Name="Cb11">
+            <CheckBox.Style>
+                <l:StyleCombiner TargetType="CheckBox">
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb5"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb10"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb20"/>
+                </l:StyleCombiner>
+            </CheckBox.Style>
+        </CheckBox>
 
-        <CheckBox Grid.Row="3" Grid.Column="0" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb12"/>
+        <CheckBox Grid.Row="3" Grid.Column="0" x:Name="Cb12">
+            <CheckBox.Style>
+                <l:StyleCombiner TargetType="CheckBox">
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb3"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb13"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb18"/>
+                </l:StyleCombiner>
+            </CheckBox.Style>
+        </CheckBox>
         <Button Grid.Row="3" Grid.Column="1">
             <Button.Style>
                 <l:StyleCombiner TargetType="Button">
@@ -576,9 +662,24 @@
                 </l:StyleCombiner>
             </Button.Style>
         </Button>
-        <CheckBox Grid.Row="3" Grid.Column="7" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb13"/>
+        <CheckBox Grid.Row="3" Grid.Column="7" x:Name="Cb13">
+            <CheckBox.Style>
+                <l:StyleCombiner TargetType="CheckBox">
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb4"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb12"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb21"/>
+                </l:StyleCombiner>
+            </CheckBox.Style>
+        </CheckBox>
 
-        <CheckBox Grid.Row="4" Grid.Column="0" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb14"/>
+        <CheckBox Grid.Row="4" Grid.Column="0" x:Name="Cb14">
+            <CheckBox.Style>
+                <l:StyleCombiner TargetType="CheckBox">
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb4"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb15"/>
+                </l:StyleCombiner>
+            </CheckBox.Style>
+        </CheckBox>
         <Button Grid.Row="4" Grid.Column="1">
             <Button.Style>
                 <l:StyleCombiner TargetType="Button">
@@ -760,16 +861,71 @@
                 </l:StyleCombiner>
             </Button.Style>
         </Button>
-        <CheckBox Grid.Row="4" Grid.Column="7" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb15"/>
+        <CheckBox Grid.Row="4" Grid.Column="7" x:Name="Cb15">
+            <CheckBox.Style>
+                <l:StyleCombiner TargetType="CheckBox">
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb3"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb14"/>
+                </l:StyleCombiner>
+            </CheckBox.Style>
+        </CheckBox>
 
-        <CheckBox Grid.Row="5" Grid.Column="0" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb16"/>
-        <CheckBox Grid.Row="5" Grid.Column="1" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb17"/>
-        <CheckBox Grid.Row="5" Grid.Column="2" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb18"/>
-        <CheckBox Grid.Row="5" Grid.Column="3" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb19"/>
-        <CheckBox Grid.Row="5" Grid.Column="4" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb20"/>
-        <CheckBox Grid.Row="5" Grid.Column="5" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb21"/>
-        <CheckBox Grid.Row="5" Grid.Column="6" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb22"/>
-        <CheckBox Grid.Row="5" Grid.Column="7" Style="{StaticResource CheckBoxClickStyle}" x:Name="Cb23"/>
+        <CheckBox Grid.Row="5" Grid.Column="0" 
+                  Style="{l:ParameterizedResource CheckBoxClickStyle, Replaces=$checkbox:Cb5}" x:Name="Cb16"/>
+        <CheckBox Grid.Row="5" Grid.Column="1" x:Name="Cb17">
+            <CheckBox.Style>
+                <l:StyleCombiner TargetType="CheckBox">
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb1"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb6"/>
+                </l:StyleCombiner>
+            </CheckBox.Style>
+        </CheckBox>
+        <CheckBox Grid.Row="5" Grid.Column="2" x:Name="Cb18">
+            <CheckBox.Style>
+                <l:StyleCombiner TargetType="CheckBox">
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb2"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb12"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb7"/>
+                </l:StyleCombiner>
+            </CheckBox.Style>
+        </CheckBox>
+        <CheckBox Grid.Row="5" Grid.Column="3" x:Name="Cb19">
+            <CheckBox.Style>
+                <l:StyleCombiner TargetType="CheckBox">
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb3"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb10"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb9"/>
+                </l:StyleCombiner>
+            </CheckBox.Style>
+        </CheckBox>
+        <CheckBox Grid.Row="5" Grid.Column="4" x:Name="Cb20">
+            <CheckBox.Style>
+                <l:StyleCombiner TargetType="CheckBox">
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb4"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb8"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb11"/>
+                </l:StyleCombiner>
+            </CheckBox.Style>
+        </CheckBox>
+        <CheckBox Grid.Row="5" Grid.Column="5" x:Name="Cb21">
+            <CheckBox.Style>
+                <l:StyleCombiner TargetType="CheckBox">
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb5"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb0"/>
+                    <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb13"/>
+                </l:StyleCombiner>
+            </CheckBox.Style>
+        </CheckBox>
+        <CheckBox Grid.Row="5" Grid.Column="6" x:Name="Cb22">
+                        <CheckBox.Style>
+                            <l:StyleCombiner TargetType="CheckBox">
+                                <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb1"/>
+                                <l:ParameterizedResource ResourceKey="CheckBoxClickStyle" Replaces="$checkbox:Cb6"/>
+                            </l:StyleCombiner>
+                        </CheckBox.Style>
+        </CheckBox>
+        <CheckBox Grid.Row="5" Grid.Column="7" 
+                  Style="{l:ParameterizedResource CheckBoxClickStyle, Replaces=$checkbox:Cb2}" x:Name="Cb23"/>
 
     </Grid>
 </Window>
