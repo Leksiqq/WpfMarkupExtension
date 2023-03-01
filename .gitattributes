@@ -1,0 +1,2 @@
+*.html linguist-detectable=false
+*.cshtml linguist-detectable=false
