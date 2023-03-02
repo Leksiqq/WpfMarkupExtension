@@ -371,6 +371,37 @@ public class ParameterizedResourceExtension : MarkupExtension
         }
         if (bindingBase is Binding binding)
         {
+            if (binding.ElementName is string elementName && elementName.StartsWith('$'))
+            {
+                if (Verbose > 0)
+                {
+                    Console.Write($"{_prompt} {string.Join('/', route)} < ElementName: {binding.ElementName}");
+                }
+                if (_replacements.TryGetValue(elementName, out string? newElementName))
+                {
+                    binding.ElementName = newElementName;
+                    if (Verbose > 0)
+                    {
+                        Console.WriteLine($" -> {binding.ElementName} (from {nameof(Replaces)}) >");
+                    }
+                }
+                else if (_defaults.TryGetValue(elementName, out string? defaultElementName))
+                {
+                    binding.ElementName = defaultElementName;
+                    if (Verbose > 0)
+                    {
+                        Console.WriteLine($" -> {binding.ElementName} (from {nameof(Defaults)}) >");
+                    }
+                }
+                else if (Strict)
+                {
+                    throw new XamlParseException($"ElementName parameter is not provided: {elementName} at {_value.ResourceKey}");
+                }
+                else if (Verbose > 0)
+                {
+                    Console.WriteLine($" - is not provided! >");
+                }
+            }
             if (binding.ConverterParameter is string converterParameter && converterParameter.Contains('$'))
             {
                 if (Verbose > 0)
@@ -401,6 +432,38 @@ public class ParameterizedResourceExtension : MarkupExtension
                 else if (Verbose > 0)
                 {
                     Console.WriteLine($" -> {binding.ConverterParameter} >");
+                }
+            }
+            if (binding.Source is string source && source.Contains('$'))
+            {
+                if (Verbose > 0)
+                {
+                    Console.Write($"{_prompt} {string.Join('/', route)} < Source: {binding.Source}");
+                }
+                string newSource = source;
+                foreach (string key in _replacements.Keys)
+                {
+                    newSource = newSource.Replace(key, _replacements[key]);
+                }
+                foreach (string key in _defaults.Keys)
+                {
+                    newSource = newSource.Replace(key, _defaults[key]);
+                }
+                binding.Source = newSource;
+                if (newSource.Contains('$'))
+                {
+                    if (Strict)
+                    {
+                        throw new XamlParseException($"Source parameter is not provided: {newSource} at {_value.ResourceKey}");
+                    }
+                    else if (Verbose > 0)
+                    {
+                        Console.WriteLine($" - is not provided! >");
+                    }
+                }
+                else if (Verbose > 0)
+                {
+                    Console.WriteLine($" -> {binding.Source} >");
                 }
             }
             if (binding.Path is { } && binding.Path.Path is { } && binding.Path.Path.StartsWith('$'))
@@ -459,37 +522,6 @@ public class ParameterizedResourceExtension : MarkupExtension
                 else if (Strict)
                 {
                     throw new XamlParseException($"XPath parameter is not provided: {xPath} at {_value.ResourceKey}");
-                }
-                else if (Verbose > 0)
-                {
-                    Console.WriteLine($" - is not provided! >");
-                }
-            }
-            if (binding.ElementName is string elementName && elementName.StartsWith('$'))
-            {
-                if (Verbose > 0)
-                {
-                    Console.Write($"{_prompt} {string.Join('/', route)} < ElementName: {binding.ElementName}");
-                }
-                if (_replacements.TryGetValue(elementName, out string? newElementName))
-                {
-                    binding.ElementName = newElementName;
-                    if (Verbose > 0)
-                    {
-                        Console.WriteLine($" -> {binding.ElementName} (from {nameof(Replaces)}) >");
-                    }
-                }
-                else if (_defaults.TryGetValue(elementName, out string? defaultElementName))
-                {
-                    binding.ElementName = defaultElementName;
-                    if (Verbose > 0)
-                    {
-                        Console.WriteLine($" -> {binding.ElementName} (from {nameof(Defaults)}) >");
-                    }
-                }
-                else if (Strict)
-                {
-                    throw new XamlParseException($"ElementName parameter is not provided: {elementName} at {_value.ResourceKey}");
                 }
                 else if (Verbose > 0)
                 {

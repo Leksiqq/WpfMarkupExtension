@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace WpfMarkupExtensionDemo
 {
@@ -41,7 +43,15 @@ namespace WpfMarkupExtensionDemo
         public bool HL_8_On => (Cb4.IsChecked ?? false) && (Cb13.IsChecked ?? false);
         public bool HL_9_On => (Cb5.IsChecked ?? false) && (Cb14.IsChecked ?? false);
 
-        public MainWindow()
+        public string CurrentMouseEnter { get; private set; } = string.Empty;
+        public string CurrentMouseDown { get; private set; } = string.Empty;
+
+        public static MainWindow Create()
+        {
+            return new MainWindow();
+        }
+
+        private MainWindow()
         {
             InitializeComponent();
         }
@@ -50,5 +60,42 @@ namespace WpfMarkupExtensionDemo
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(string.Empty));
         }
+
+        private void ButtonMouseEnter(object sender, MouseEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                CurrentMouseEnter = $"{Grid.GetRow(button)}.{Grid.GetColumn(button)}";
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentMouseEnter)));
+            }
+        }
+
+        private void ButtonMouseLeave(object sender, MouseEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                CurrentMouseEnter = string.Empty;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentMouseEnter)));
+            }
+        }
+
+        private void ButtonMouseDown(object sender, MouseEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                CurrentMouseDown = $"{Grid.GetRow(button)}.{Grid.GetColumn(button)}";
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentMouseDown)));
+            }
+        }
+
+        private void ButtonMouseUp(object sender, MouseEventArgs e)
+        {
+            if (sender is Button button)
+            {
+                CurrentMouseDown = string.Empty;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentMouseDown)));
+            }
+        }
+
     }
 }

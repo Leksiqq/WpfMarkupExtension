@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Net.Leksi.WpfMarkupExtension" Version="1.0.0" />
+    <ProjectReference Include="..\WpfMarkupExtension\WpfMarkupExtensionDebug.csproj" />
   </ItemGroup>
 
 </Project>

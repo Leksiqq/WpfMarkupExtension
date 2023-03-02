@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>Net.Leksi.WpfMarkupExtension</AssemblyName>
+    <RootNamespace>Net.Leksi.WpfMarkup</RootNamespace>
+    <Version>1.0.0</Version>
+    <Authors>leksiq</Authors>
+    <Company>leksiq</Company>
+    <PackageProjectUrl>https://leksiqq.github.io/WpfMarkupExtension/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Leksiqq/WpfMarkupExtension</RepositoryUrl>
+    <PackageTags>Wpf;MarkupExtension;Styles combining;</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <Copyright>Алексей Юрьевич Захаров &lt;leksi@leksi.net&gt;, 2023</Copyright>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Название</Title>
+  </PropertyGroup>
+
+  <Target Name="CopyPackage" AfterTargets="Pack">
+    <Move SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="F:\leksi\C#\nuget.local" />
+  </Target>
+
+
+</Project>

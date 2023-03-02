@@ -2,17 +2,19 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:l="clr-namespace:Net.Leksi.WpfMarkup;assembly=Net.Leksi.WpfMarkupExtension">
 
-    <Style TargetType="CheckBox" x:Key="CheckBoxStyle" x:Shared="False">
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding ElementName=$checkbox, Path=IsChecked}" Value="True">
-                <Setter Property="BorderBrush" Value="Green"/>
-            </DataTrigger>
-        </Style.Triggers>
+    <Style TargetType="CheckBox" x:Key="CheckBoxStyle">
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="IsThreeState" Value="False"/>
     </Style>
-    
+    <Style TargetType="CheckBox" x:Key="CheckBoxEmphasisStyle" x:Shared="False">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding ElementName=$checkbox, Path=IsChecked}" Value="True">
+                <Setter Property="Background" Value="LightGreen"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
     <Style TargetType="Button" x:Key="ButtonPositionStyle">
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -28,33 +30,34 @@
     </Style>
     <Style TargetType="Button" x:Key="ButtonAtRow3Style">
         <Setter Property="Background" Value="Blue"/>
+        <Setter Property="Foreground" Value="White"/>
     </Style>
     <Style TargetType="Button" x:Key="ButtonAtRow4Style">
         <Setter Property="Background" Value="Yellow"/>
     </Style>
 
     <Style TargetType="Button" x:Key="ButtonAtCol1Style">
-        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="BorderThickness" Value="5"/>
         <Setter Property="BorderBrush" Value="Aqua"/>
     </Style>
     <Style TargetType="Button" x:Key="ButtonAtCol2Style">
-        <Setter Property="BorderThickness" Value="3"/>
+        <Setter Property="BorderThickness" Value="6"/>
         <Setter Property="BorderBrush" Value="BlueViolet"/>
     </Style>
     <Style TargetType="Button" x:Key="ButtonAtCol3Style">
-        <Setter Property="BorderThickness" Value="4"/>
+        <Setter Property="BorderThickness" Value="7"/>
         <Setter Property="BorderBrush" Value="DarkGoldenrod"/>
     </Style>
     <Style TargetType="Button" x:Key="ButtonAtCol4Style">
-        <Setter Property="BorderThickness" Value="5"/>
+        <Setter Property="BorderThickness" Value="8"/>
         <Setter Property="BorderBrush" Value="DarkMagenta"/>
     </Style>
     <Style TargetType="Button" x:Key="ButtonAtCol5Style">
-        <Setter Property="BorderThickness" Value="6"/>
+        <Setter Property="BorderThickness" Value="9"/>
         <Setter Property="BorderBrush" Value="Salmon"/>
     </Style>
     <Style TargetType="Button" x:Key="ButtonAtCol6Style">
-        <Setter Property="BorderThickness" Value="7"/>
+        <Setter Property="BorderThickness" Value="10"/>
         <Setter Property="BorderBrush" Value="HotPink"/>
     </Style>
 
