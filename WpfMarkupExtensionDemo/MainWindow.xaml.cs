@@ -41,7 +41,7 @@ namespace WpfMarkupExtensionDemo
         public bool HL_6_On => (Cb2.IsChecked ?? false) && (Cb23.IsChecked ?? false);
         public bool HL_7_On => (Cb3.IsChecked ?? false) && (Cb15.IsChecked ?? false);
         public bool HL_8_On => (Cb4.IsChecked ?? false) && (Cb13.IsChecked ?? false);
-        public bool HL_9_On => (Cb5.IsChecked ?? false) && (Cb14.IsChecked ?? false);
+        public bool HL_9_On => (Cb5.IsChecked ?? false) && (Cb11.IsChecked ?? false);
 
         public string CurrentMouseEnter { get; private set; } = string.Empty;
         public string CurrentMouseDown { get; private set; } = string.Empty;
