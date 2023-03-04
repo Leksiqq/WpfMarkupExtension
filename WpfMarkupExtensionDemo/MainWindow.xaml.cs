@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -45,6 +46,8 @@ namespace WpfMarkupExtensionDemo
 
         public string CurrentMouseEnter { get; private set; } = string.Empty;
         public string CurrentMouseDown { get; private set; } = string.Empty;
+
+        public ObservableCollection<DataHolder> Datas { get; init; } = new();
 
         public static MainWindow Create()
         {
