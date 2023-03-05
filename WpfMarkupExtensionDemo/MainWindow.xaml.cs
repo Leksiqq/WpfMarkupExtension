@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace WpfMarkupExtensionDemo
@@ -48,6 +49,7 @@ namespace WpfMarkupExtensionDemo
         public string CurrentMouseDown { get; private set; } = string.Empty;
 
         public ObservableCollection<DataHolder> Datas { get; init; } = new();
+        public CollectionViewSource DatasViewSource { get; init; } = new();
 
         public static MainWindow Create()
         {
@@ -56,6 +58,7 @@ namespace WpfMarkupExtensionDemo
 
         private MainWindow()
         {
+            DatasViewSource.Source = Datas;
             InitializeComponent();
         }
 
