@@ -409,11 +409,11 @@ public class ParameterizedResourceExtension : MarkupExtension
                     Console.Write($"{_prompt} {string.Join('/', route)} < ConverterParameter: {binding.ConverterParameter}");
                 }
                 string newConverterParameter = converterParameter;
-                foreach (string key in _replacements.Keys)
+                foreach (string key in _replacements.Keys.OrderByDescending(k => k))
                 {
                     newConverterParameter = newConverterParameter.Replace(key, _replacements[key]);
                 }
-                foreach (string key in _defaults.Keys)
+                foreach (string key in _defaults.Keys.OrderByDescending(k => k))
                 {
                     newConverterParameter = newConverterParameter.Replace(key, _defaults[key]);
                 }
@@ -441,11 +441,11 @@ public class ParameterizedResourceExtension : MarkupExtension
                     Console.Write($"{_prompt} {string.Join('/', route)} < Source: {binding.Source}");
                 }
                 string newSource = source;
-                foreach (string key in _replacements.Keys)
+                foreach (string key in _replacements.Keys.OrderByDescending(k => k))
                 {
                     newSource = newSource.Replace(key, _replacements[key]);
                 }
-                foreach (string key in _defaults.Keys)
+                foreach (string key in _defaults.Keys.OrderByDescending(k => k))
                 {
                     newSource = newSource.Replace(key, _defaults[key]);
                 }
@@ -466,35 +466,36 @@ public class ParameterizedResourceExtension : MarkupExtension
                     Console.WriteLine($" -> {binding.Source} >");
                 }
             }
-            if (binding.Path is { } && binding.Path.Path is { } && binding.Path.Path.StartsWith('$'))
+            if (binding.Path is { } && binding.Path.Path is { } && binding.Path.Path.Contains('$'))
             {
                 if (Verbose > 0)
                 {
                     Console.Write($"{_prompt} {string.Join('/', route)} < Path: {binding.Path.Path}");
                 }
-                if (_replacements.TryGetValue(binding.Path.Path, out string? newPath))
+                string newPath = binding.Path.Path;
+                foreach (string key in _replacements.Keys.OrderByDescending(k => k))
                 {
-                    binding.Path.Path = newPath;
-                    if (Verbose > 0)
-                    {
-                        Console.WriteLine($" -> {binding.Path.Path} (from {nameof(Replaces)}) >");
-                    }
+                    newPath = newPath.Replace(key, _replacements[key]);
                 }
-                else if (_defaults.TryGetValue(binding.Path.Path, out string? defaultPath))
+                foreach (string key in _defaults.Keys.OrderByDescending(k => k))
                 {
-                    binding.Path.Path = defaultPath;
-                    if (Verbose > 0)
-                    {
-                        Console.WriteLine($" -> {binding.Path.Path} (from {nameof(Defaults)}) >");
-                    }
+                    newPath = newPath.Replace(key, _defaults[key]);
                 }
-                else if (Strict)
+                binding.Path.Path = newPath;
+                if (newPath.Contains('$'))
                 {
-                    throw new XamlParseException($"Path parameter is not provided: {binding.Path.Path} at {_value.ResourceKey}");
+                    if (Strict)
+                    {
+                        throw new XamlParseException($"Path parameter is not provided: {binding.Path.Path} at {_value.ResourceKey}");
+                    }
+                    else if (Verbose > 0)
+                    {
+                        Console.WriteLine($" - is not provided! >");
+                    }
                 }
                 else if (Verbose > 0)
                 {
-                    Console.WriteLine($" - is not provided! >");
+                    Console.WriteLine($" -> {binding.Path.Path} >");
                 }
             }
             if (binding.XPath is string xPath && xPath.StartsWith('$'))
@@ -503,29 +504,30 @@ public class ParameterizedResourceExtension : MarkupExtension
                 {
                     Console.Write($"{_prompt} {string.Join('/', route)} < XPath: {binding.XPath}");
                 }
-                if (_replacements.TryGetValue(xPath, out string? newXPath))
+                string newXPath = xPath;
+                foreach (string key in _replacements.Keys.OrderByDescending(k => k))
                 {
-                    binding.XPath = newXPath;
-                    if (Verbose > 0)
-                    {
-                        Console.WriteLine($" -> {binding.XPath} (from {nameof(Replaces)}) >");
-                    }
+                    newXPath = newXPath.Replace(key, _replacements[key]);
                 }
-                else if (_defaults.TryGetValue(xPath, out string? defaultXPath))
+                foreach (string key in _defaults.Keys.OrderByDescending(k => k))
                 {
-                    binding.XPath = defaultXPath;
-                    if (Verbose > 0)
-                    {
-                        Console.WriteLine($" -> {binding.XPath} (from {nameof(Defaults)}) >");
-                    }
+                    newXPath = newXPath.Replace(key, _defaults[key]);
                 }
-                else if (Strict)
+                binding.XPath = newXPath;
+                if (newXPath.Contains('$'))
                 {
-                    throw new XamlParseException($"XPath parameter is not provided: {xPath} at {_value.ResourceKey}");
+                    if (Strict)
+                    {
+                        throw new XamlParseException($"XPath parameter is not provided: {xPath} at {_value.ResourceKey}");
+                    }
+                    else if (Verbose > 0)
+                    {
+                        Console.WriteLine($" - is not provided! >");
+                    }
                 }
                 else if (Verbose > 0)
                 {
-                    Console.WriteLine($" - is not provided! >");
+                    Console.WriteLine($" -> {binding.XPath} >");
                 }
             }
         }
@@ -538,11 +540,11 @@ public class ParameterizedResourceExtension : MarkupExtension
                     Console.Write($"{_prompt} {string.Join('/', route)} < ConverterParameter: {multiBinding.ConverterParameter}");
                 }
                 string newConverterParameter = converterParameter;
-                foreach (string key in _replacements.Keys)
+                foreach (string key in _replacements.Keys.OrderByDescending(k => k))
                 {
                     newConverterParameter = newConverterParameter.Replace(key, _replacements[key]);
                 }
-                foreach (string key in _defaults.Keys)
+                foreach (string key in _defaults.Keys.OrderByDescending(k => k))
                 {
                     newConverterParameter = newConverterParameter.Replace(key, _defaults[key]);
                 }

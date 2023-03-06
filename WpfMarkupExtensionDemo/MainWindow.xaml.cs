@@ -13,6 +13,8 @@ namespace WpfMarkupExtensionDemo
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        private bool _isDatasEditable = false;
+
         public bool Col_1_On => (Cb1.IsChecked ?? false) && (Cb17.IsChecked ?? false);
         public bool Col_2_On => (Cb2.IsChecked ?? false) && (Cb18.IsChecked ?? false);
         public bool Col_3_On => (Cb3.IsChecked ?? false) && (Cb19.IsChecked ?? false);
@@ -48,6 +50,23 @@ namespace WpfMarkupExtensionDemo
         public string CurrentMouseEnter { get; private set; } = string.Empty;
         public string CurrentMouseDown { get; private set; } = string.Empty;
 
+        public RemoveCommand RemoveCommand { get; init; }
+        public AddCommand AddCommand { get; init; }
+
+        public bool IsDatasEditable 
+        {
+            get => _isDatasEditable;
+            set
+            {
+                if(value != _isDatasEditable)
+                {
+                    _isDatasEditable = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsDatasEditable)));
+                    CommandManager.InvalidateRequerySuggested();
+                }
+            }
+        }
+
         public ObservableCollection<DataHolder> Datas { get; init; } = new();
         public CollectionViewSource DatasViewSource { get; init; } = new();
 
@@ -59,6 +78,8 @@ namespace WpfMarkupExtensionDemo
         private MainWindow()
         {
             DatasViewSource.Source = Datas;
+            RemoveCommand = new RemoveCommand(Datas);
+            AddCommand = new AddCommand(Datas);
             InitializeComponent();
         }
 
@@ -102,6 +123,5 @@ namespace WpfMarkupExtensionDemo
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentMouseDown)));
             }
         }
-
     }
 }

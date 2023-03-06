@@ -7,7 +7,7 @@
         xmlns:l="clr-namespace:Net.Leksi.WpfMarkup;assembly=Net.Leksi.WpfMarkupExtension"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="800" DataContext="{Binding RelativeSource={RelativeSource Self}}" x:Name="MainWin">
+        Title="MainWindow" Height="Auto" Width="800" DataContext="{Binding RelativeSource={RelativeSource Self}}" x:Name="MainWin">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -83,20 +83,20 @@
                 <Setter Property="Content" Value="{Binding RelativeSource={RelativeSource Self}, Converter={local:DataConverter}, ConverterParameter=Content}"/>
                 <Setter Property="FontSize" Value="22.0"/>
             </Style>
-
+            <l:BindingProxy x:Key="IsEditable" Value="{Binding IsDatasEditable}"/>
+            <l:BindingProxy x:Key="RemoveCommand" Value="{Binding RemoveCommand}"/>
         </ResourceDictionary>
     </Window.Resources>
     <TabControl>
         <TabItem Header="Demo1">
             <Grid x:Name="Grid" DockPanel.Dock="Top">
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="100"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -146,7 +146,7 @@
                             <l:ParameterizedResource ResourceKey="CheckBoxClickStyle"/>
                             <l:ParameterizedResource ResourceKey="CheckBoxEmphasisStyle" Replaces="$checkbox:Cb12"/>
                             <l:ParameterizedResource ResourceKey="CheckBoxEmphasisStyle" Replaces="$checkbox:Cb15"/>
-                            <l:ParameterizedResource ResourceKey="CheckBoxEmphasisStyle" Replaces="$checkbox:Cb29"/>
+                            <l:ParameterizedResource ResourceKey="CheckBoxEmphasisStyle" Replaces="$checkbox:Cb19"/>
                         </l:StyleCombiner>
                     </CheckBox.Style>
                 </CheckBox>
@@ -1405,25 +1405,182 @@
         </TabItem>
         <TabItem Header="Demo2">
             <DockPanel LastChildFill="True">
-
                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="10,10,10,10">
                     <TextBlock>IsEditable</TextBlock>
-                    <CheckBox x:Name="IsEditableCheckBox"></CheckBox>
+                    <CheckBox IsChecked="{Binding IsDatasEditable, Mode=OneWayToSource}"></CheckBox>
+                    <Button Content="➕" Command="{Binding AddCommand}" CommandParameter="{Binding IsDatasEditable}" Margin="10,0,0,0" ToolTip="Add row"/>
                 </StackPanel>
                 <TextBlock DockPanel.Dock="Bottom" Text="{Binding Datas.Count}" Margin="10,10,10,10"/>
-                <DataGrid ItemsSource="{Binding DatasViewSource.View}" AutoGenerateColumns="False" Margin="10,10,10,10">
+                <DataGrid ItemsSource="{Binding DatasViewSource.View}" AutoGenerateColumns="False" Margin="10,10,10,10" 
+                          CanUserAddRows="False" x:Name="DataGrid">
                     <DataGrid.Resources>
                         <sys:String x:Key="Item1">Item1</sys:String>
+                        <sys:String x:Key="Item2">Item2</sys:String>
+                        <sys:String x:Key="Item3">Item3</sys:String>
+                        <sys:String x:Key="Item4">Item4</sys:String>
+                        <sys:String x:Key="Item5">Item5</sys:String>
+                        <DataTemplate x:Key="EditField" x:Shared="False">
+                            <DockPanel LastChildFill="true">
+                                <ComboBox DockPanel.Dock="Left" SelectedItem="{Binding $fieldName.Type, Converter={local:DataConverter}, ConverterParameter=FieldTypeText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                    <ComboBox.ItemsSource>
+                                        <x:Array Type="sys:String">
+                                            <sys:String>String</sys:String>
+                                            <sys:String>Int32</sys:String>
+                                            <sys:String>Double</sys:String>
+                                            <sys:String>Boolean</sys:String>
+                                            <sys:String>DateOnly</sys:String>
+                                            <sys:String>Activities</sys:String>
+                                        </x:Array>
+                                    </ComboBox.ItemsSource>
+                                </ComboBox>
+                                <TabControl BorderThickness="0">
+                                    <TabControl.Resources>
+                                        <Style TargetType="TabItem">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="TabItem">
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </TabControl.Resources>
+                                    <TabItem>
+                                        <TabItem.Style>
+                                            <Style TargetType="TabItem">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding $fieldName.Type, Converter={local:DataConverter}, ConverterParameter=FieldTypeText}"
+                                                                    Value="DateOnly">
+                                                        <Setter Property="IsSelected" Value="False"/>
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding $fieldName.Type, Converter={local:DataConverter}, ConverterParameter=FieldTypeText}"
+                                                                    Value="Boolean">
+                                                        <Setter Property="IsSelected" Value="False"/>
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding $fieldName.Type, Converter={local:DataConverter}, ConverterParameter=FieldTypeText}"
+                                                                    Value="Activities">
+                                                        <Setter Property="IsSelected" Value="False"/>
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding $fieldName.Type, Converter={local:DataConverter}, ConverterParameter=FieldTypeText}"
+                                                                    Value="String">
+                                                        <Setter Property="IsSelected" Value="True"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding $fieldName.Type, Converter={local:DataConverter}, ConverterParameter=FieldTypeText}"
+                                                                    Value="Int32">
+                                                        <Setter Property="IsSelected" Value="True"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding $fieldName.Type, Converter={local:DataConverter}, ConverterParameter=FieldTypeText}"
+                                                                    Value="Double">
+                                                        <Setter Property="IsSelected" Value="True"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TabItem.Style>
+                                        <TextBox Text="{Binding $fieldName.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                        </TextBox>
+                                    </TabItem>
+                                    <TabItem>
+                                        <TabItem.Style>
+                                            <Style TargetType="TabItem">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding $fieldName.Type, Converter={local:DataConverter}, ConverterParameter=FieldTypeText}"
+                                                                     Value="String">
+                                                        <Setter Property="IsSelected" Value="False"/>
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding $fieldName.Type, Converter={local:DataConverter}, ConverterParameter=FieldTypeText}"
+                                                                     Value="Int32">
+                                                        <Setter Property="IsSelected" Value="False"/>
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding $fieldName.Type, Converter={local:DataConverter}, ConverterParameter=FieldTypeText}"
+                                                                     Value="Double">
+                                                        <Setter Property="IsSelected" Value="False"/>
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding $fieldName.Type, Converter={local:DataConverter}, ConverterParameter=FieldTypeText}"
+                                                                     Value="DateOnly">
+                                                        <Setter Property="IsSelected" Value="False"/>
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding $fieldName.Type, Converter={local:DataConverter}, ConverterParameter=FieldTypeText}"
+                                                                     Value="Boolean">
+                                                        <Setter Property="IsSelected" Value="True"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding $fieldName.Type, Converter={local:DataConverter}, ConverterParameter=FieldTypeText}"
+                                                                     Value="Activities">
+                                                        <Setter Property="IsSelected" Value="True"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TabItem.Style>
+                                        <ComboBox SelectedItem="{Binding $fieldName.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                            <ComboBox.Style>
+                                                <Style TargetType="ComboBox">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding $fieldName.Type, Converter={local:DataConverter}, ConverterParameter=FieldTypeText}"
+                                                                     Value="Boolean">
+                                                            <Setter Property="ItemsSource">
+                                                                <Setter.Value>
+                                                                    <x:Array Type="sys:Boolean">
+                                                                        <sys:Boolean>True</sys:Boolean>
+                                                                        <sys:Boolean>False</sys:Boolean>
+                                                                    </x:Array>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding $fieldName.Type, Converter={local:DataConverter}, ConverterParameter=FieldTypeText}"
+                                                                     Value="Activities">
+                                                            <Setter Property="ItemsSource" Value="{Binding Converter={local:DataConverter}, ConverterParameter=Activities}"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ComboBox.Style>
+                                        </ComboBox>
+                                    </TabItem>
+                                </TabControl> 
+                            </DockPanel>
+                        </DataTemplate>
                         <local:TableDataTemplateSelector x:Key="DataTemplate" x:Shared="False" FieldName="{l:ParameterizedResource $fieldName}"
-                                                 >
+                                                 IsEditable="{l:ParameterizedResource IsEditable}" EditValue="{l:ParameterizedResource EditField, Replaces=$template:StringTemplate}">
+                            <local:TableDataTemplateSelector.ReadValue>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding $fieldName.Value}"/>
+                                </DataTemplate>
+                            </local:TableDataTemplateSelector.ReadValue>
                         </local:TableDataTemplateSelector>
                         <DataTemplate x:Key="IsReadOnly">
-                            <CheckBox IsChecked="{Binding IsReadOnly}"/>
+                            <CheckBox IsChecked="{Binding IsReadOnly, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                        <DataTemplate x:Key="Actions">
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="➖" Command="{Binding Value, Source={StaticResource RemoveCommand}}" ToolTip="Remove row">
+                                    <Button.CommandParameter>
+                                        <MultiBinding Converter="{local:DataConverter}" ConverterParameter="RemoveCommandCanExecute">
+                                            <Binding Path="."/>
+                                            <Binding Path="Value" Source="{StaticResource IsEditable}"/>
+                                        </MultiBinding>
+                                    </Button.CommandParameter>
+                                </Button>
+                            </StackPanel>
                         </DataTemplate>
                     </DataGrid.Resources>
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="IsReadOnly" CellEditingTemplate="{StaticResource IsReadOnly}"/>
-                        <DataGridTemplateColumn Header="Item1" CellEditingTemplateSelector="{l:ParameterizedResource DataTemplate, Replaces=$fieldName:Item1, Verbose=2}"/>
+                        <DataGridTemplateColumn Header="IsReadOnly" CellEditingTemplate="{StaticResource IsReadOnly}">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding IsReadOnly}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Item1" CellEditingTemplateSelector="{l:ParameterizedResource DataTemplate, Replaces=$fieldName:Item1}"/>
+                        <DataGridTemplateColumn Header="Item2" CellEditingTemplateSelector="{l:ParameterizedResource DataTemplate, Replaces=$fieldName:Item2}"/>
+                        <DataGridTemplateColumn Header="Item3" CellEditingTemplateSelector="{l:ParameterizedResource DataTemplate, Replaces=$fieldName:Item3}"/>
+                        <DataGridTemplateColumn Header="Item4" CellEditingTemplateSelector="{l:ParameterizedResource DataTemplate, Replaces=$fieldName:Item4}"/>
+                        <DataGridTemplateColumn Header="Item5" CellEditingTemplateSelector="{l:ParameterizedResource DataTemplate, Replaces=$fieldName:Item5}"/>
+                        <DataGridTemplateColumn Header="Actions" CellTemplate="{StaticResource Actions}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </DockPanel>

@@ -8,12 +8,8 @@ namespace WpfMarkupExtensionDemo;
 public class TableDataTemplateSelector: DataTemplateSelector
 {
     public string FieldName { get; set; } = null!;
-    public bool? IsEditable { get; set; } = null;
+    public BindingProxy? IsEditable { get; set; } = null;
 
-    public DataTemplate ReadEnum { get; set; } = null!;
-    public DataTemplate EditEnum { get; set; } = null!;
-    public DataTemplate ReadDate { get; set; } = null!;
-    public DataTemplate EditDate { get; set; } = null!;
     public DataTemplate ReadValue { get; set; } = null!;
     public DataTemplate EditValue { get; set; } = null!;
 
@@ -22,28 +18,16 @@ public class TableDataTemplateSelector: DataTemplateSelector
         DataHolder? row = item as DataHolder;
         if (row is { } && typeof(DataHolder).GetProperty(FieldName.ToString()!)?.GetValue(row) is FieldHolder field)
         {
-            bool isEditable = IsEditable is bool @bool && @bool;
-            if (field.Type.IsEnum)
-            {
-                if (isEditable && EditEnum is { })
-                {
-                    return EditEnum;
-                }
-                return ReadEnum;
-            }
-            if(field.Type == typeof(DateOnly))
-            {
-                if(isEditable && EditDate is { })
-                {
-                    return EditDate;
-                }
-                return ReadDate;
-            }
+            bool isEditable = IsEditable is BindingProxy proxy && proxy.Value is bool yes && yes && !row.IsReadOnly;
+            Console.WriteLine($"{field}, {isEditable}, {row.IsReadOnly}");
             if (isEditable && EditValue is { })
             {
                 return EditValue;
             }
-            return ReadValue;
+            if (ReadValue is { })
+            {
+                return ReadValue;
+            }
         }
         return base.SelectTemplate(item, container);
 

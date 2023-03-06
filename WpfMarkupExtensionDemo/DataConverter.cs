@@ -17,22 +17,33 @@ public class DataConverter : MarkupExtension, IValueConverter, IMultiValueConver
         {
             return value is { } && value.Equals(parameters[0]);
         }
-        else if(parameters.Length > 0 && "Content".Equals(parameters[0]) && value is Button button)
+        if(parameters.Contains("Content") && value is Button button)
         {
             return $"{Grid.GetRow(button)}.{Grid.GetColumn(button)}";
         }
-        Console.WriteLine($"{value}, {parameter}");
+        if (parameters.Contains("FieldTypeText"))
+        {
+            string res = (value as Type)!.Name;
+            Console.WriteLine(res);
+            return res;
+        }
+        if (parameters.Contains("Activities"))
+        {
+            return Enum.GetNames(typeof(Activities)).ToArray();
+        }
+        Console.WriteLine($"Convert: {value}, [{string.Join(',', parameters)}]");
         return false;
     }
 
     public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
+        object[] parameters = parameter is string s ? s.Split('|') : new object[] { parameter };
         int selector = 0;
         if (
-            ("Background".Equals(parameter) && (selector = 1) == selector)
-            || ("BorderThickness".Equals(parameter) && (selector = 2) == selector)
-            || ("BorderBrush".Equals(parameter) && (selector = 3) == selector)
-            || ("Foreground".Equals(parameter) && (selector = 4) == selector)
+            (parameters.Contains("Background") && (selector = 1) == selector)
+            || (parameters.Contains("BorderThickness") && (selector = 2) == selector)
+            || (parameters.Contains("BorderBrush") && (selector = 3) == selector)
+            || (parameters.Contains("Foreground") && (selector = 4) == selector)
         )
         {
             if(values.Length > 1 && values[0] is Grid grid && values[1] is string coords)
@@ -49,18 +60,46 @@ public class DataConverter : MarkupExtension, IValueConverter, IMultiValueConver
                 }
             }
         }
-        Console.WriteLine($"{string.Join(',', values)}, {parameter}");
-        return null;
+        if (parameters.Contains("RemoveCommandCanExecute"))
+        {
+            return values.ToArray();
+        }
+        Console.WriteLine($"ConvertMulti: [{string.Join(',', values)}],  [{string.Join(',', parameters)}]");
+        return values.FirstOrDefault();
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        throw new NotImplementedException();
+        object[] parameters = parameter is string s ? s.Split('|') : new object[] { parameter };
+        if (parameters.Contains("FieldTypeText"))
+        {
+            Console.WriteLine($"FieldTypeText: {value}, [{string.Join(',', parameters)}]");
+            switch (value)
+            {
+                case "String":
+                    return typeof(string);
+                case "Int32":
+                    return typeof(int);
+                case "Double":
+                    return typeof(double);
+                case "Boolean":
+                    return typeof(bool);
+                case "DateOnly":
+                    return typeof(DateOnly);
+                case "Activities":
+                    return typeof(Activities);
+            }
+            return typeof(string);
+        }
+        Console.WriteLine($"ConvertBack: {value}, [{string.Join(',', parameters)}]");
+        return value;
     }
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
     {
-        throw new NotImplementedException();
+        object[] parameters = parameter is string s ? s.Split('|') : new object[] { parameter };
+        Console.WriteLine($"ConvertBackMulti: {value}, [{string.Join(',', parameters)}]");
+        return new object[] { value };
     }
 
     public override object ProvideValue(IServiceProvider serviceProvider)
