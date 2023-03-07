@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Net.Leksi.WpfMarkup;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
@@ -10,6 +12,18 @@ namespace WpfMarkupExtensionDemo;
 
 public class DataConverter : MarkupExtension, IValueConverter, IMultiValueConverter
 {
+    private Type? _fieldType;
+
+    public Type? FieldType
+    {
+        get => _fieldType;
+        set 
+        {
+            Console.WriteLine(value);
+            _fieldType = value; 
+        }
+    }
+
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         object[] parameters = parameter is string s ? s.Split('|') : new object[] { parameter };
@@ -24,14 +38,20 @@ public class DataConverter : MarkupExtension, IValueConverter, IMultiValueConver
         if (parameters.Contains("FieldTypeText"))
         {
             string res = (value as Type)!.Name;
-            Console.WriteLine(res);
             return res;
         }
         if (parameters.Contains("Activities"))
         {
             return Enum.GetNames(typeof(Activities)).ToArray();
         }
-        Console.WriteLine($"Convert: {value}, [{string.Join(',', parameters)}]");
+        if(parameters
+            .Where(p => p is BindingProxy bp)
+            .FirstOrDefault() is BindingProxy bp)
+        {
+            Console.WriteLine($"bp.Value: {bp.Value}");
+            //return System.Convert.ChangeType(value, type);
+        }
+        Console.WriteLine($"Convert: {value}, {targetType}, [{string.Join(',', parameters.Select(p => $"{p.GetType()}:{p}"))}]");
         return false;
     }
 
@@ -73,7 +93,6 @@ public class DataConverter : MarkupExtension, IValueConverter, IMultiValueConver
         object[] parameters = parameter is string s ? s.Split('|') : new object[] { parameter };
         if (parameters.Contains("FieldTypeText"))
         {
-            Console.WriteLine($"FieldTypeText: {value}, [{string.Join(',', parameters)}]");
             switch (value)
             {
                 case "String":
