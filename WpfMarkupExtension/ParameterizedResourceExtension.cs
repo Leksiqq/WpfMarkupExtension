@@ -27,6 +27,7 @@ public class ParameterizedResourceExtension : MarkupExtension
     private HashSet<object>? _seenObjects;
     private IServiceProvider _services = null!;
     private ParameterizedResourceExtension? _root = null;
+    private Stack<DependencyObject>? _frameworkECE = null;
 
     [Ambient]
     public object? Replaces
@@ -170,6 +171,8 @@ public class ParameterizedResourceExtension : MarkupExtension
                 }
                 _services = resource._services;
                 _root = resource;
+                _seenObjects = _root._seenObjects;
+                _frameworkECE = _root._frameworkECE;
             }
         }
         else
@@ -177,6 +180,7 @@ public class ParameterizedResourceExtension : MarkupExtension
             _services = serviceProvider;
             _root = this;
             _seenObjects = new(ReferenceEqualityComparer.Instance);
+            _frameworkECE = new Stack<DependencyObject>();
         }
 
 
@@ -253,12 +257,29 @@ public class ParameterizedResourceExtension : MarkupExtension
 
     private void WalkMarkup(MarkupObject mo, List<string> route)
     {
-        if (!_root!._seenObjects!.Add(mo.Instance))
+        if (!_seenObjects!.Add(mo.Instance))
         {
             return;
         }
         if (mo.Instance is DependencyObject dependencyObject)
         {
+            bool isFrameworkECE = false;
+            if(dependencyObject is FrameworkElement || dependencyObject is FrameworkContentElement)
+            {
+                isFrameworkECE = true;
+                _frameworkECE!.Push(dependencyObject);
+                if(Verbose > 0)
+                {
+                    Console.WriteLine($"{_prompt} < FrameworkECE: {dependencyObject} >");
+                }
+            }
+            if(dependencyObject is BindingProxy bp)
+            {
+                if (Verbose > 0)
+                {
+                    Console.WriteLine($"{_prompt} < BindingProxy: {dependencyObject}, current ECE: {(_frameworkECE!.TryPeek(out DependencyObject? fece) ? fece : "None")} >");
+                }
+            }
             foreach (
                 PropertyDescriptor pd in TypeDescriptor.GetProperties(
                     dependencyObject, new Attribute[] { new PropertyFilterAttribute(PropertyFilterOptions.All) }
@@ -318,6 +339,10 @@ public class ParameterizedResourceExtension : MarkupExtension
                     }
                 }
             }
+            if (isFrameworkECE)
+            {
+                _frameworkECE!.Pop();
+            }
         }
         foreach (var prop in mo.Properties)
         {
@@ -365,7 +390,7 @@ public class ParameterizedResourceExtension : MarkupExtension
 
     private void OnBinding(BindingBase bindingBase, List<string> route)
     {
-        if (!_root!._seenObjects!.Add(bindingBase))
+        if (!_seenObjects!.Add(bindingBase))
         {
             return;
         }
