@@ -186,73 +186,83 @@ public class ParameterizedResourceExtension : MarkupExtension
 
         s_callStacks.Push(this);
 
-        bool properKey = true;
-
-        if (_value.ResourceKey.ToString()!.StartsWith('$'))
+        try
         {
-            if (Verbose > 0)
-            {
-                Console.Write($"{_indention}< ResourceKey: {_value.ResourceKey}");
-            }
-            properKey = false;
-            if (_replacements.TryGetValue(_value.ResourceKey.ToString()!, out string? newKey))
-            {
-                _value = new StaticResourceExtension(newKey);
-                _prompt = $"{_indention}[{_value.ResourceKey}{(string.IsNullOrEmpty(At) ? string.Empty : $"@{At}")}]";
+            bool properKey = true;
 
-                properKey = true;
+            if (_value.ResourceKey.ToString()!.StartsWith('$'))
+            {
                 if (Verbose > 0)
                 {
-                    Console.WriteLine($" -> {_value.ResourceKey} (from {nameof(Replaces)}) >");
+                    Console.Write($"{_indention}< ResourceKey: {_value.ResourceKey}");
                 }
-            }
-            else if (_defaults.TryGetValue(_value.ResourceKey.ToString()!, out string? defaultKey))
-            {
-                _value = new StaticResourceExtension(defaultKey);
-                _prompt = $"{_indention}[{_value.ResourceKey}{(string.IsNullOrEmpty(At) ? string.Empty : $"@{At}")}]";
-
-                properKey = true;
-                if (Verbose > 0)
+                properKey = false;
+                if (_replacements.TryGetValue(_value.ResourceKey.ToString()!, out string? newKey))
                 {
-                    Console.WriteLine($" -> {_value.ResourceKey} (from {nameof(Defaults)}) >");
+                    _value = new StaticResourceExtension(newKey);
+                    _prompt = $"{_indention}[{_value.ResourceKey}{(string.IsNullOrEmpty(At) ? string.Empty : $"@{At}")}]";
+
+                    properKey = true;
+                    if (Verbose > 0)
+                    {
+                        Console.WriteLine($" -> {_value.ResourceKey} (from {nameof(Replaces)}) >");
+                    }
+                }
+                else if (_defaults.TryGetValue(_value.ResourceKey.ToString()!, out string? defaultKey))
+                {
+                    _value = new StaticResourceExtension(defaultKey);
+                    _prompt = $"{_indention}[{_value.ResourceKey}{(string.IsNullOrEmpty(At) ? string.Empty : $"@{At}")}]";
+
+                    properKey = true;
+                    if (Verbose > 0)
+                    {
+                        Console.WriteLine($" -> {_value.ResourceKey} (from {nameof(Defaults)}) >");
+                    }
+                }
+                else if (Strict)
+                {
+                    throw new XamlParseException($"ResourceKey parameter is not provided: {_value.ResourceKey.ToString()}!");
+                }
+                else if (Verbose > 0)
+                {
+                    Console.WriteLine($" - is not provided! >");
                 }
             }
-            else if (Strict)
+
+            if (properKey)
             {
-                throw new XamlParseException($"ResourceKey parameter is not provided: {_value.ResourceKey.ToString()}!");
+                try
+                {
+                    object result = _value.ProvideValue(_services);
+
+                    List<string> route = new();
+
+                    if(s_callStacks.Count == 1)
+                    {
+                        _seenObjects!.Clear();
+                    }
+                    WalkMarkup(MarkupWriter.GetMarkupObjectFor(result), route);
+
+
+                    if (Verbose > 0)
+                    {
+                        Console.WriteLine($"{_prompt} < Done >");
+                    }
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"{_value.ResourceKey} --- {ex}");
+                    throw;
+                }
             }
-            else if (Verbose > 0)
-            {
-                Console.WriteLine($" - is not provided! >");
-            }
+
+            return null;
         }
-
-        if (properKey)
+        finally
         {
-            try
-            {
-                object result = _value.ProvideValue(_services);
-
-                List<string> route = new();
-                WalkMarkup(MarkupWriter.GetMarkupObjectFor(result), route);
-
-                s_callStacks.Pop();
-
-                if (Verbose > 0)
-                {
-                    Console.WriteLine($"{_prompt} < Done >");
-                }
-                return result;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"{_value.ResourceKey} --- {ex}");
-                throw;
-            }
+            s_callStacks.Pop();
         }
-
-        return null;
-
     }
 
     private void WalkMarkup(MarkupObject mo, List<string> route)
