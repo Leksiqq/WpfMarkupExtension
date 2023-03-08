@@ -12,22 +12,22 @@ namespace WpfMarkupExtensionDemo;
 
 public class DataConverter : MarkupExtension, IValueConverter, IMultiValueConverter
 {
-    private Type? _fieldType;
+    private object? _parameter;
 
-    public Type? FieldType
+    public object? Parameter
     {
-        get => _fieldType;
+        get => _parameter;
         set 
         {
-            Console.WriteLine(value);
-            _fieldType = value; 
+            Console.WriteLine($"set_Parameter: {value}");
+            _parameter = value; 
         }
     }
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        object[] parameters = parameter is string s ? s.Split('|') : new object[] { parameter };
-        if(parameters.Length > 1 && ("IsMouseEnter".Equals(parameters[1]) || "IsMouseDown".Equals(parameters[1])))
+        List<object> parameters = SplitParameter(parameter);
+        if(parameters.Count > 1 && ("IsMouseEnter".Equals(parameters[1]) || "IsMouseDown".Equals(parameters[1])))
         {
             return value is { } && value.Equals(parameters[0]);
         }
@@ -51,13 +51,13 @@ public class DataConverter : MarkupExtension, IValueConverter, IMultiValueConver
             Console.WriteLine($"bp.Value: {bp.Value}");
             //return System.Convert.ChangeType(value, type);
         }
-        Console.WriteLine($"Convert: {value}, {targetType}, [{string.Join(',', parameters.Select(p => $"{p.GetType()}:{p}"))}]");
+        Console.WriteLine($"Convert: {value}, {targetType}, [{string.Join(',', parameters)}]");
         return false;
     }
 
     public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-        object[] parameters = parameter is string s ? s.Split('|') : new object[] { parameter };
+        List<object> parameters = SplitParameter(parameter);
         int selector = 0;
         if (
             (parameters.Contains("Background") && (selector = 1) == selector)
@@ -90,7 +90,7 @@ public class DataConverter : MarkupExtension, IValueConverter, IMultiValueConver
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        object[] parameters = parameter is string s ? s.Split('|') : new object[] { parameter };
+        List<object> parameters = SplitParameter(parameter);
         if (parameters.Contains("FieldTypeText"))
         {
             switch (value)
@@ -116,7 +116,7 @@ public class DataConverter : MarkupExtension, IValueConverter, IMultiValueConver
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
     {
-        object[] parameters = parameter is string s ? s.Split('|') : new object[] { parameter };
+        List<object> parameters = SplitParameter(parameter);
         Console.WriteLine($"ConvertBackMulti: {value}, [{string.Join(',', parameters)}]");
         return new object[] { value };
     }
@@ -124,5 +124,27 @@ public class DataConverter : MarkupExtension, IValueConverter, IMultiValueConver
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         return this;
+    }
+
+    private List<object> SplitParameter(object? parameter)
+    {
+        List<object> list = new();
+        if(parameter is string s)
+        {
+            list.AddRange(s.Split('|'));
+        }
+        else if(parameter is { })
+        {
+            list.Add(parameter);
+        }
+        if (Parameter is string s1)
+        {
+            list.AddRange(s1.Split('|'));
+        }
+        else if (Parameter is { })
+        {
+            list.Add(Parameter);
+        }
+        return list;
     }
 }

@@ -1420,7 +1420,7 @@
                         <sys:String x:Key="Item3">Item3</sys:String>
                         <sys:String x:Key="Item4">Item4</sys:String>
                         <sys:String x:Key="Item5">Item5</sys:String>
-                        <l:BindingProxy x:Key="FieldType" x:Shared="False"  Value="{Binding Type, Source=$fieldName}"/>
+                        
                         <DataTemplate x:Key="EditField" x:Shared="False">
                             <DockPanel LastChildFill="true">
                                 <ComboBox DockPanel.Dock="Left" SelectedItem="{Binding $fieldName.Type, Converter={local:DataConverter}, ConverterParameter=FieldTypeText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -1484,10 +1484,19 @@
                                             </RowDefinition.Style>
                                         </RowDefinition>
                                     </Grid.RowDefinitions>
-                                    <TextBox Grid.Row="0" Text="{Binding $fieldName.Value, 
-                                        Converter={local:DataConverter FieldType={l:ParameterizedResource FieldType}}, 
+                                    <TextBox Grid.Row="0" d:Text="{
+                                        Binding $fieldName.Value, 
+                                        Converter={local:DataConverter Parameter={l:ParameterizedResource FieldType}}, 
                                         Mode=TwoWay, 
-                                        UpdateSourceTrigger=PropertyChanged}">
+                                        UpdateSourceTrigger=PropertyChanged
+                                        }">
+                                        <TextBox.Text>
+                                            <Binding Path="$fieldName.Value" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" Converter="{local:DataConverter}">
+                                                <Binding.ConverterParameter>
+                                                    <l:BindingProxy Value="{Binding $fieldName.Type}"/>
+                                                </Binding.ConverterParameter>
+                                            </Binding>
+                                        </TextBox.Text>
                                         <TextBox.Style>
                                             <Style TargetType="TextBox">
                                                 <Style.Triggers>
