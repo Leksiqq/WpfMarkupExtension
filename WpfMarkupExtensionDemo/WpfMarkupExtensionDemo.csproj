@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Net.Leksi.WpfMarkupExtension" Version="1.0.0" />
+    <PackageReference Include="Net.Leksi.WpfMarkupExtension" Version="1.0.0.2" />
   </ItemGroup>
 
 </Project>
