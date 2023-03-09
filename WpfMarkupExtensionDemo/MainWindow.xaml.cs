@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Net.Leksi.WpfMarkup;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
@@ -81,6 +82,7 @@ namespace WpfMarkupExtensionDemo
             RemoveCommand = new RemoveCommand(Datas);
             AddCommand = new AddCommand(Datas);
             InitializeComponent();
+            (FindResource("DataConverter") as DataConverter)!.CurrentEditedItem = FindResource("CurrentEditedItem") as BindingProxy;
         }
 
         private void CheckBoxClick(object sender, RoutedEventArgs e)

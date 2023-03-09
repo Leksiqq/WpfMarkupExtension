@@ -19,7 +19,6 @@ public class DataHolder: INotifyPropertyChanged
         get => _isReadOnly;
         set
         {
-            Console.WriteLine($"set_IsReadOnly: {value}");
             if(_isReadOnly != value)
             {
                 _isReadOnly = value;

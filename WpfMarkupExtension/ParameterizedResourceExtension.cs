@@ -7,6 +7,7 @@ using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Markup.Primitives;
 using System.Windows.Media;
+using System.Xaml;
 using XamlParseException = System.Windows.Markup.XamlParseException;
 
 namespace Net.Leksi.WpfMarkup;
@@ -27,7 +28,6 @@ public class ParameterizedResourceExtension : MarkupExtension
     private HashSet<object>? _seenObjects;
     private IServiceProvider _services = null!;
     private ParameterizedResourceExtension? _root = null;
-    private Stack<DependencyObject>? _frameworkECE = null;
 
     [Ambient]
     public object? Replaces
@@ -126,7 +126,7 @@ public class ParameterizedResourceExtension : MarkupExtension
 
     public override object? ProvideValue(IServiceProvider serviceProvider)
     {
-        _indention = string.Format($"{{0,{s_callStacks.Count}}}", "").Replace(" ", s_indentionStep);
+        _indention = string.Format($"{{0,{s_callStacks.Count}}}{s_callStacks.Count + 1})", "").Replace(" ", s_indentionStep);
         _prompt = $"{_indention}[{_value.ResourceKey}{(string.IsNullOrEmpty(At) ? string.Empty : $"@{At}")}]";
 
 
@@ -171,8 +171,6 @@ public class ParameterizedResourceExtension : MarkupExtension
                 }
                 _services = resource._services;
                 _root = resource;
-                _seenObjects = _root._seenObjects;
-                _frameworkECE = _root._frameworkECE;
             }
         }
         else
@@ -180,7 +178,6 @@ public class ParameterizedResourceExtension : MarkupExtension
             _services = serviceProvider;
             _root = this;
             _seenObjects = new(ReferenceEqualityComparer.Instance);
-            _frameworkECE = new Stack<DependencyObject>();
         }
 
 
@@ -237,10 +234,6 @@ public class ParameterizedResourceExtension : MarkupExtension
 
                     List<string> route = new();
 
-                    if(s_callStacks.Count == 1)
-                    {
-                        _seenObjects!.Clear();
-                    }
                     WalkMarkup(MarkupWriter.GetMarkupObjectFor(result), route);
 
 
@@ -267,29 +260,12 @@ public class ParameterizedResourceExtension : MarkupExtension
 
     private void WalkMarkup(MarkupObject mo, List<string> route)
     {
-        if (!_seenObjects!.Add(mo.Instance))
+        if (!_root!._seenObjects!.Add(mo.Instance))
         {
             return;
         }
         if (mo.Instance is DependencyObject dependencyObject)
         {
-            bool isFrameworkECE = false;
-            if(dependencyObject is FrameworkElement || dependencyObject is FrameworkContentElement)
-            {
-                isFrameworkECE = true;
-                _frameworkECE!.Push(dependencyObject);
-                if(Verbose > 0)
-                {
-                    Console.WriteLine($"{_prompt} < FrameworkECE: {dependencyObject} >");
-                }
-            }
-            if(dependencyObject is BindingProxy bp)
-            {
-                if (Verbose > 0)
-                {
-                    Console.WriteLine($"{_prompt} < BindingProxy: {dependencyObject}, current ECE: {(_frameworkECE!.TryPeek(out DependencyObject? fece) ? fece : "None")} >");
-                }
-            }
             foreach (
                 PropertyDescriptor pd in TypeDescriptor.GetProperties(
                     dependencyObject, new Attribute[] { new PropertyFilterAttribute(PropertyFilterOptions.All) }
@@ -349,10 +325,6 @@ public class ParameterizedResourceExtension : MarkupExtension
                     }
                 }
             }
-            if (isFrameworkECE)
-            {
-                _frameworkECE!.Pop();
-            }
         }
         foreach (var prop in mo.Properties)
         {
@@ -389,10 +361,7 @@ public class ParameterizedResourceExtension : MarkupExtension
                         }
                     }
                 }
-                catch (NullReferenceException)
-                {
-                    //Console.WriteLine($"{_prompt} {prop.PropertyType} {string.Join('/', route)} NullReferenceException");
-                }
+                catch (NullReferenceException) { }
                 route.RemoveAt(route.Count - 1);
             }
         }
@@ -400,7 +369,7 @@ public class ParameterizedResourceExtension : MarkupExtension
 
     private void OnBinding(BindingBase bindingBase, List<string> route)
     {
-        if (!_seenObjects!.Add(bindingBase))
+        if (!_root!._seenObjects!.Add(bindingBase))
         {
             return;
         }
@@ -564,6 +533,10 @@ public class ParameterizedResourceExtension : MarkupExtension
                 {
                     Console.WriteLine($" -> {binding.XPath} >");
                 }
+            }
+            if(binding.ConverterParameter is { })
+            {
+                WalkMarkup(MarkupWriter.GetMarkupObjectFor(binding.ConverterParameter), route);
             }
             if (Verbose > 0 && s_callStacks.Count == 1)
             {

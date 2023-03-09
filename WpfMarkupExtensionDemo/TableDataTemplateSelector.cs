@@ -1,5 +1,4 @@
 ﻿using Net.Leksi.WpfMarkup;
-using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -19,9 +18,15 @@ public class TableDataTemplateSelector: DataTemplateSelector
         if (row is { } && typeof(DataHolder).GetProperty(FieldName.ToString()!)?.GetValue(row) is FieldHolder field)
         {
             bool isEditable = IsEditable is BindingProxy proxy && proxy.Value is bool yes && yes && !row.IsReadOnly;
-            Console.WriteLine($"{field}, {isEditable}, {row.IsReadOnly}");
             if (isEditable && EditValue is { })
             {
+                if(container is ContentPresenter cp)
+                {
+                    if(cp.FindResource("CurrentEditedItem") is BindingProxy bp)
+                    {
+                        bp.Value = field;
+                    }
+                }
                 return EditValue;
             }
             if (ReadValue is { })

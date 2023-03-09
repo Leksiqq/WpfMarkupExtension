@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Data;
-using System.Windows.Markup;
 
 namespace Net.Leksi.WpfMarkup;
 
@@ -23,7 +21,6 @@ public class BindingProxy : Freezable
     {
         if (e.Property == ValueProperty)
         {
-            Console.WriteLine($"BindingProxy: {e.NewValue}");
             Value = (object?)e.NewValue;
         }
         base.OnPropertyChanged(e);
