@@ -1397,135 +1397,18 @@
                         <sys:String x:Key="Item3">Item3</sys:String>
                         <sys:String x:Key="Item4">Item4</sys:String>
                         <sys:String x:Key="Item5">Item5</sys:String>
-                        <Style x:Key="EditTextBoxStyle" TargetType="TextBox" x:Shared="False">
-                            <Setter Property="Text" Value="{
-                                        Binding $fieldName.Value, 
-                                        Converter={l:ParameterizedResource DataConverter},
-                                        ConverterParameter=EditValue,
-                                        Mode=TwoWay, 
-                                        UpdateSourceTrigger=LostFocus
-                                        }"/>
-                        </Style>
-                        <ControlTemplate TargetType="Label" x:Key="EditNumber" x:Shared="False">
-                            <TextBox Style="{l:ParameterizedResource EditTextBoxStyle}" TextAlignment="Right" />
-                        </ControlTemplate>
-                        <ControlTemplate TargetType="Label" x:Key="EditString" x:Shared="False">
-                            <TextBox Style="{l:ParameterizedResource EditTextBoxStyle}"/>
-                        </ControlTemplate>
-                        <ControlTemplate TargetType="Label" x:Key="EditDateOnly" x:Shared="False">
-                            <DatePicker SelectedDate="{
-                                        Binding $fieldName.Value, 
-                                        Converter={l:ParameterizedResource DataConverter},
-                                        ConverterParameter=EditValue,
-                                        Mode=TwoWay, 
-                                        UpdateSourceTrigger=PropertyChanged
-                                        }"/>
-                        </ControlTemplate>
-                        <ControlTemplate TargetType="Label" x:Key="EditEnum" x:Shared="False">
-                            <ComboBox SelectedIndex="{Binding $fieldName.Value, Converter={l:ParameterizedResource DataConverter},
-                                            ConverterParameter=EditValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                <ComboBox.Style>
-                                    <Style TargetType="ComboBox">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding $fieldName.Type, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=FieldTypeText}"
-                                                                     Value="Boolean">
-                                                <Setter Property="ItemsSource">
-                                                    <Setter.Value>
-                                                        <x:Array Type="sys:Boolean">
-                                                            <sys:Boolean>False</sys:Boolean>
-                                                            <sys:Boolean>True</sys:Boolean>
-                                                        </x:Array>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding $fieldName.Type, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=FieldTypeText}"
-                                                                     Value="Activities">
-                                                <Setter Property="ItemsSource" Value="{Binding Converter={l:ParameterizedResource DataConverter}, ConverterParameter=Activities}"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </ComboBox.Style>
-                            </ComboBox>
-                        </ControlTemplate>
-                        <DataTemplate x:Key="EditField" x:Shared="False">
-                            <DockPanel LastChildFill="true">
-                                <ComboBox DockPanel.Dock="Left" SelectedItem="{Binding $fieldName.Type, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=FieldTypeText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                    <ComboBox.ItemsSource>
-                                        <x:Array Type="sys:String">
-                                            <sys:String>String</sys:String>
-                                            <sys:String>Int32</sys:String>
-                                            <sys:String>Double</sys:String>
-                                            <sys:String>Boolean</sys:String>
-                                            <sys:String>DateOnly</sys:String>
-                                            <sys:String>Activities</sys:String>
-                                        </x:Array>
-                                    </ComboBox.ItemsSource>
-                                </ComboBox>
-                                <Label>
-                                    <Label.Style>
-                                        <Style TargetType="Label">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding $fieldName.Type, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=FieldTypeText}"
-                                                             Value="Int32">
-                                                    <Setter Property="Template" Value="{l:ParameterizedResource EditNumber}"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding $fieldName.Type, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=FieldTypeText}"
-                                                             Value="Double">
-                                                    <Setter Property="Template" Value="{l:ParameterizedResource EditNumber}"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding $fieldName.Type, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=FieldTypeText}"
-                                                             Value="String">
-                                                    <Setter Property="Template" Value="{l:ParameterizedResource EditString}"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding $fieldName.Type, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=FieldTypeText}"
-                                                             Value="Boolean">
-                                                    <Setter Property="Template" Value="{l:ParameterizedResource EditEnum}"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding $fieldName.Type, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=FieldTypeText}"
-                                                             Value="Activities">
-                                                    <Setter Property="Template" Value="{l:ParameterizedResource EditEnum}"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding $fieldName.Type, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=FieldTypeText}"
-                                                             Value="DateOnly">
-                                                    <Setter Property="Template" Value="{l:ParameterizedResource EditDateOnly}"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Label.Style>
-                                </Label>
-                            </DockPanel>
-                        </DataTemplate>
-                        <local:TableDataTemplateSelector x:Key="DataTemplate" x:Shared="False" FieldName="{l:ParameterizedResource $fieldName}"
-                                                 IsEditable="{l:ParameterizedResource $isEditable}" EditValue="{l:ParameterizedResource EditField, Replaces=$template:StringTemplate}">
-                            <local:TableDataTemplateSelector.ReadValue>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding $fieldName.Value, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=ReadValue}">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding $fieldName.Type, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=FieldTypeText}"
-                                             Value="Int32">
-                                                        <Setter Property="TextAlignment" Value="Right"/>
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding $fieldName.Type, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=FieldTypeText}"
-                                             Value="Double">
-                                                        <Setter Property="TextAlignment" Value="Right"/>
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding $fieldName.Type, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=FieldTypeText}"
-                                             Value="Boolean">
-                                                        <Setter Property="TextAlignment" Value="Center"/>
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding $fieldName.Type, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=FieldTypeText}"
-                                             Value="Activities">
-                                                        <Setter Property="TextAlignment" Value="Center"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-                                </DataTemplate>
-                            </local:TableDataTemplateSelector.ReadValue>
-                        </local:TableDataTemplateSelector>
+                        <l:ParameterizedResource x:Key="CellDataTemplate" x:Shared="False" ResourceKey="DataTemplate">
+                            <x:Array Type="sys:String">
+                                <sys:String>$dataConverter:DataConverter</sys:String>
+                                <sys:String>$isEditable:NotEditable</sys:String>
+                            </x:Array>
+                        </l:ParameterizedResource>
+                        <l:ParameterizedResource x:Key="CellEditingDataTemplate" x:Shared="False" ResourceKey="DataTemplate">
+                            <x:Array Type="sys:String">
+                                <sys:String>$dataConverter:DataConverter</sys:String>
+                                <sys:String>$isEditable:IsEditable</sys:String>
+                            </x:Array>
+                        </l:ParameterizedResource>
                         <DataTemplate x:Key="IsReadOnly">
                             <CheckBox IsChecked="{Binding IsReadOnly, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         </DataTemplate>
@@ -1551,20 +1434,20 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTemplateColumn Header="Item1"
-                                                CellTemplateSelector="{l:ParameterizedResource DataTemplate, Replaces=$fieldName:Item1|$isEditable:NotEditable}"
-                                                CellEditingTemplateSelector="{l:ParameterizedResource DataTemplate, Replaces=$fieldName:Item1|$isEditable:IsEditable}"/>
+                                                CellTemplateSelector="{l:ParameterizedResource CellDataTemplate, Replaces=$fieldName:Item1}"
+                                                CellEditingTemplateSelector="{l:ParameterizedResource CellEditingDataTemplate, Replaces=$fieldName:Item1}"/>
                         <DataGridTemplateColumn Header="Item2" 
-                                                CellTemplateSelector="{l:ParameterizedResource DataTemplate, Replaces=$fieldName:Item2|$isEditable:NotEditable}"
-                                                CellEditingTemplateSelector="{l:ParameterizedResource DataTemplate, Replaces=$fieldName:Item2|$isEditable:IsEditable}"/>
+                                                CellTemplateSelector="{l:ParameterizedResource CellDataTemplate, Replaces=$fieldName:Item2}"
+                                                CellEditingTemplateSelector="{l:ParameterizedResource CellEditingDataTemplate, Replaces=$fieldName:Item2}"/>
                         <DataGridTemplateColumn Header="Item3" 
-                                                CellTemplateSelector="{l:ParameterizedResource DataTemplate, Replaces=$fieldName:Item3|$isEditable:NotEditable}"
-                                                CellEditingTemplateSelector="{l:ParameterizedResource DataTemplate, Replaces=$fieldName:Item3|$isEditable:IsEditable}"/>
+                                                CellTemplateSelector="{l:ParameterizedResource CellDataTemplate, Replaces=$fieldName:Item3}"
+                                                CellEditingTemplateSelector="{l:ParameterizedResource CellEditingDataTemplate, Replaces=$fieldName:Item3}"/>
                         <DataGridTemplateColumn Header="Item4" 
-                                                CellTemplateSelector="{l:ParameterizedResource DataTemplate, Replaces=$fieldName:Item4|$isEditable:NotEditable}"
-                                                CellEditingTemplateSelector="{l:ParameterizedResource DataTemplate, Replaces=$fieldName:Item4|$isEditable:IsEditable}"/>
+                                                CellTemplateSelector="{l:ParameterizedResource CellDataTemplate, Replaces=$fieldName:Item4}"
+                                                CellEditingTemplateSelector="{l:ParameterizedResource CellEditingDataTemplate, Replaces=$fieldName:Item4}"/>
                         <DataGridTemplateColumn Header="Item5" 
-                                                CellTemplateSelector="{l:ParameterizedResource DataTemplate, Replaces=$fieldName:Item5|$isEditable:NotEditable}"
-                                                CellEditingTemplateSelector="{l:ParameterizedResource DataTemplate, Replaces=$fieldName:Item5|$isEditable:IsEditable}"/>
+                                                CellTemplateSelector="{l:ParameterizedResource CellDataTemplate, Replaces=$fieldName:Item5}"
+                                                CellEditingTemplateSelector="{l:ParameterizedResource CellEditingDataTemplate, Replaces=$fieldName:Item5}"/>
                         <DataGridTemplateColumn Header="Actions" CellTemplate="{StaticResource Actions}"/>
                     </DataGrid.Columns>
                 </DataGrid>
