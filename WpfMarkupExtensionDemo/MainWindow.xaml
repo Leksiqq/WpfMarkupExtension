@@ -12,6 +12,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Dictionary1.xaml" />
+                <ResourceDictionary Source="Dictionary2.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <local:DataConverter x:Key="DataConverter"/>
             <Style TargetType="CheckBox" x:Key="CheckBoxClickStyle">
@@ -23,50 +24,24 @@
                 <EventSetter Event="PreviewMouseDown" Handler="ButtonMouseDown"/>
                 <EventSetter Event="PreviewMouseUp" Handler="ButtonMouseUp"/>
             </Style>
-            <Style TargetType="Button" x:Key="ButtonRepaintColStyle" x:Shared="False">
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding CurrentMouseEnter, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=$coordinates|IsMouseEnter}" Value="True">
-                        <Setter Property="Background">
-                            <Setter.Value>
-                                <MultiBinding Converter="{l:ParameterizedResource DataConverter}" ConverterParameter="Background">
-                                    <Binding ElementName="Grid"/>
-                                    <Binding Source="$coordinates"/>
-                                </MultiBinding>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="Foreground">
-                            <Setter.Value>
-                                <MultiBinding Converter="{l:ParameterizedResource DataConverter}" ConverterParameter="Foreground">
-                                    <Binding ElementName="Grid"/>
-                                    <Binding Source="$coordinates"/>
-                                </MultiBinding>
-                            </Setter.Value>
-                        </Setter>
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-            <Style TargetType="Button" x:Key="ButtonRepaintRowStyle" x:Shared="False">
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding CurrentMouseEnter, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=$coordinates|IsMouseEnter}" Value="True">
-                        <Setter Property="BorderThickness">
-                            <Setter.Value>
-                                <MultiBinding Converter="{l:ParameterizedResource DataConverter}" ConverterParameter="BorderThickness">
-                                    <Binding ElementName="Grid"/>
-                                    <Binding Source="$coordinates"/>
-                                </MultiBinding>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="BorderBrush">
-                            <Setter.Value>
-                                <MultiBinding Converter="{l:ParameterizedResource DataConverter}" ConverterParameter="BorderBrush">
-                                    <Binding ElementName="Grid"/>
-                                    <Binding Source="$coordinates"/>
-                                </MultiBinding>
-                            </Setter.Value>
-                        </Setter>
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
+            <l:StyleCombiner TargetType="Button" x:Key="ButtonRepaintColStyle" x:Shared="False">
+                <l:ParameterizedResource ResourceKey="ButtonRepaintColStyleBase">
+                    <x:Array Type="sys:String">
+                        <sys:String>$currentMouseEnter:CurrentMouseEnter</sys:String>
+                        <sys:String>$dataConverter:DataConverter</sys:String>
+                        <sys:String>$isMouseEnter:IsMouseEnter</sys:String>
+                    </x:Array>
+                </l:ParameterizedResource>
+            </l:StyleCombiner>
+            <l:StyleCombiner TargetType="Button" x:Key="ButtonRepaintRowStyle" x:Shared="False">
+                <l:ParameterizedResource ResourceKey="ButtonRepaintRowStyleBase">
+                    <x:Array Type="sys:String">
+                        <sys:String>$currentMouseEnter:CurrentMouseEnter</sys:String>
+                        <sys:String>$dataConverter:DataConverter</sys:String>
+                        <sys:String>$isMouseEnter:IsMouseEnter</sys:String>
+                    </x:Array>
+                </l:ParameterizedResource>
+            </l:StyleCombiner>
             <Style TargetType="Button" x:Key="ButtonAnimationStyle" x:Shared="False">
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding CurrentMouseDown, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=$coordinates|IsMouseDown}" Value="True">

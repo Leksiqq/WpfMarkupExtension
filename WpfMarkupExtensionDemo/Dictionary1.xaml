@@ -43,23 +43,23 @@
         <Setter Property="BorderBrush" Value="Aqua"/>
     </Style>
     <Style TargetType="Button" x:Key="ButtonAtCol2Style">
-        <Setter Property="BorderThickness" Value="6"/>
+        <Setter Property="BorderThickness" Value="7"/>
         <Setter Property="BorderBrush" Value="BlueViolet"/>
     </Style>
     <Style TargetType="Button" x:Key="ButtonAtCol3Style">
-        <Setter Property="BorderThickness" Value="7"/>
+        <Setter Property="BorderThickness" Value="9"/>
         <Setter Property="BorderBrush" Value="DarkGoldenrod"/>
     </Style>
     <Style TargetType="Button" x:Key="ButtonAtCol4Style">
-        <Setter Property="BorderThickness" Value="8"/>
+        <Setter Property="BorderThickness" Value="11"/>
         <Setter Property="BorderBrush" Value="DarkMagenta"/>
     </Style>
     <Style TargetType="Button" x:Key="ButtonAtCol5Style">
-        <Setter Property="BorderThickness" Value="9"/>
+        <Setter Property="BorderThickness" Value="13"/>
         <Setter Property="BorderBrush" Value="Salmon"/>
     </Style>
     <Style TargetType="Button" x:Key="ButtonAtCol6Style">
-        <Setter Property="BorderThickness" Value="10"/>
+        <Setter Property="BorderThickness" Value="15"/>
         <Setter Property="BorderBrush" Value="HotPink"/>
     </Style>
 
@@ -75,6 +75,50 @@
                                 </ContentPresenter>
                             </Grid>
                         </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Button" x:Key="ButtonRepaintColStyleBase" x:Shared="False">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding $currentMouseEnter, Converter={l:ParameterizedResource $dataConverter}, ConverterParameter=$coordinates|$isMouseEnter}" Value="True">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <MultiBinding Converter="{l:ParameterizedResource $dataConverter}" ConverterParameter="Background">
+                            <Binding ElementName="Grid"/>
+                            <Binding Source="$coordinates"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Foreground">
+                    <Setter.Value>
+                        <MultiBinding Converter="{l:ParameterizedResource $dataConverter}" ConverterParameter="Foreground">
+                            <Binding ElementName="Grid"/>
+                            <Binding Source="$coordinates"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="Button" x:Key="ButtonRepaintRowStyleBase" x:Shared="False">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding $currentMouseEnter, Converter={l:ParameterizedResource $dataConverter}, ConverterParameter=$coordinates|$isMouseEnter}" Value="True">
+                <Setter Property="BorderThickness">
+                    <Setter.Value>
+                        <MultiBinding Converter="{l:ParameterizedResource $dataConverter}" ConverterParameter="BorderThickness">
+                            <Binding ElementName="Grid"/>
+                            <Binding Source="$coordinates"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="BorderBrush">
+                    <Setter.Value>
+                        <MultiBinding Converter="{l:ParameterizedResource $dataConverter}" ConverterParameter="BorderBrush">
+                            <Binding ElementName="Grid"/>
+                            <Binding Source="$coordinates"/>
+                        </MultiBinding>
                     </Setter.Value>
                 </Setter>
             </DataTrigger>
