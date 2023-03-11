@@ -1,5 +1,4 @@
 ﻿using Net.Leksi.WpfMarkup;
-using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
@@ -69,17 +68,6 @@ namespace WpfMarkupExtensionDemo
 
         public ObservableCollection<DataHolder> Datas { get; init; } = new();
         public CollectionViewSource DatasViewSource { get; init; } = new();
-
-        private string? _t1Text;
-        public string? T1Text
-        {
-            get => _t1Text;
-            set
-            {
-                _t1Text = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(T1Text)));
-            }
-        }
 
         public static MainWindow Create()
         {
