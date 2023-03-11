@@ -63,7 +63,7 @@
             <l:BindingProxy x:Key="NotEditable" Value="{Binding Source=False}"/>
             <l:BindingProxy x:Key="RemoveCommand" Value="{Binding RemoveCommand}"/>
             <l:BindingProxy x:Key="CurrentEditedItem"/>
-            <l:BindingProxy x:Key="T1TextProxy" Value="{Binding T1Text, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|BindingProxy, Mode=OneWay}"/>
+            <l:BindingProxy x:Key="T1TextProxy" Value="{Binding Text, ElementName=T1, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|BindingProxy, Mode=OneWay}"/>
         </ResourceDictionary>
     </Window.Resources>
     <TabControl>
@@ -1456,7 +1456,7 @@
         </TabItem>
         <TabItem Header="Demo3">
             <DockPanel LastChildFill="True">
-                <TextBox x:Name="T1" DockPanel.Dock="Top" Text="{Binding T1Text, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}"/>
+                <TextBox x:Name="T1" DockPanel.Dock="Top"/>
                 <TextBlock DockPanel.Dock="Top">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
@@ -1475,17 +1475,17 @@
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding T1Text, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|DataTrigger, Mode=OneWay}" Value="1">
+                                <DataTrigger Binding="{Binding Text, ElementName=T1, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|DataTrigger, Mode=OneWay}" Value="1">
                                     <Setter Property="Text" Value="Один"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding T1Text, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|DataTrigger, Mode=OneWay}"  Value="2">
+                                <DataTrigger Binding="{Binding Text, ElementName=T1, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|DataTrigger, Mode=OneWay}"  Value="2">
                                     <Setter Property="Text" Value="Два"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
-                <TextBlock DockPanel.Dock="Top" Text="{Binding T1Text}"/>
+                <TextBlock DockPanel.Dock="Top" Text="{Binding Text, ElementName=T1}"/>
             </DockPanel>
         </TabItem>
     </TabControl>
