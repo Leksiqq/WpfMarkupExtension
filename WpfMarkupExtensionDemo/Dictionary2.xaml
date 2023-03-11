@@ -87,31 +87,7 @@
                 <Label.Style>
                     <Style TargetType="Label">
                         <Style.Triggers>
-                            <l:DataSwitch Binding="{
-                                        Binding $fieldName.Type, 
-                                        Converter={l:ParameterizedResource $dataConverter}, 
-                                        ConverterParameter=FieldTypeText}">
-                                <DataTrigger Binding="{x:Null}" Value="Int32">
-                                    <Setter Property="Template" Value="{l:ParameterizedResource EditNumber}"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{x:Null}" Value="Double">
-                                    <Setter Property="Template" Value="{l:ParameterizedResource EditNumber}"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{x:Null}" Value="String">
-                                    <Setter Property="Template" Value="{l:ParameterizedResource EditString}"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{x:Null}" Value="Boolean">
-                                    <Setter Property="Template" Value="{l:ParameterizedResource EditEnum}"/>
-                                </DataTrigger>
-                                <DataTrigger  Binding="{x:Null}" Value="Activities">
-                                    <Setter Property="Template" Value="{l:ParameterizedResource EditEnum}"/>
-                                </DataTrigger>
-                                <DataTrigger  Binding="{x:Null}" Value="DateOnly">
-                                    <Setter Property="Template" Value="{l:ParameterizedResource EditDateOnly}"/>
-                                </DataTrigger>
-
-                            </l:DataSwitch>
-                            <!--<DataTrigger Binding="{
+                            <DataTrigger Binding="{
                                         Binding $fieldName.Type, 
                                         Converter={l:ParameterizedResource $dataConverter}, 
                                         ConverterParameter=FieldTypeText}"
@@ -152,7 +128,7 @@
                                             ConverterParameter=FieldTypeText}"
                                         Value="DateOnly">
                                 <Setter Property="Template" Value="{l:ParameterizedResource EditDateOnly}"/>
-                            </DataTrigger>-->
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </Label.Style>

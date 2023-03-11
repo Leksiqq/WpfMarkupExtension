@@ -14,8 +14,6 @@ namespace WpfMarkupExtensionDemo
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private bool _isDatasEditable = false;
-
         public bool Col_1_On => (Cb1.IsChecked ?? false) && (Cb17.IsChecked ?? false);
         public bool Col_2_On => (Cb2.IsChecked ?? false) && (Cb18.IsChecked ?? false);
         public bool Col_3_On => (Cb3.IsChecked ?? false) && (Cb19.IsChecked ?? false);
@@ -54,6 +52,7 @@ namespace WpfMarkupExtensionDemo
         public RemoveCommand RemoveCommand { get; init; }
         public AddCommand AddCommand { get; init; }
 
+        private bool _isDatasEditable = false;
         public bool IsDatasEditable 
         {
             get => _isDatasEditable;
@@ -70,6 +69,17 @@ namespace WpfMarkupExtensionDemo
 
         public ObservableCollection<DataHolder> Datas { get; init; } = new();
         public CollectionViewSource DatasViewSource { get; init; } = new();
+
+        private string? _t1Text;
+        public string? T1Text
+        {
+            get => _t1Text;
+            set
+            {
+                _t1Text = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(T1Text)));
+            }
+        }
 
         public static MainWindow Create()
         {

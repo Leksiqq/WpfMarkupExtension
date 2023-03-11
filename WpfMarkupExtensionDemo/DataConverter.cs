@@ -63,11 +63,15 @@ public class DataConverter : IValueConverter, IMultiValueConverter
             }
             return value.ToString();
         }
+        if (parameters.Contains("T1Text"))
+        {
+            Console.WriteLine($"T1Text({nameof(DataConverter)}): {value}, {parameter}");
+        }
         if (targetType == typeof(string))
         {
             return value.ToString();
         }
-        return false;
+        return value;
     }
 
     public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)

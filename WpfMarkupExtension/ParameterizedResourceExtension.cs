@@ -538,11 +538,6 @@ public class ParameterizedResourceExtension : MarkupExtension
             {
                 WalkMarkup(MarkupWriter.GetMarkupObjectFor(binding.ConverterParameter), route);
             }
-            if (Verbose > 0 && s_callStacks.Count == 1)
-            {
-                Console.WriteLine($"binding: {binding.Path?.Path} {binding.Source}");
-            }
-
         }
         else if (bindingBase is MultiBinding multiBinding)
         {

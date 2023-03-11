@@ -1,10 +1,13 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 
 namespace Net.Leksi.WpfMarkup;
 
-public class BindingProxy : Freezable
+public class BindingProxy : Freezable, INotifyPropertyChanged
 {
+    public event PropertyChangedEventHandler? PropertyChanged;
+
     private object? _value;
 
     public static readonly DependencyProperty ValueProperty =
@@ -14,7 +17,11 @@ public class BindingProxy : Freezable
     public object? Value
     {
         get => _value;
-        set => _value = value;
+        set 
+        {
+            _value = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
+        }
     }
 
     protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
