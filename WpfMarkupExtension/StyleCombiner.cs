@@ -10,8 +10,7 @@ namespace Net.Leksi.WpfMarkup;
 [DictionaryKeyProperty("TargetType")]
 public class StyleCombiner : MarkupExtension
 {
-    private HashSet<object> _seenObjects = new(ReferenceEqualityComparer.Instance);
-
+ 
     public List<Style> Styles { get; init; } = new();
 
     public Type TargetType { get; set; } = null!;

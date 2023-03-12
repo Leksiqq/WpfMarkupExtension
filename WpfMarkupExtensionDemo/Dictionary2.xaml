@@ -87,45 +87,27 @@
                 <Label.Style>
                     <Style TargetType="Label">
                         <Style.Triggers>
-                            <DataTrigger Binding="{
-                                        Binding $fieldName.Type, 
-                                        Converter={l:ParameterizedResource $dataConverter}, 
-                                        ConverterParameter=FieldTypeText}"
+                            <DataTrigger Binding="{Binding Value, Source={l:ParameterizedResource $fieldTypeTextProxy}}"
                                         Value="Int32">
                                 <Setter Property="Template" Value="{l:ParameterizedResource EditNumber}"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{
-                                            Binding $fieldName.Type, 
-                                            Converter={l:ParameterizedResource $dataConverter}, 
-                                            ConverterParameter=FieldTypeText}"
+                            <DataTrigger Binding="{Binding Value, Source={l:ParameterizedResource $fieldTypeTextProxy}}"
                                         Value="Double">
                                 <Setter Property="Template" Value="{l:ParameterizedResource EditNumber}"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{
-                                            Binding $fieldName.Type, 
-                                            Converter={l:ParameterizedResource $dataConverter}, 
-                                            ConverterParameter=FieldTypeText}"
+                            <DataTrigger Binding="{Binding Value, Source={l:ParameterizedResource $fieldTypeTextProxy}}"
                                          Value="String">
                                 <Setter Property="Template" Value="{l:ParameterizedResource EditString}"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{
-                                            Binding $fieldName.Type, 
-                                            Converter={l:ParameterizedResource $dataConverter}, 
-                                            ConverterParameter=FieldTypeText}"
+                            <DataTrigger Binding="{Binding Value, Source={l:ParameterizedResource $fieldTypeTextProxy}}"
                                         Value="Boolean">
                                 <Setter Property="Template" Value="{l:ParameterizedResource EditEnum}"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{
-                                            Binding $fieldName.Type, 
-                                            Converter={l:ParameterizedResource $dataConverter}, 
-                                            ConverterParameter=FieldTypeText}"
+                            <DataTrigger Binding="{Binding Value, Source={l:ParameterizedResource $fieldTypeTextProxy}}"
                                         Value="Activities">
                                 <Setter Property="Template" Value="{l:ParameterizedResource EditEnum}"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{
-                                            Binding $fieldName.Type, 
-                                            Converter={l:ParameterizedResource $dataConverter}, 
-                                            ConverterParameter=FieldTypeText}"
+                            <DataTrigger Binding="{Binding Value, Source={l:ParameterizedResource $fieldTypeTextProxy}}"
                                         Value="DateOnly">
                                 <Setter Property="Template" Value="{l:ParameterizedResource EditDateOnly}"/>
                             </DataTrigger>

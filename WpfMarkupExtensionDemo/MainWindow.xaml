@@ -64,6 +64,10 @@
             <l:BindingProxy x:Key="RemoveCommand" Value="{Binding RemoveCommand}"/>
             <l:BindingProxy x:Key="CurrentEditedItem"/>
             <l:BindingProxy x:Key="T1TextProxy" Value="{Binding Text, ElementName=T1, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|BindingProxy, Mode=OneWay}"/>
+            <l:BindingProxy x:Key="FieldTypeTextProxy" Value="{
+                                        Binding $fieldName.Type, 
+                                        Converter={l:ParameterizedResource $dataConverter}, 
+                                        ConverterParameter=FieldTypeText}"/>
         </ResourceDictionary>
     </Window.Resources>
     <TabControl>
@@ -1402,12 +1406,14 @@
                             <x:Array Type="sys:String">
                                 <sys:String>$dataConverter:DataConverter</sys:String>
                                 <sys:String>$isEditable:NotEditable</sys:String>
+                                <sys:String>$fieldTypeTextProxy:FieldTypeTextProxy</sys:String>
                             </x:Array>
                         </l:ParameterizedResource>
                         <l:ParameterizedResource x:Key="CellEditingDataTemplate" x:Shared="False" ResourceKey="DataTemplate">
                             <x:Array Type="sys:String">
                                 <sys:String>$dataConverter:DataConverter</sys:String>
                                 <sys:String>$isEditable:IsEditable</sys:String>
+                                <sys:String>$fieldTypeTextProxy:FieldTypeTextProxy</sys:String>
                             </x:Array>
                         </l:ParameterizedResource>
                         <DataTemplate x:Key="IsReadOnly">
@@ -1436,7 +1442,7 @@
                         </DataGridTemplateColumn>
                         <DataGridTemplateColumn Header="Item1"
                                                 CellTemplateSelector="{l:ParameterizedResource CellDataTemplate, Replaces=$fieldName:Item1}"
-                                                CellEditingTemplateSelector="{l:ParameterizedResource CellEditingDataTemplate, Replaces=$fieldName:Item1}"/>
+                                                CellEditingTemplateSelector="{l:ParameterizedResource CellEditingDataTemplate, Replaces=$fieldName:Item1, Verbose=1}"/>
                         <DataGridTemplateColumn Header="Item2" 
                                                 CellTemplateSelector="{l:ParameterizedResource CellDataTemplate, Replaces=$fieldName:Item2}"
                                                 CellEditingTemplateSelector="{l:ParameterizedResource CellEditingDataTemplate, Replaces=$fieldName:Item2}"/>
