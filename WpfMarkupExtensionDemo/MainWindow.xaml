@@ -1475,6 +1475,22 @@
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Style.Triggers>
+                                <l:DataSwitch Binding="{Binding Text, ElementName=T1, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|DataSwitch, Mode=OneWay}">
+                                    <DataTrigger Value="1">
+                                        <Setter Property="Text" Value="Один"/>
+                                    </DataTrigger>
+                                    <DataTrigger Value="2">
+                                        <Setter Property="Text" Value="Два"/>
+                                    </DataTrigger>
+                                </l:DataSwitch>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBlock DockPanel.Dock="Top">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
                                 <DataTrigger Binding="{Binding Text, ElementName=T1, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|DataTrigger, Mode=OneWay}" Value="1">
                                     <Setter Property="Text" Value="Один"/>
                                 </DataTrigger>

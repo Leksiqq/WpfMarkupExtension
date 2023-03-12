@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <AssemblyName>Net.Leksi.WpfMarkupExtension</AssemblyName>
-    <RootNamespace>Net.Leksi.WpfMarkupExtension</RootNamespace>
+    <RootNamespace>Net.Leksi.WpfMarkup</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
