@@ -30,12 +30,18 @@ public class DataSwitch : MarkupExtension
                 {
                     foreach(var value in values)
                     {
-                        DataTrigger trigger1 = new DataTrigger();
-                        trigger1.Value = value;
-                        trigger1.Binding = Binding;
-                        foreach(SetterBase? setter in trigger.Setters)
+                        DataTrigger trigger1 = new() { Binding = Binding, Value = value};
+                        foreach (SetterBase? setter in trigger.Setters)
                         {
                             trigger1.Setters.Add(setter);
+                        }
+                        foreach (TriggerAction? enterAction in trigger.EnterActions)
+                        {
+                            trigger1.EnterActions.Add(enterAction);
+                        }
+                        foreach (TriggerAction? exitAction in trigger.ExitActions)
+                        {
+                            trigger1.ExitActions.Add(exitAction);
                         }
                         triggers.Add(trigger1);
                     }

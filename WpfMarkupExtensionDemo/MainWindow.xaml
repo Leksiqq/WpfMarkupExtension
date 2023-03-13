@@ -7,10 +7,14 @@
         xmlns:local="clr-namespace:WpfMarkupExtensionDemo"
         xmlns:l="clr-namespace:Net.Leksi.WpfMarkup;assembly=Net.Leksi.WpfMarkupExtension"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        Title="MainWindow" Height="Auto" Width="800" DataContext="{Binding RelativeSource={RelativeSource Self}}" x:Name="MainWin">
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="MainWindow" Height="Auto" Width="850" DataContext="{Binding RelativeSource={RelativeSource Self}}" x:Name="MainWin">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Shadows.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml"/>
                 <ResourceDictionary Source="Dictionary1.xaml" />
                 <ResourceDictionary Source="Dictionary2.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -55,10 +59,12 @@
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
-            <Style TargetType="Button" x:Key="ButtonContentStyle" x:Shared="False">
-                <Setter Property="Content" Value="{Binding RelativeSource={RelativeSource Self}, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=Content}"/>
-                <Setter Property="FontSize" Value="22.0"/>
-            </Style>
+            <l:StyleCombiner  TargetType="Button" x:Key="ButtonContentStyle" x:Shared="False">
+                <Style TargetType="ButtonBase">
+                    <Setter Property="Content" Value="{Binding RelativeSource={RelativeSource Self}, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=Content}"/>
+                    <Setter Property="FontSize" Value="22.0"/>
+                </Style>
+            </l:StyleCombiner>
             <l:BindingProxy x:Key="IsEditable" Value="{Binding IsDatasEditable}"/>
             <l:BindingProxy x:Key="NotEditable" Value="{Binding Source=False}"/>
             <l:BindingProxy x:Key="RemoveCommand" Value="{Binding RemoveCommand}"/>
@@ -266,6 +272,8 @@
                             <l:ParameterizedResource ResourceKey="ButtonRepaintRowStyle" Replaces="$coordinates:1.6"/>
 
                             <l:ParameterizedResource ResourceKey="ButtonAnimationStyle" Replaces="$coordinates:4.5"/>
+                            <StaticResource ResourceKey="MaterialDesignPaperLightButton"/>
+
                         </l:StyleCombiner>
                     </Button.Style>
                 </Button>
@@ -1479,6 +1487,9 @@
                                     <DataTrigger Value="4">
                                         <Setter Property="Text" Value="Четыре"/>
                                     </DataTrigger>
+                                    <DataTrigger Value="">
+                                        <Setter Property="Text" Value=""/>
+                                    </DataTrigger>
                                 </l:DataSwitch>
                             </Style.Triggers>
                             <Setter Property="Text" Value="Не могу понять"/>
@@ -1504,6 +1515,10 @@
                                 <DataTrigger Binding="{Binding Text, ElementName=T1, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|DataTrigger, Mode=OneWay}"  
                                              Value="4">
                                     <Setter Property="Text" Value="Четыре"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Text, ElementName=T1, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|DataTrigger, Mode=OneWay}"  
+                                             Value="">
+                                    <Setter Property="Text" Value=""/>
                                 </DataTrigger>
                             </Style.Triggers>
                             <Setter Property="Text" Value="Не могу понять"/>

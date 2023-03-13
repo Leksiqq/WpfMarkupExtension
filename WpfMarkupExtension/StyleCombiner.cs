@@ -37,7 +37,7 @@ public class StyleCombiner : MarkupExtension
                 }
                 while (stack.TryPop(out Style? current))
                 {
-                    if (current.TargetType != TargetType)
+                    if (!current.TargetType.IsAssignableFrom(TargetType))
                     {
                         throw new XamlParseException($"Different {nameof(TargetType)}: expected {TargetType}, got {current.TargetType}!");
                     }
