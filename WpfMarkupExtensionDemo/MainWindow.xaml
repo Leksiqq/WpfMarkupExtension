@@ -3,10 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
         xmlns:local="clr-namespace:WpfMarkupExtensionDemo"
         xmlns:l="clr-namespace:Net.Leksi.WpfMarkup;assembly=Net.Leksi.WpfMarkupExtension"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        mc:Ignorable="d"
         Title="MainWindow" Height="Auto" Width="800" DataContext="{Binding RelativeSource={RelativeSource Self}}" x:Name="MainWin">
     <Window.Resources>
         <ResourceDictionary>
@@ -1475,6 +1475,7 @@
                                     </DataTrigger>
                                 </l:DataSwitch>
                             </Style.Triggers>
+                            <Setter Property="Text" Value="Не могу понять"/>
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
@@ -1499,6 +1500,7 @@
                                     <Setter Property="Text" Value="Четыре"/>
                                 </DataTrigger>
                             </Style.Triggers>
+                            <Setter Property="Text" Value="Не могу понять"/>
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>

@@ -1,5 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    mc:Ignorable="d"
                     xmlns:local="clr-namespace:WpfMarkupExtensionDemo"
                     xmlns:l="clr-namespace:Net.Leksi.WpfMarkup;assembly=Net.Leksi.WpfMarkupExtension"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
@@ -34,30 +37,27 @@
             <ComboBox.Style>
                 <Style TargetType="ComboBox">
                     <Style.Triggers>
-                        <DataTrigger Binding="{
+                        <l:DataSwitch Binding="{
                                     Binding $fieldName.Type, 
                                     Converter={l:ParameterizedResource $dataConverter}, 
-                                    ConverterParameter=FieldTypeText}"
-                                Value="Boolean">
-                            <Setter Property="ItemsSource">
-                                <Setter.Value>
-                                    <x:Array Type="sys:Boolean">
-                                        <sys:Boolean>False</sys:Boolean>
-                                        <sys:Boolean>True</sys:Boolean>
-                                    </x:Array>
-                                </Setter.Value>
-                            </Setter>
-                        </DataTrigger>
-                        <DataTrigger Binding="{
-                                    Binding $fieldName.Type, 
-                                    Converter={l:ParameterizedResource $dataConverter}, 
-                                    ConverterParameter=FieldTypeText}"
-                                    Value="Activities">
-                            <Setter Property="ItemsSource" 
+                                    ConverterParameter=FieldTypeText}">
+                            <DataTrigger Value="Boolean">
+                                <Setter Property="ItemsSource">
+                                    <Setter.Value>
+                                        <x:Array Type="sys:Boolean">
+                                            <sys:Boolean>False</sys:Boolean>
+                                            <sys:Boolean>True</sys:Boolean>
+                                        </x:Array>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                            <DataTrigger Value="Activities">
+                                <Setter Property="ItemsSource" 
                                     Value="{
                                     Binding Converter={l:ParameterizedResource $dataConverter}, 
                                     ConverterParameter=Activities}"/>
-                        </DataTrigger>
+                            </DataTrigger>
+                        </l:DataSwitch>
                     </Style.Triggers>
                 </Style>
             </ComboBox.Style>
@@ -87,48 +87,35 @@
                 <Label.Style>
                     <Style TargetType="Label">
                         <Style.Triggers>
-                            <DataTrigger Binding="{
+                            <l:DataSwitch Binding="{
                                         Binding $fieldName.Type, 
                                         Converter={l:ParameterizedResource $dataConverter}, 
-                                        ConverterParameter=FieldTypeText}"
-                                        Value="Int32">
-                                <Setter Property="Template" Value="{l:ParameterizedResource EditNumber}"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{
-                                            Binding $fieldName.Type, 
-                                            Converter={l:ParameterizedResource $dataConverter}, 
-                                            ConverterParameter=FieldTypeText}"
-                                        Value="Double">
-                                <Setter Property="Template" Value="{l:ParameterizedResource EditNumber}"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{
-                                            Binding $fieldName.Type, 
-                                            Converter={l:ParameterizedResource $dataConverter}, 
-                                            ConverterParameter=FieldTypeText}"
-                                         Value="String">
-                                <Setter Property="Template" Value="{l:ParameterizedResource EditString}"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{
-                                            Binding $fieldName.Type, 
-                                            Converter={l:ParameterizedResource $dataConverter}, 
-                                            ConverterParameter=FieldTypeText}"
-                                        Value="Boolean">
-                                <Setter Property="Template" Value="{l:ParameterizedResource EditEnum}"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{
-                                            Binding $fieldName.Type, 
-                                            Converter={l:ParameterizedResource $dataConverter}, 
-                                            ConverterParameter=FieldTypeText}"
-                                        Value="Activities">
-                                <Setter Property="Template" Value="{l:ParameterizedResource EditEnum}"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{
-                                            Binding $fieldName.Type, 
-                                            Converter={l:ParameterizedResource $dataConverter}, 
-                                            ConverterParameter=FieldTypeText}"
-                                        Value="DateOnly">
-                                <Setter Property="Template" Value="{l:ParameterizedResource EditDateOnly}"/>
-                            </DataTrigger>
+                                        ConverterParameter=FieldTypeText}">
+                                <DataTrigger>
+                                    <DataTrigger.Value>
+                                        <x:Array Type="sys:String">
+                                            <sys:String>Int32</sys:String>
+                                            <sys:String>Double</sys:String>
+                                        </x:Array>
+                                    </DataTrigger.Value>
+                                    <Setter Property="Template" Value="{l:ParameterizedResource EditNumber}"/>
+                                </DataTrigger>
+                                <DataTrigger Value="String">
+                                    <Setter Property="Template" Value="{l:ParameterizedResource EditString}"/>
+                                </DataTrigger>
+                                <DataTrigger>
+                                    <DataTrigger.Value>
+                                        <x:Array Type="sys:String">
+                                            <sys:String>Boolean</sys:String>
+                                            <sys:String>Activities</sys:String>
+                                        </x:Array>
+                                    </DataTrigger.Value>
+                                    <Setter Property="Template" Value="{l:ParameterizedResource EditEnum}"/>
+                                </DataTrigger>
+                                <DataTrigger Value="DateOnly">
+                                    <Setter Property="Template" Value="{l:ParameterizedResource EditDateOnly}"/>
+                                </DataTrigger>
+                            </l:DataSwitch>
                         </Style.Triggers>
                     </Style>
                 </Label.Style>
@@ -147,34 +134,29 @@
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Style.Triggers>
-                                <DataTrigger Binding="{
+                                <l:DataSwitch Binding="{
                                                 Binding $fieldName.Type, 
                                                 Converter={l:ParameterizedResource $dataConverter}, 
-                                                ConverterParameter=FieldTypeText}"
-                                             Value="Int32">
-                                    <Setter Property="TextAlignment" Value="Right"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{
-                                                Binding $fieldName.Type, 
-                                                Converter={l:ParameterizedResource $dataConverter}, 
-                                                ConverterParameter=FieldTypeText}"
-                                             Value="Double">
-                                    <Setter Property="TextAlignment" Value="Right"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{
-                                                Binding $fieldName.Type, 
-                                                Converter={l:ParameterizedResource $dataConverter}, 
-                                                ConverterParameter=FieldTypeText}"
-                                             Value="Boolean">
-                                    <Setter Property="TextAlignment" Value="Center"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{
-                                                Binding $fieldName.Type, 
-                                                Converter={l:ParameterizedResource $dataConverter},  
-                                                ConverterParameter=FieldTypeText}"
-                                             Value="Activities">
-                                    <Setter Property="TextAlignment" Value="Center"/>
-                                </DataTrigger>
+                                                ConverterParameter=FieldTypeText}">
+                                    <DataTrigger>
+                                        <DataTrigger.Value>
+                                            <x:Array Type="sys:String">
+                                                <sys:String>Int32</sys:String>
+                                                <sys:String>Double</sys:String>
+                                            </x:Array>
+                                        </DataTrigger.Value>
+                                        <Setter Property="TextAlignment" Value="Right"/>
+                                    </DataTrigger>
+                                    <DataTrigger>
+                                        <DataTrigger.Value>
+                                            <x:Array Type="sys:String">
+                                                <sys:String>Boolean</sys:String>
+                                                <sys:String>Activities</sys:String>
+                                            </x:Array>
+                                        </DataTrigger.Value>
+                                        <Setter Property="TextAlignment" Value="Center"/>
+                                    </DataTrigger>
+                                </l:DataSwitch>
                             </Style.Triggers>
                         </Style>
                     </TextBlock.Style>
