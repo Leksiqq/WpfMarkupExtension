@@ -3,10 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
         xmlns:local="clr-namespace:WpfMarkupExtensionDemo"
         xmlns:l="clr-namespace:Net.Leksi.WpfMarkup;assembly=Net.Leksi.WpfMarkupExtension"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        mc:Ignorable="d"
         Title="MainWindow" Height="Auto" Width="800" DataContext="{Binding RelativeSource={RelativeSource Self}}" x:Name="MainWin">
     <Window.Resources>
         <ResourceDictionary>
@@ -63,7 +63,6 @@
             <l:BindingProxy x:Key="NotEditable" Value="{Binding Source=False}"/>
             <l:BindingProxy x:Key="RemoveCommand" Value="{Binding RemoveCommand}"/>
             <l:BindingProxy x:Key="CurrentEditedItem"/>
-            <l:BindingProxy x:Key="T1TextProxy" Value="{Binding Text, ElementName=T1, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|BindingProxy, Mode=OneWay}"/>
             <l:BindingProxy x:Key="FieldTypeTextProxy" Value="{
                                         Binding $fieldName.Type, 
                                         Converter={l:ParameterizedResource $dataConverter}, 
@@ -1442,7 +1441,7 @@
                         </DataGridTemplateColumn>
                         <DataGridTemplateColumn Header="Item1"
                                                 CellTemplateSelector="{l:ParameterizedResource CellDataTemplate, Replaces=$fieldName:Item1}"
-                                                CellEditingTemplateSelector="{l:ParameterizedResource CellEditingDataTemplate, Replaces=$fieldName:Item1, Verbose=1}"/>
+                                                CellEditingTemplateSelector="{l:ParameterizedResource CellEditingDataTemplate, Replaces=$fieldName:Item1}"/>
                         <DataGridTemplateColumn Header="Item2" 
                                                 CellTemplateSelector="{l:ParameterizedResource CellDataTemplate, Replaces=$fieldName:Item2}"
                                                 CellEditingTemplateSelector="{l:ParameterizedResource CellEditingDataTemplate, Replaces=$fieldName:Item2}"/>
@@ -1467,13 +1466,22 @@
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Value, Source={l:ParameterizedResource T1TextProxy}, Mode=OneWay}" Value="1">
-                                    <Setter Property="Text" Value="Один"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding Value, Source={l:ParameterizedResource T1TextProxy}, Mode=OneWay}"  Value="2">
-                                    <Setter Property="Text" Value="Два"/>
-                                </DataTrigger>
+                                <l:DataSwitch Binding="{Binding Text, ElementName=T1, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|DataSwitch, Mode=OneWay}">
+                                    <DataTrigger Value="1">
+                                        <Setter Property="Text" Value="Один"/>
+                                    </DataTrigger>
+                                    <DataTrigger Value="2">
+                                        <Setter Property="Text" Value="Два"/>
+                                    </DataTrigger>
+                                    <DataTrigger Value="3">
+                                        <Setter Property="Text" Value="Три"/>
+                                    </DataTrigger>
+                                    <DataTrigger Value="4">
+                                        <Setter Property="Text" Value="Четыре"/>
+                                    </DataTrigger>
+                                </l:DataSwitch>
                             </Style.Triggers>
+                            <Setter Property="Text" Value="Не могу понять"/>
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
@@ -1481,13 +1489,24 @@
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Text, ElementName=T1, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|DataTrigger, Mode=OneWay}" Value="1">
+                                <DataTrigger Binding="{Binding Text, ElementName=T1, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|DataTrigger, Mode=OneWay}" 
+                                             Value="1">
                                     <Setter Property="Text" Value="Один"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding Text, ElementName=T1, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|DataTrigger, Mode=OneWay}"  Value="2">
+                                <DataTrigger Binding="{Binding Text, ElementName=T1, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|DataTrigger, Mode=OneWay}"  
+                                             Value="2">
                                     <Setter Property="Text" Value="Два"/>
                                 </DataTrigger>
+                                <DataTrigger Binding="{Binding Text, ElementName=T1, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|DataTrigger, Mode=OneWay}" 
+                                             Value="3">
+                                    <Setter Property="Text" Value="Три"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Text, ElementName=T1, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|DataTrigger, Mode=OneWay}"  
+                                             Value="4">
+                                    <Setter Property="Text" Value="Четыре"/>
+                                </DataTrigger>
                             </Style.Triggers>
+                            <Setter Property="Text" Value="Не могу понять"/>
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
