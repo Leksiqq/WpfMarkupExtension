@@ -19,16 +19,9 @@ public class BindingProxy : Freezable, INotifyPropertyChanged
         get => _value;
         set 
         {
-            Console.WriteLine($"     BindingProxy.set_Value({value})");
             _value = value;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
         }
-    }
-
-    protected override void OnChanged()
-    {
-        Console.WriteLine("     BindingProxy.OnChanged()");
-        base.OnChanged();
     }
 
     protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)

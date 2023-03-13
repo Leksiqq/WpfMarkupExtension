@@ -63,7 +63,6 @@
             <l:BindingProxy x:Key="NotEditable" Value="{Binding Source=False}"/>
             <l:BindingProxy x:Key="RemoveCommand" Value="{Binding RemoveCommand}"/>
             <l:BindingProxy x:Key="CurrentEditedItem"/>
-            <l:BindingProxy x:Key="T1TextProxy" Value="{Binding Text, ElementName=T1, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|BindingProxy, Mode=OneWay}"/>
         </ResourceDictionary>
     </Window.Resources>
     <TabControl>
@@ -1461,26 +1460,18 @@
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Value, Source={l:ParameterizedResource T1TextProxy}, Mode=OneWay}" Value="1">
-                                    <Setter Property="Text" Value="Один"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding Value, Source={l:ParameterizedResource T1TextProxy}, Mode=OneWay}"  Value="2">
-                                    <Setter Property="Text" Value="Два"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
-                <TextBlock DockPanel.Dock="Top">
-                    <TextBlock.Style>
-                        <Style TargetType="TextBlock">
-                            <Style.Triggers>
                                 <l:DataSwitch Binding="{Binding Text, ElementName=T1, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|DataSwitch, Mode=OneWay}">
                                     <DataTrigger Value="1">
                                         <Setter Property="Text" Value="Один"/>
                                     </DataTrigger>
                                     <DataTrigger Value="2">
                                         <Setter Property="Text" Value="Два"/>
+                                    </DataTrigger>
+                                    <DataTrigger Value="3">
+                                        <Setter Property="Text" Value="Три"/>
+                                    </DataTrigger>
+                                    <DataTrigger Value="4">
+                                        <Setter Property="Text" Value="Четыре"/>
                                     </DataTrigger>
                                 </l:DataSwitch>
                             </Style.Triggers>
@@ -1491,11 +1482,21 @@
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Text, ElementName=T1, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|DataTrigger, Mode=OneWay}" Value="1">
+                                <DataTrigger Binding="{Binding Text, ElementName=T1, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|DataTrigger, Mode=OneWay}" 
+                                             Value="1">
                                     <Setter Property="Text" Value="Один"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding Text, ElementName=T1, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|DataTrigger, Mode=OneWay}"  Value="2">
+                                <DataTrigger Binding="{Binding Text, ElementName=T1, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|DataTrigger, Mode=OneWay}"  
+                                             Value="2">
                                     <Setter Property="Text" Value="Два"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Text, ElementName=T1, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|DataTrigger, Mode=OneWay}" 
+                                             Value="3">
+                                    <Setter Property="Text" Value="Три"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Text, ElementName=T1, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=T1Text|DataTrigger, Mode=OneWay}"  
+                                             Value="4">
+                                    <Setter Property="Text" Value="Четыре"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
