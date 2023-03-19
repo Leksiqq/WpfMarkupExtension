@@ -69,12 +69,7 @@ namespace WpfMarkupExtensionDemo
         public ObservableCollection<DataHolder> Datas { get; init; } = new();
         public CollectionViewSource DatasViewSource { get; init; } = new();
 
-        public static MainWindow Create()
-        {
-            return new MainWindow();
-        }
-
-        private MainWindow()
+        public MainWindow()
         {
             DatasViewSource.Source = Datas;
             RemoveCommand = new RemoveCommand(Datas);

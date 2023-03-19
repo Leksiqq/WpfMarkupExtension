@@ -14,8 +14,7 @@ public class TableDataTemplateSelector: DataTemplateSelector
 
     public override DataTemplate SelectTemplate(object item, DependencyObject container)
     {
-        DataHolder? row = item as DataHolder;
-        if (row is { } && typeof(DataHolder).GetProperty(FieldName.ToString()!)?.GetValue(row) is FieldHolder field)
+        if (item is DataHolder row && typeof(DataHolder).GetProperty(FieldName.ToString()!)?.GetValue(row) is FieldHolder field)
         {
             bool isEditable = IsEditable is BindingProxy proxy && proxy.Value is bool yes && yes && !row.IsReadOnly;
             if (isEditable && EditValue is { })

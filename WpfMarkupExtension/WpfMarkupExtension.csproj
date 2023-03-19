@@ -6,17 +6,20 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>Net.Leksi.WpfMarkupExtension</AssemblyName>
     <RootNamespace>Net.Leksi.WpfMarkup</RootNamespace>
-    <Version>1.0.0.5</Version>
+    <Version>1.0.0.8</Version>
     <Authors>leksiq</Authors>
     <Company>leksiq</Company>
-    <PackageProjectUrl>https://leksiqq.github.io/WpfMarkupExtension/</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Leksiqq/WpfMarkupExtension/wiki</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Leksiqq/WpfMarkupExtension</RepositoryUrl>
-    <PackageTags>Wpf;MarkupExtension;Styles combining;</PackageTags>
+    <PackageTags>Wpf;MarkupExtension;Styles combining; Parameterized resources; Data triggers switch</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <Copyright>Алексей Юрьевич Захаров &lt;leksi@leksi.net&gt;, 2023</Copyright>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Title>Название</Title>
+    <Title>Net.Leksi.WpfMarkupExtension</Title>
+    <Description>Some extensions for XAML markup.
+</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <Target Name="CopyPackage" AfterTargets="Pack">
@@ -25,6 +28,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 
