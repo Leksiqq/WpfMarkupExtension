@@ -6,7 +6,7 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>Net.Leksi.WpfMarkupExtension</AssemblyName>
     <RootNamespace>Net.Leksi.WpfMarkup</RootNamespace>
-    <Version>1.0.0.9</Version>
+    <Version>1.0.0.10</Version>
     <Authors>leksiq</Authors>
     <Company>leksiq</Company>
     <PackageProjectUrl>https://github.com/Leksiqq/WpfMarkupExtension/wiki</PackageProjectUrl>
@@ -25,10 +25,6 @@
   <Target Name="CopyPackage" AfterTargets="Pack">
     <Move SourceFiles="$(OutputPath)..\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="F:\leksi\C#\nuget.local" />
   </Target>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-  </ItemGroup>
 
   <ItemGroup>
     <None Update="README.md">

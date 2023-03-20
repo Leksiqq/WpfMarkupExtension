@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Data;
@@ -18,11 +17,11 @@ public class DataSwitch : MarkupExtension
 
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
-        IProvideValueTarget target = serviceProvider.GetRequiredService<IProvideValueTarget>();
+        IProvideValueTarget? target = (IProvideValueTarget?)serviceProvider.GetService(typeof(IProvideValueTarget));
 
         DataTrigger result = new();
 
-        if (target.TargetObject is TriggerCollection triggers)
+        if (target?.TargetObject is TriggerCollection triggers)
         {
             foreach (DataTrigger trigger in Triggers)
             {

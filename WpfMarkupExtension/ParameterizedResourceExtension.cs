@@ -7,7 +7,6 @@ using System.Windows.Data;
 using System.Windows.Markup;
 using System.Windows.Markup.Primitives;
 using System.Windows.Media;
-using System.Xaml;
 using XamlParseException = System.Windows.Markup.XamlParseException;
 
 namespace Net.Leksi.WpfMarkup;
