@@ -19,7 +19,7 @@
     <Title>Net.Leksi.WpfMarkupExtension</Title>
     <Description>Some extensions for XAML markup.
 </Description>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReadmeFile>..\README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <Target Name="CopyPackage" AfterTargets="Pack">

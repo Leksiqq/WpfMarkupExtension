@@ -7,6 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfMarkupExtension", "WpfMa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfMarkupExtensionDemo", "WpfMarkupExtensionDemo\WpfMarkupExtensionDemo.csproj", "{85FBCF5B-2CBD-44A9-94D2-75EA135CC950}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{3B8DD04F-B915-41B1-A7DA-0BB907C17224}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
