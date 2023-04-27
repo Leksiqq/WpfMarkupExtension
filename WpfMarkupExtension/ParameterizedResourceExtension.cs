@@ -273,21 +273,26 @@ public class ParameterizedResourceExtension : MarkupExtension
             {
                 bool isBinding = false;
 
-                if (pd.GetValue(dependencyObject) is object value)
+                try
                 {
-                    if (pd.PropertyType == typeof(BindingBase))
+                    if (pd.GetValue(dependencyObject) is object value)
                     {
-                        isBinding = true;
-                        if (value is Binding binding)
+                        if (pd.PropertyType == typeof(BindingBase))
                         {
-                            OnBinding(binding, route);
-                        }
-                        else if (value is MultiBinding multiBinding)
-                        {
-                            OnBinding(multiBinding, route);
+                            isBinding = true;
+                            if (value is Binding binding)
+                            {
+                                OnBinding(binding, route);
+                            }
+                            else if (value is MultiBinding multiBinding)
+                            {
+                                OnBinding(multiBinding, route);
+                            }
                         }
                     }
                 }
+                catch (Exception) { }
+
                 if (!isBinding)
                 {
                     DependencyPropertyDescriptor dpd =
