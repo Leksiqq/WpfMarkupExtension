@@ -6,12 +6,12 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>Net.Leksi.WpfMarkupExtension</AssemblyName>
     <RootNamespace>Net.Leksi.WpfMarkup</RootNamespace>
-    <Version>1.0.0.10</Version>
+    <Version>1.0.0.12</Version>
     <Authors>leksiq</Authors>
     <Company>leksiq</Company>
     <PackageProjectUrl>https://github.com/Leksiqq/WpfMarkupExtension/wiki</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Leksiqq/WpfMarkupExtension</RepositoryUrl>
-    <PackageTags>Wpf;MarkupExtension;Styles combining; Parameterized resources; Data triggers switch</PackageTags>
+    <PackageTags>Wpf;MarkupExtension;Styles-combining; Parameterized-resources; Data-triggers-switch</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <Copyright>Алексей Юрьевич Захаров &lt;leksi@leksi.net&gt;, 2023</Copyright>
@@ -19,7 +19,8 @@
     <Title>Net.Leksi.WpfMarkupExtension</Title>
     <Description>Some extensions for XAML markup.
 </Description>
-    <PackageReadmeFile>..\README.md</PackageReadmeFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>Added a possibility to provide value of the parameter itself.</PackageReleaseNotes>
   </PropertyGroup>
 
   <Target Name="CopyPackage" AfterTargets="Pack">
@@ -27,7 +28,11 @@
   </Target>
 
   <ItemGroup>
-    <None Update="README.md">
+    <None Include="..\README.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

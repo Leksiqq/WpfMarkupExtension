@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Markup.Primitives;
 using System.Windows.Media;
@@ -16,7 +17,7 @@ namespace Net.Leksi.WpfMarkup;
 public class ParameterizedResourceExtension : MarkupExtension
 {
     private const string s_indentionStep = "  ";
-    private StaticResourceExtension _value = null!;
+    private StaticResourceExtension? _value = null;
     private readonly Dictionary<string, string> _replacements = new();
     private readonly Dictionary<string, string> _defaults = new();
     private object? _replaces;
@@ -104,29 +105,31 @@ public class ParameterizedResourceExtension : MarkupExtension
         }
     }
 
+    public Type? AsValueOfType { get; set; } = null;
+
     public string At { get; set; } = string.Empty;
 
     public int Verbose { get; set; } = 0;
 
     public bool Strict { get; set; } = true;
 
-    public object? ResourceKey
-    {
-        get => _value?.ResourceKey;
-        set => _value = new StaticResourceExtension(value);
-    }
+    public object? ResourceKey { get; set; }
 
     public ParameterizedResourceExtension(object key)
     {
-        _value = new StaticResourceExtension(key);
+        ResourceKey = key;
     }
 
     public ParameterizedResourceExtension() { }
 
     public override object? ProvideValue(IServiceProvider serviceProvider)
     {
+        if(ResourceKey is null)
+        {
+            return null;
+        }
         _indention = string.Format($"{{0,{s_callStacks.Count}}}{s_callStacks.Count + 1})", "").Replace(" ", s_indentionStep);
-        _prompt = $"{_indention}[{_value.ResourceKey}{(string.IsNullOrEmpty(At) ? string.Empty : $"@{At}")}]";
+        _prompt = $"{_indention}[{ResourceKey}{(string.IsNullOrEmpty(At) ? string.Empty : $"@{At}")}]";
 
 
         if (Verbose > 0)
@@ -164,7 +167,7 @@ public class ParameterizedResourceExtension : MarkupExtension
                     {
                         if (Verbose > 0)
                         {
-                            Console.WriteLine($"{_prompt} < {parameterName}={resource._replacements[parameterName]} (from {resource._value.ResourceKey}) >");
+                            Console.WriteLine($"{_prompt} < {parameterName}={resource._replacements[parameterName]} (from {resource.ResourceKey}) >");
                         }
                     }
                 }
@@ -186,42 +189,34 @@ public class ParameterizedResourceExtension : MarkupExtension
         {
             bool properKey = true;
 
-            if (_value.ResourceKey.ToString()!.StartsWith('$'))
+            if (ResourceKey.ToString()!.StartsWith('$'))
             {
                 if (Verbose > 0)
                 {
-                    Console.Write($"{_indention}< ResourceKey: {_value.ResourceKey}");
+                    Console.Write($"{_indention}< ResourceKey: {ResourceKey}");
                 }
                 properKey = false;
-                if (_replacements.TryGetValue(_value.ResourceKey.ToString()!, out string? newKey))
+                if (_replacements.TryGetValue(ResourceKey.ToString()!, out string? newKey))
                 {
-                    _value = new StaticResourceExtension(newKey);
-                    _prompt = $"{_indention}[{_value.ResourceKey}{(string.IsNullOrEmpty(At) ? string.Empty : $"@{At}")}]";
+                    ResourceKey = newKey;
+                    _prompt = $"{_indention}[{ResourceKey}{(string.IsNullOrEmpty(At) ? string.Empty : $"@{At}")}]";
 
                     properKey = true;
                     if (Verbose > 0)
                     {
-                        Console.WriteLine($" -> {_value.ResourceKey} (from {nameof(Replaces)}) >");
+                        Console.WriteLine($" -> {ResourceKey} (from {nameof(Replaces)}) >");
                     }
                 }
-                else if (_defaults.TryGetValue(_value.ResourceKey.ToString()!, out string? defaultKey))
+                else if (_defaults.TryGetValue(ResourceKey.ToString()!, out string? defaultKey))
                 {
-                    _value = new StaticResourceExtension(defaultKey);
-                    _prompt = $"{_indention}[{_value.ResourceKey}{(string.IsNullOrEmpty(At) ? string.Empty : $"@{At}")}]";
+                    ResourceKey = defaultKey;
+                    _prompt = $"{_indention}[{ResourceKey}{(string.IsNullOrEmpty(At) ? string.Empty : $"@{At}")}]";
 
                     properKey = true;
                     if (Verbose > 0)
                     {
-                        Console.WriteLine($" -> {_value.ResourceKey} (from {nameof(Defaults)}) >");
+                        Console.WriteLine($" -> {ResourceKey} (from {nameof(Defaults)}) >");
                     }
-                }
-                else if (Strict)
-                {
-                    throw new XamlParseException($"ResourceKey parameter is not provided: {_value.ResourceKey.ToString()}!");
-                }
-                else if (Verbose > 0)
-                {
-                    Console.WriteLine($" - is not provided! >");
                 }
             }
 
@@ -229,6 +224,12 @@ public class ParameterizedResourceExtension : MarkupExtension
             {
                 try
                 {
+                    if (AsValueOfType is Type type)
+                    {
+                        return type.IsAssignableFrom(ResourceKey.GetType()) ? ResourceKey : Convert.ChangeType(ResourceKey, type);
+                    }
+                    _value = new StaticResourceExtension(ResourceKey);
+
                     object result = _value.ProvideValue(_services);
 
                     List<string> route = new();
@@ -244,9 +245,17 @@ public class ParameterizedResourceExtension : MarkupExtension
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"{_value.ResourceKey} --- {ex}");
+                    Console.WriteLine($"{ResourceKey} --- {ex}");
                     throw;
                 }
+            }
+            else if (Strict)
+            {
+                throw new XamlParseException($"ResourceKey parameter is not provided: {ResourceKey.ToString()}!");
+            }
+            else if (Verbose > 0)
+            {
+                Console.WriteLine($" - is not provided! >");
             }
 
             return null;
