@@ -412,7 +412,7 @@ public class ParameterizedResourceExtension : MarkupExtension
                 }
                 else if (Strict)
                 {
-                    throw new XamlParseException($"ElementName parameter is not provided: {elementName} at {_value.ResourceKey}");
+                    throw new XamlParseException($"ElementName parameter is not provided: {elementName} at {ResourceKey}");
                 }
                 else if (Verbose > 0)
                 {
@@ -439,7 +439,7 @@ public class ParameterizedResourceExtension : MarkupExtension
                 {
                     if (Strict)
                     {
-                        throw new XamlParseException($"ConverterParameter parameter is not provided: {newConverterParameter} at {_value.ResourceKey}");
+                        throw new XamlParseException($"ConverterParameter parameter is not provided: {newConverterParameter} at {ResourceKey}");
                     }
                     else if (Verbose > 0)
                     {
@@ -471,7 +471,7 @@ public class ParameterizedResourceExtension : MarkupExtension
                 {
                     if (Strict)
                     {
-                        throw new XamlParseException($"Source parameter is not provided: {newSource} at {_value.ResourceKey}");
+                        throw new XamlParseException($"Source parameter is not provided: {newSource} at {ResourceKey}");
                     }
                     else if (Verbose > 0)
                     {
@@ -503,7 +503,7 @@ public class ParameterizedResourceExtension : MarkupExtension
                 {
                     if (Strict)
                     {
-                        throw new XamlParseException($"Path parameter is not provided: {binding.Path.Path} at {_value.ResourceKey}");
+                        throw new XamlParseException($"Path parameter is not provided: {binding.Path.Path} at {ResourceKey}");
                     }
                     else if (Verbose > 0)
                     {
@@ -535,7 +535,7 @@ public class ParameterizedResourceExtension : MarkupExtension
                 {
                     if (Strict)
                     {
-                        throw new XamlParseException($"XPath parameter is not provided: {xPath} at {_value.ResourceKey}");
+                        throw new XamlParseException($"XPath parameter is not provided: {xPath} at {ResourceKey}");
                     }
                     else if (Verbose > 0)
                     {
@@ -574,7 +574,7 @@ public class ParameterizedResourceExtension : MarkupExtension
                 {
                     if (Strict)
                     {
-                        throw new XamlParseException($"ConverterParameter parameter is not provided: {newConverterParameter} at {_value.ResourceKey}");
+                        throw new XamlParseException($"ConverterParameter parameter is not provided: {newConverterParameter} at {ResourceKey}");
                     }
                     else if (Verbose > 0)
                     {

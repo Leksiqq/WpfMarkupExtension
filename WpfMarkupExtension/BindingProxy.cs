@@ -14,6 +14,8 @@ public class BindingProxy : Freezable, INotifyPropertyChanged
          DependencyProperty.Register("Value", typeof(object),
             typeof(BindingProxy));
 
+    public string? Name { get; set; }
+
     public object? Value
     {
         get => _value;
@@ -23,6 +25,8 @@ public class BindingProxy : Freezable, INotifyPropertyChanged
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
         }
     }
+
+    public Type? Type { get; set; }
 
     protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
     {
