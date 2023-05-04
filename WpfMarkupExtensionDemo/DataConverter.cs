@@ -13,6 +13,8 @@ public class DataConverter : IValueConverter, IMultiValueConverter
 {
     internal BindingProxy? CurrentEditedItem { get; set; }
 
+    public bool ReverseString { get; set; } = false;
+
     public object? Convert(object? value, Type targetType, object parameter, CultureInfo culture)
     {
         if (value is null)
@@ -54,14 +56,14 @@ public class DataConverter : IValueConverter, IMultiValueConverter
                     return ((DateOnly)value).ToDateTime(new TimeOnly(0, 0));
                 }
             }
-            return value.ToString();
+            return ReverseString ? value.ToString().Reverse() : value.ToString();
         }
         if (parameters.Contains("ReadValue"))
         {
             if (CurrentEditedItem is BindingProxy bp && bp.Value is FieldHolder field)
             {
             }
-            return value.ToString();
+            return ReverseString ? value.ToString().Reverse() : value.ToString();
         }
         if (parameters.Contains("T1Text"))
         {
@@ -69,7 +71,7 @@ public class DataConverter : IValueConverter, IMultiValueConverter
         }
         if (targetType == typeof(string))
         {
-            return value.ToString();
+            return ReverseString ? value.ToString().Reverse() : value.ToString();
         }
         return value;
     }
@@ -172,7 +174,7 @@ public class DataConverter : IValueConverter, IMultiValueConverter
                     }
                 }
             }
-            return value.ToString();
+            return ReverseString ? value.ToString().Reverse() : value.ToString();
         }
         return value;
     }

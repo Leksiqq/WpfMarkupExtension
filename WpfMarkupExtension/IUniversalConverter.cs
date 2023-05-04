@@ -89,7 +89,7 @@ public interface IUniversalConverter: IValueConverter, IMultiValueConverter
                     {
                         name = string.Empty;
                     }
-                    value = bpValue.Type is { } ? System.Convert.ChangeType(bpValue.Value, bpValue.Type) : bpValue.Value;
+                    value = bpValue.Value;
                 }
                 else
                 {

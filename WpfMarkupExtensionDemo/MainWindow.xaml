@@ -18,7 +18,11 @@
                 <ResourceDictionary Source="Dictionary1.xaml" />
                 <ResourceDictionary Source="Dictionary2.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <local:DataConverter x:Key="DataConverter"/>
+            <l:BindingMarkup x:Key="DataConverter">
+                <l:BindingMarkup.BindingProxy>
+                    <l:BindingProxy Value="{Binding DataConverter}"/>
+                </l:BindingMarkup.BindingProxy>
+            </l:BindingMarkup>
             <Style TargetType="CheckBox" x:Key="CheckBoxClickStyle">
                 <EventSetter Event="Click" Handler="CheckBoxClick"/>
             </Style>

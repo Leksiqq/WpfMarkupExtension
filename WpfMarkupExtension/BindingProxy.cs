@@ -18,7 +18,7 @@ public class BindingProxy : Freezable, INotifyPropertyChanged
 
     public object? Value
     {
-        get => _value;
+        get => Type is { } ? Convert.ChangeType(_value, Type) : _value;
         set 
         {
             _value = value;
