@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Windows.Markup;
-using System.Xaml;
 
 namespace Net.Leksi.WpfMarkup;
 
-public class RootObject : MarkupExtension
+public class BindingMarkup : MarkupExtension
 {
+    public BindingProxy? BindingProxy { get; set; }
+
     public override object? ProvideValue(IServiceProvider serviceProvider)
     {
-        return ((IRootObjectProvider?)serviceProvider.GetService(typeof(IRootObjectProvider)))?.RootObject;
+        return BindingProxy?.Value;
     }
 }

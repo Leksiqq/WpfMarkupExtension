@@ -13,7 +13,7 @@ public class StyleCombiner : MarkupExtension
  
     public List<Style> Styles { get; init; } = new();
 
-    public Type TargetType { get; set; } = null!;
+    public Type? TargetType { get; set; } = null;
 
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
@@ -37,10 +37,6 @@ public class StyleCombiner : MarkupExtension
                 }
                 while (stack.TryPop(out Style? current))
                 {
-                    if (!current.TargetType.IsAssignableFrom(TargetType))
-                    {
-                        throw new XamlParseException($"Different {nameof(TargetType)}: expected {TargetType}, got {current.TargetType}!");
-                    }
                     foreach (TriggerBase trigger in current.Triggers)
                     {
                         result.Triggers.Add(trigger);

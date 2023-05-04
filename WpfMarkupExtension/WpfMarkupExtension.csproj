@@ -6,7 +6,7 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>Net.Leksi.WpfMarkupExtension</AssemblyName>
     <RootNamespace>Net.Leksi.WpfMarkup</RootNamespace>
-    <Version>1.0.1.1</Version>
+    <Version>1.1.2</Version>
     <Authors>leksiq</Authors>
     <Company>leksiq</Company>
     <PackageProjectUrl>https://github.com/Leksiqq/WpfMarkupExtension/wiki</PackageProjectUrl>
@@ -20,10 +20,12 @@
     <Description>Some extensions for XAML markup.
 </Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>1.0.1.1      Added classes: IUniversalConverter, RootObject.
-                 Added properties to BindingProxy: Name, Type.
+    <PackageReleaseNotes>1.1.2     Removed class RootObject, added more general class BindingMarkup.
 
-1.0.0.12    Added a possibility to provide value of the parameter itself.
+1.0.1.1   Added classes: IUniversalConverter, RootObject.
+              Added properties to BindingProxy: Name, Type.
+
+1.0.0.12 Added a possibility to provide value of the parameter itself.
     </PackageReleaseNotes>
   </PropertyGroup>
 
