@@ -18,6 +18,13 @@
                 <ResourceDictionary Source="Dictionary1.xaml" />
                 <ResourceDictionary Source="Dictionary2.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <local:DataConverter  x:Key="DataConverter1"/>
+            <l:BindingProxy Value="{Binding DataConverter}" x:Key="DataConverter0"/>
+            <!--<l:BindingMarkup x:Key="DataConverter">
+                <l:BindingMarkup.BindingProxy>
+                    <l:BindingProxy Value="{Binding Value, Source={StaticResource DataConverter0}}"/>
+                </l:BindingMarkup.BindingProxy>
+            </l:BindingMarkup>-->
             <l:BindingMarkup x:Key="DataConverter">
                 <l:BindingMarkup.BindingProxy>
                     <l:BindingProxy Value="{Binding DataConverter}"/>
