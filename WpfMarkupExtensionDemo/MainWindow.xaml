@@ -20,16 +20,7 @@
             </ResourceDictionary.MergedDictionaries>
             <local:DataConverter  x:Key="DataConverter1"/>
             <l:BindingProxy Value="{Binding DataConverter}" x:Key="DataConverter0"/>
-            <!--<l:BindingMarkup x:Key="DataConverter">
-                <l:BindingMarkup.BindingProxy>
-                    <l:BindingProxy Value="{Binding Value, Source={StaticResource DataConverter0}}"/>
-                </l:BindingMarkup.BindingProxy>
-            </l:BindingMarkup>-->
-            <l:BindingMarkup x:Key="DataConverter">
-                <l:BindingMarkup.BindingProxy>
-                    <l:BindingProxy Value="{Binding DataConverter}"/>
-                </l:BindingMarkup.BindingProxy>
-            </l:BindingMarkup>
+            <l:BindingMarkup x:Key="DataConverter" BindingProxy="{StaticResource DataConverter0}"/>
             <Style TargetType="CheckBox" x:Key="CheckBoxClickStyle">
                 <EventSetter Event="Click" Handler="CheckBoxClick"/>
             </Style>
@@ -1507,7 +1498,7 @@
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
-                <TextBlock DockPanel.Dock="Top">
+                <TextBlock DockPanel.Dock="Top" x:Name="T2" >
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Style.Triggers>
@@ -1537,6 +1528,8 @@
                     </TextBlock.Style>
                 </TextBlock>
                 <TextBlock DockPanel.Dock="Top" Text="{Binding Text, ElementName=T1}"/>
+                <CheckBox DockPanel.Dock="Top" Content="Развернуть" IsChecked="{Binding DataConverter.ReverseString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock DockPanel.Dock="Top" Text="{Binding Text, ElementName=T2, Converter={l:ParameterizedResource DataConverter}}"/>
             </DockPanel>
         </TabItem>
     </TabControl>
