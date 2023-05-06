@@ -3,7 +3,7 @@ using System.Windows.Markup;
 
 namespace Net.Leksi.WpfMarkup;
 
-public class BindingMarkup : MarkupExtension
+public class BindingProxyMarkup : MarkupExtension
 {
     public BindingProxy? BindingProxy { get; set; }
 
