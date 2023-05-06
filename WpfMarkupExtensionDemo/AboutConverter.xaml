@@ -1,0 +1,22 @@
+﻿<Window x:Class="WpfMarkupExtensionDemo.AboutConverter"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfMarkupExtensionDemo"
+        xmlns:l="clr-namespace:Net.Leksi.WpfMarkup;assembly=Net.Leksi.WpfMarkupExtension"
+        mc:Ignorable="d"
+        Title="AboutConverter" Height="450" Width="800" DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Window.Resources>
+        <ResourceDictionary>
+            <l:BindingProxy Value="{Binding Converter}" x:Key="ConverterProxy"/>
+            <l:BindingProxyMarkup x:Key="Converter" BindingProxy="{StaticResource ConverterProxy}"/>
+        </ResourceDictionary>
+    </Window.Resources>
+    <StackPanel Orientation="Horizontal">
+        <TextBlock Text="Используется " 
+                   Foreground="{Binding Converter={StaticResource Converter}, ConverterParameter=Color}"/>
+        <TextBlock Text="{Binding Converter, Converter={StaticResource Converter}, ConverterParameter=Type}"
+                   Foreground="{Binding Converter={StaticResource Converter}, ConverterParameter=Color}"/>
+    </StackPanel>
+</Window>

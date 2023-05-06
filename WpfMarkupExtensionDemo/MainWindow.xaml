@@ -19,8 +19,8 @@
                 <ResourceDictionary Source="Dictionary2.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <local:DataConverter  x:Key="DataConverter1"/>
-            <l:BindingProxy Value="{Binding DataConverter}" x:Key="DataConverter0"/>
-            <l:BindingMarkup x:Key="DataConverter" BindingProxy="{StaticResource DataConverter0}"/>
+            <l:BindingProxy Value="{Binding DataConverter}" x:Key="DataConverterProxy"/>
+            <l:BindingProxyMarkup x:Key="DataConverter" BindingProxy="{StaticResource DataConverterProxy}"/>
             <Style TargetType="CheckBox" x:Key="CheckBoxClickStyle">
                 <EventSetter Event="Click" Handler="CheckBoxClick"/>
             </Style>
@@ -1530,6 +1530,11 @@
                 <TextBlock DockPanel.Dock="Top" Text="{Binding Text, ElementName=T1}"/>
                 <CheckBox DockPanel.Dock="Top" Content="Развернуть" IsChecked="{Binding DataConverter.ReverseString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <TextBlock DockPanel.Dock="Top" Text="{Binding Text, ElementName=T2, Converter={l:ParameterizedResource DataConverter}}"/>
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                    <Button x:Name="Red" Content="Красный конвертер" Click="AboutConverter_Click"  Margin="10,10,10,10"/>
+                    <Button x:Name="Blue" Content="Синий конвертер" Click="AboutConverter_Click"  Margin="10,10,10,10"/>
+                </StackPanel>
+                <TextBlock Text=""/>
             </DockPanel>
         </TabItem>
     </TabControl>

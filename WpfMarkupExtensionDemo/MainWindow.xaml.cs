@@ -1,4 +1,5 @@
-﻿using Net.Leksi.WpfMarkup;
+﻿using MaterialDesignColors.Recommended;
+using Net.Leksi.WpfMarkup;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
@@ -129,6 +130,22 @@ namespace WpfMarkupExtensionDemo
             {
                 CurrentMouseDown = string.Empty;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentMouseDown)));
+            }
+        }
+
+        private void AboutConverter_Click(object sender, RoutedEventArgs e)
+        {
+            if(sender is Button button) 
+            {
+                switch(button.Name) 
+                {
+                    case "Red":
+                        new AboutConverter(new RedConverter()).ShowDialog();
+                        break;
+                    case "Blue":
+                        new AboutConverter(new BlueConverter()).ShowDialog();
+                        break;
+                }
             }
         }
     }
