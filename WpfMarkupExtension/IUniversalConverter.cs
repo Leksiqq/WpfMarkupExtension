@@ -18,51 +18,45 @@ public interface IUniversalConverter: IValueConverter, IMultiValueConverter
 
     object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        Dictionary<string, object?> parameters = TakeParameters(parameter);
-        object selector = parameters[string.Empty]!;
+        Dictionary<string, object?> parameters = new();
+        object selector = TakeParameters(parameter, parameters);
         return Convert(value, targetType, selector, parameters, culture);
     }
 
     object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        Dictionary<string, object?> parameters = TakeParameters(parameter);
-        object selector = parameters[string.Empty]!;
+        Dictionary<string, object?> parameters = new();
+        object selector = TakeParameters(parameter, parameters);
         return ConvertBack(value, targetType, selector, parameters, culture);
     }
 
     object IMultiValueConverter.Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-        Dictionary<string, object?> parameters = TakeParameters(parameter);
-        object selector = parameters[string.Empty]!;
+        Dictionary<string, object?> parameters = new();
+        object selector = TakeParameters(parameter, parameters);
         return ConvertMulti(values, targetType, selector, parameters, culture);
     }
 
     object[] IMultiValueConverter.ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
     {
-        Dictionary<string, object?> parameters = TakeParameters(parameter);
-        object selector = parameters[string.Empty]!;
+        Dictionary<string, object?> parameters = new();
+        object selector = TakeParameters(parameter, parameters);
         return ConvertMultiBack(value, targetTypes, selector, parameters, culture);
     }
 
-    private Dictionary<string, object?> TakeParameters(object parameter, Dictionary<string, object?>? res = null)
+    private object TakeParameters(object parameter, Dictionary<string, object?>? parameters)
     {
         if (parameter is null)
         {
             throw new XamlParseException($"{nameof(parameter)} must be set to select an action!");
         }
-
-        if(res is null)
-        {
-            res = new();
-        }
-
+        object res = null!;
         if (parameter is Array array)
         {
             if (array.Length == 0)
             {
                 throw new XamlParseException($"{nameof(parameter)} must be not empty to select an action!");
             }
-            object? firstValue = null;
             for(int i = 0; i < array.Length; ++i)
             {
                 object? item = array.GetValue(i);
@@ -87,7 +81,7 @@ public interface IUniversalConverter: IValueConverter, IMultiValueConverter
                     name = bpValue.Name;
                     if (name is null)
                     {
-                        name = string.Empty;
+                        name = i.ToString();
                     }
                     value = bpValue.Value;
                 }
@@ -96,35 +90,26 @@ public interface IUniversalConverter: IValueConverter, IMultiValueConverter
                     name = i.ToString();
                     value = item?.ToString();
                 }
-                if (!res.TryAdd(name!, value))
+                if (!parameters.TryAdd(name!, value))
                 {
                     throw new XamlParseException($"{nameof(parameter)} must have unique names!");
                 }
-                if (firstValue is null && value is { })
+                if (res is null && value is { })
                 {
-                    firstValue = value;
+                    res = value;
                 }
-            }
-            if (!res.ContainsKey(string.Empty))
-            {
-                res.Add(string.Empty, firstValue);
             }
         }
         else if(parameter is BindingProxy)
         {
-            TakeParameters(new object[] { parameter }, res);
+            res = TakeParameters(new object[] { parameter }, parameters);
         }
         else
         {
             string[] parts = parameter.ToString()!.Split('|');
-            TakeParameters(parts, res);
+            res = TakeParameters(parts, parameters);
         }
 
-        if (res[string.Empty] is null)
-        {
-            throw new XamlParseException($"Selector must be not null to select an action!");
-        }
-
-        return res;
+        return res!;
     }
 }

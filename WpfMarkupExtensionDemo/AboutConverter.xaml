@@ -13,10 +13,13 @@
             <l:BindingProxyMarkup x:Key="Converter" BindingProxy="{StaticResource ConverterProxy}"/>
         </ResourceDictionary>
     </Window.Resources>
-    <StackPanel Orientation="Horizontal">
-        <TextBlock Text="Используется " 
+    <DockPanel LastChildFill="True">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="Используется " FontSize="24"
                    Foreground="{Binding Converter={StaticResource Converter}, ConverterParameter=Color}"/>
-        <TextBlock Text="{Binding Converter, Converter={StaticResource Converter}, ConverterParameter=Type}"
+            <TextBlock Text="{Binding Converter, Converter={StaticResource Converter}, ConverterParameter=Type}"
+                        FontSize="24"
                    Foreground="{Binding Converter={StaticResource Converter}, ConverterParameter=Color}"/>
-    </StackPanel>
+        </StackPanel>
+    </DockPanel>
 </Window>
