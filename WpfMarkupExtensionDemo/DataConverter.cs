@@ -9,37 +9,36 @@ using System.Windows.Data;
 
 namespace WpfMarkupExtensionDemo;
 
-public class DataConverter : IValueConverter, IMultiValueConverter
+public class DataConverter : IUniversalConverter
 {
     internal BindingProxy? CurrentEditedItem { get; set; }
 
     public bool ReverseString { get; set; } = false;
 
-    public object? Convert(object? value, Type targetType, object parameter, CultureInfo culture)
+    public object? Convert(object? value, Type targetType, object selector, Dictionary<string,object?> parameters, CultureInfo culture)
     {
         if (value is null)
         {
             return null;
         }
-        List<object> parameters = SplitParameter(parameter);
-        if (parameters.Count > 1 && ("IsMouseEnter".Equals(parameters[1]) || "IsMouseDown".Equals(parameters[1])))
+        if ("IsMouseEnter".Equals(selector) || "IsMouseDown".Equals(selector))
         {
-            return value is { } && value.Equals(parameters[0]);
+            return value is { } && value.Equals(parameters["1"]);
         }
-        if (parameters.Contains("Content") && value is Button button)
+        if ("Content".Equals(selector) && value is Button button)
         {
             return $"{Grid.GetRow(button)}.{Grid.GetColumn(button)}";
         }
-        if (parameters.Contains("FieldTypeText"))
+        if ("FieldTypeText".Equals(selector))
         {
             string res = (value as Type)!.Name;
             return res;
         }
-        if (parameters.Contains("Activities"))
+        if ("Activities".Equals(selector))
         {
             return Enum.GetNames(typeof(Activities)).ToArray();
         }
-        if (parameters.Contains("EditValue"))
+        if ("EditValue".Equals(selector))
         {
             if (CurrentEditedItem is BindingProxy bp && bp.Value is FieldHolder field)
             {
@@ -58,16 +57,16 @@ public class DataConverter : IValueConverter, IMultiValueConverter
             }
             return MayBeReversed(value);
         }
-        if (parameters.Contains("ReadValue"))
+        if ("ReadValue".Equals(selector))
         {
             if (CurrentEditedItem is BindingProxy bp && bp.Value is FieldHolder field)
             {
             }
             return MayBeReversed(value);
         }
-        if (parameters.Contains("T1Text"))
+        if ("T1Text".Equals(selector))
         {
-            Console.WriteLine($"T1Text({nameof(DataConverter)}): {value}, {parameter}");
+            Console.WriteLine($"T1Text({nameof(DataConverter)}): {value}, {string.Join('|', parameters.Values)}");
         }
         if (targetType == typeof(string))
         {
@@ -81,15 +80,14 @@ public class DataConverter : IValueConverter, IMultiValueConverter
         return ReverseString ? new String(value.ToString().Reverse().ToArray()) : value.ToString();
     }
 
-    public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+    public object? ConvertMulti(object[] values, Type targetType, object selector, Dictionary<string, object?> parameters, CultureInfo culture)
     {
-        List<object> parameters = SplitParameter(parameter);
-        int selector = 0;
+        int choice = 0;
         if (
-            (parameters.Contains("Background") && (selector = 1) == selector)
-            || (parameters.Contains("BorderThickness") && (selector = 2) == selector)
-            || (parameters.Contains("BorderBrush") && (selector = 3) == selector)
-            || (parameters.Contains("Foreground") && (selector = 4) == selector)
+            ("Background".Equals(selector) && (choice = 1) == choice)
+            || ("BorderThickness".Equals(selector) && (choice = 2) == choice)
+            || ("BorderBrush".Equals(selector) && (choice = 3) == choice)
+            || ("Foreground".Equals(selector) && (choice = 4) == choice)
         )
         {
             if (values.Length > 1 && values[0] is Grid grid && values[1] is string coords)
@@ -101,26 +99,25 @@ public class DataConverter : IValueConverter, IMultiValueConverter
                     int col = int.Parse(parts[1]);
                     if (grid.Children.Cast<UIElement>().Where(e => Grid.GetRow(e) == row && Grid.GetColumn(e) == col).FirstOrDefault() is Button button)
                     {
-                        return selector switch { 1 => button.Background, 2 => button.BorderThickness, 3 => button.BorderBrush, 4 => button.Foreground, _ => null };
+                        return choice switch { 1 => button.Background, 2 => button.BorderThickness, 3 => button.BorderBrush, 4 => button.Foreground, _ => null };
                     }
                 }
             }
         }
-        if (parameters.Contains("RemoveCommandCanExecute"))
+        if ("RemoveCommandCanExecute".Equals(selector))
         {
             return values.ToArray();
         }
         return values.FirstOrDefault();
     }
 
-    public object? ConvertBack(object? value, Type targetType, object parameter, CultureInfo culture)
+    public object? ConvertBack(object? value, Type targetType, object selector, Dictionary<string, object?> parameters, CultureInfo culture)
     {
         if (value is null)
         {
             return null;
         }
-        List<object> parameters = SplitParameter(parameter);
-        if (parameters.Contains("FieldTypeText"))
+        if ("FieldTypeText".Equals(selector))
         {
             switch (value)
             {
@@ -139,7 +136,7 @@ public class DataConverter : IValueConverter, IMultiValueConverter
             }
             return typeof(string);
         }
-        if (parameters.Contains("EditValue"))
+        if ("EditValue".Equals(selector))
         {
             if (CurrentEditedItem is BindingProxy bp && bp.Value is FieldHolder field)
             {
@@ -184,23 +181,9 @@ public class DataConverter : IValueConverter, IMultiValueConverter
         return value;
     }
 
-    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+    public object[] ConvertMultiBack(object value, Type[] targetTypes, object selector, Dictionary<string, object?> parameters, CultureInfo culture)
     {
-        List<object> parameters = SplitParameter(parameter);
         return new object[] { value };
     }
 
-    private List<object> SplitParameter(object? parameter)
-    {
-        List<object> list = new();
-        if (parameter is string s)
-        {
-            list.AddRange(s.Split('|'));
-        }
-        else if (parameter is { })
-        {
-            list.Add(parameter);
-        }
-        return list;
-    }
 }

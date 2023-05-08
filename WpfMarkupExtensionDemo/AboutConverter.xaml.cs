@@ -1,13 +1,14 @@
-﻿using System.Windows;
+﻿using Net.Leksi.WpfMarkup;
+using System.Windows;
 using System.Windows.Data;
 
 namespace WpfMarkupExtensionDemo;
 
 public partial class AboutConverter : Window
 {
-    public IValueConverter Converter { get; init; }
+    public IUniversalConverter Converter { get; init; }
 
-    public AboutConverter(IValueConverter converter)
+    public AboutConverter(IUniversalConverter converter)
     {
         Converter = converter;
         InitializeComponent();

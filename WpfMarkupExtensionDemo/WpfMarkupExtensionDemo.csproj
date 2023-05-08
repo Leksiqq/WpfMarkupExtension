@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="4.8.0" />
-    <PackageReference Include="Net.Leksi.WpfMarkupExtension" Version="1.1.3" />
+    <PackageReference Include="Net.Leksi.WpfMarkupExtension" Version="1.1.4" />
   </ItemGroup>
 
 </Project>

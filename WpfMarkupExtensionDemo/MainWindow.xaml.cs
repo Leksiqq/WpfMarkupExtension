@@ -70,18 +70,7 @@ namespace WpfMarkupExtensionDemo
         public ObservableCollection<DataHolder> Datas { get; init; } = new();
         public CollectionViewSource DatasViewSource { get; init; } = new();
 
-        public DataConverter DataConverter { get; init; } = new();
-
-        public bool ReverseString
-        {
-            get => DataConverter.ReverseString;
-            set
-            {
-                DataConverter.ReverseString = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ReverseString)));
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DataConverter)));
-            }
-        }
+        public IUniversalConverter DataConverter { get; init; } = new DataConverter();
 
         public MainWindow()
         {

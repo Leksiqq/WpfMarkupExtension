@@ -50,7 +50,7 @@
             </l:StyleCombiner>
             <Style TargetType="Button" x:Key="ButtonAnimationStyle" x:Shared="False">
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding CurrentMouseDown, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=$coordinates|IsMouseDown}" Value="True">
+                    <DataTrigger Binding="{Binding CurrentMouseDown, Converter={l:ParameterizedResource DataConverter}, ConverterParameter=IsMouseDown|$coordinates}" Value="True">
                         <DataTrigger.EnterActions>
                             <BeginStoryboard>
                                 <Storyboard>
