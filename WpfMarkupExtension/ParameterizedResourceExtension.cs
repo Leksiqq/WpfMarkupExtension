@@ -28,6 +28,7 @@ public class ParameterizedResourceExtension : MarkupExtension
     private HashSet<object>? _seenObjects;
     private IServiceProvider _services = null!;
     private ParameterizedResourceExtension? _root = null;
+    private string? _universalConverterPath = null;
 
     [Ambient]
     public object? Replaces
@@ -126,6 +127,11 @@ public class ParameterizedResourceExtension : MarkupExtension
     {
         if(ResourceKey is null)
         {
+            return null;
+        }
+        if (IUniversalConverter.IsConnecting)
+        {
+            _universalConverterPath = IUniversalConverter.Path;
             return null;
         }
         _indention = string.Format($"{{0,{s_callStacks.Count}}}{s_callStacks.Count + 1})", "").Replace(" ", s_indentionStep);
