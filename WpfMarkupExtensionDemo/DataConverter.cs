@@ -5,7 +5,6 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 
 namespace WpfMarkupExtensionDemo;
 
@@ -15,30 +14,31 @@ public class DataConverter : IUniversalConverter
 
     public bool ReverseString { get; set; } = false;
 
-    public object? Convert(object? value, Type targetType, object selector, Dictionary<string,object?> parameters, CultureInfo culture)
+    public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is null)
         {
             return null;
         }
-        if ("IsMouseEnter".Equals(selector) || "IsMouseDown".Equals(selector))
+        object?[] parameters = SplitParameter(parameter);
+        if (parameters.Length > 1 && ("IsMouseEnter".Equals(parameters[0]) || "IsMouseDown".Equals(parameters[0])))
         {
-            return value is { } && value.Equals(parameters["1"]);
+            return value is { } && value.Equals(parameters[1]);
         }
-        if ("Content".Equals(selector) && value is Button button)
+        if (parameters.Length > 0 && "Content".Equals(parameters[0]) && value is Button button)
         {
             return $"{Grid.GetRow(button)}.{Grid.GetColumn(button)}";
         }
-        if ("FieldTypeText".Equals(selector))
+        if (parameters.Length > 0 && "FieldTypeText".Equals(parameters[0]))
         {
             string res = (value as Type)!.Name;
             return res;
         }
-        if ("Activities".Equals(selector))
+        if (parameters.Length > 0 && "Activities".Equals(parameters[0]))
         {
             return Enum.GetNames(typeof(Activities)).ToArray();
         }
-        if ("EditValue".Equals(selector))
+        if (parameters.Length > 0 && "EditValue".Equals(parameters[0]))
         {
             if (CurrentEditedItem is BindingProxy bp && bp.Value is FieldHolder field)
             {
@@ -57,16 +57,16 @@ public class DataConverter : IUniversalConverter
             }
             return MayBeReversed(value);
         }
-        if ("ReadValue".Equals(selector))
+        if (parameters.Length > 0 && "ReadValue".Equals(parameters[0]))
         {
             if (CurrentEditedItem is BindingProxy bp && bp.Value is FieldHolder field)
             {
             }
             return MayBeReversed(value);
         }
-        if ("T1Text".Equals(selector))
+        if (parameters.Length > 0 && "T1Text".Equals(parameters[0]))
         {
-            Console.WriteLine($"T1Text({nameof(DataConverter)}): {value}, {string.Join('|', parameters.Values)}");
+            Console.WriteLine($"T1Text({nameof(DataConverter)}): {value}, {string.Join('|', parameters)}");
         }
         if (targetType == typeof(string))
         {
@@ -80,14 +80,18 @@ public class DataConverter : IUniversalConverter
         return ReverseString ? new String(value.ToString().Reverse().ToArray()) : value.ToString();
     }
 
-    public object? ConvertMulti(object[] values, Type targetType, object selector, Dictionary<string, object?> parameters, CultureInfo culture)
+    public object? Convert(object[] values, Type targetType, object? parameter, CultureInfo culture)
     {
+        object?[] parameters = SplitParameter(parameter);
         int choice = 0;
         if (
-            ("Background".Equals(selector) && (choice = 1) == choice)
-            || ("BorderThickness".Equals(selector) && (choice = 2) == choice)
-            || ("BorderBrush".Equals(selector) && (choice = 3) == choice)
-            || ("Foreground".Equals(selector) && (choice = 4) == choice)
+            parameters.Length > 0 && (
+            (
+                "Background".Equals(parameters[0]) && (choice = 1) == choice)
+                || ("BorderThickness".Equals(parameters[0]) && (choice = 2) == choice)
+                || ("BorderBrush".Equals(parameters[0]) && (choice = 3) == choice)
+                || ("Foreground".Equals(parameters[0]) && (choice = 4) == choice)
+            )
         )
         {
             if (values.Length > 1 && values[0] is Grid grid && values[1] is string coords)
@@ -104,20 +108,21 @@ public class DataConverter : IUniversalConverter
                 }
             }
         }
-        if ("RemoveCommandCanExecute".Equals(selector))
+        if (parameters.Length > 0 && "RemoveCommandCanExecute".Equals(parameters[0]))
         {
             return values.ToArray();
         }
         return values.FirstOrDefault();
     }
 
-    public object? ConvertBack(object? value, Type targetType, object selector, Dictionary<string, object?> parameters, CultureInfo culture)
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is null)
         {
             return null;
         }
-        if ("FieldTypeText".Equals(selector))
+        object?[] parameters = SplitParameter(parameter);
+        if (parameters.Length > 0 && "FieldTypeText".Equals(parameters[0]))
         {
             switch (value)
             {
@@ -136,7 +141,7 @@ public class DataConverter : IUniversalConverter
             }
             return typeof(string);
         }
-        if ("EditValue".Equals(selector))
+        if (parameters.Length > 0 && "EditValue".Equals(parameters[0]))
         {
             if (CurrentEditedItem is BindingProxy bp && bp.Value is FieldHolder field)
             {
@@ -146,7 +151,7 @@ public class DataConverter : IUniversalConverter
                 }
                 if (field.Type == typeof(Activities))
                 {
-                    if(int.TryParse(value.ToString(), out int pos) && pos >= 0 && pos < Enum.GetValues<Activities>().Length)
+                    if (int.TryParse(value.ToString(), out int pos) && pos >= 0 && pos < Enum.GetValues<Activities>().Length)
                     {
                         return Enum.GetValues<Activities>()[pos];
                     }
@@ -181,9 +186,24 @@ public class DataConverter : IUniversalConverter
         return value;
     }
 
-    public object[] ConvertMultiBack(object value, Type[] targetTypes, object selector, Dictionary<string, object?> parameters, CultureInfo culture)
+    public object[] ConvertBack(object value, Type[] targetTypes, object? parameter, CultureInfo culture)
     {
         return new object[] { value };
+    }
+
+    private object?[] SplitParameter(object? parameter)
+    {
+        if (parameter is Array array)
+        {
+            object[] res = new object[array.Length];
+            array.CopyTo(res, 0);
+            return res;
+        }
+        if (parameter is string str)
+        {
+            return str.Split('|');
+        }
+        return new object?[] { parameter };
     }
 
 }

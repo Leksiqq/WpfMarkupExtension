@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Markup.Primitives;
 using System.Windows.Media;
+using System.Xaml;
 using XamlParseException = System.Windows.Markup.XamlParseException;
 
 namespace Net.Leksi.WpfMarkup;
@@ -28,7 +30,6 @@ public class ParameterizedResourceExtension : MarkupExtension
     private HashSet<object>? _seenObjects;
     private IServiceProvider _services = null!;
     private ParameterizedResourceExtension? _root = null;
-    private string? _universalConverterPath = null;
 
     [Ambient]
     public object? Replaces
@@ -129,11 +130,17 @@ public class ParameterizedResourceExtension : MarkupExtension
         {
             return null;
         }
-        if (IUniversalConverter.IsConnecting)
+
+        if(s_callStacks.Count == 0)
         {
-            _universalConverterPath = IUniversalConverter.Path;
-            return null;
+            _seenObjects = new(ReferenceEqualityComparer.Instance);
+            if(((IRootObjectProvider?)serviceProvider.GetService(typeof(IRootObjectProvider)))?.RootObject
+                    is object rootObject)
+            {
+                _seenObjects.Add(rootObject);
+            }
         }
+
         _indention = string.Format($"{{0,{s_callStacks.Count}}}{s_callStacks.Count + 1})", "").Replace(" ", s_indentionStep);
         _prompt = $"{_indention}[{ResourceKey}{(string.IsNullOrEmpty(At) ? string.Empty : $"@{At}")}]";
 
@@ -185,7 +192,6 @@ public class ParameterizedResourceExtension : MarkupExtension
         {
             _services = serviceProvider;
             _root = this;
-            _seenObjects = new(ReferenceEqualityComparer.Instance);
         }
 
 
@@ -241,7 +247,6 @@ public class ParameterizedResourceExtension : MarkupExtension
                     List<string> route = new();
 
                     WalkMarkup(MarkupWriter.GetMarkupObjectFor(result), route);
-
 
                     if (Verbose > 0)
                     {
