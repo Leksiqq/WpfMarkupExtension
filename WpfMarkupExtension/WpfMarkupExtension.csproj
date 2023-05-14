@@ -6,7 +6,7 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>Net.Leksi.WpfMarkupExtension</AssemblyName>
     <RootNamespace>Net.Leksi.WpfMarkup</RootNamespace>
-    <Version>1.1.10</Version>
+    <Version>1.1.11</Version>
     <Authors>leksiq</Authors>
     <Company>leksiq</Company>
     <PackageProjectUrl>https://github.com/Leksiqq/WpfMarkupExtension/wiki</PackageProjectUrl>
@@ -21,7 +21,9 @@
 </Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-      1.1.9         Changed interface IUniversalConverter removed because it did not live up to expectations.
+      1.1.11        Added static method IUniversalParameter.SplitParameter.
+      
+      1.1.9         Changed interface IUniversalConverter, removed class UniversalConverterParameter because it did not live up to expectations.
 
       1.1.3-1.1.5   Fixed bugs and updated documentation.
 
