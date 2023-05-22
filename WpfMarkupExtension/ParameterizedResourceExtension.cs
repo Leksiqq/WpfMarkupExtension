@@ -242,7 +242,8 @@ public class ParameterizedResourceExtension : MarkupExtension
                     }
                     _value = new StaticResourceExtension(ResourceKey);
 
-                    object result = _value.ProvideValue(_services);
+                    //object result = _value.ProvideValue(_services);
+                    object result = (((IRootObjectProvider)_services.GetService(typeof(IRootObjectProvider))).RootObject as FrameworkElement).FindResource(ResourceKey);
 
                     List<string> route = new();
 
