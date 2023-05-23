@@ -9,6 +9,7 @@ public class BindingProxy : Freezable, INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;
 
     private object? _value;
+    private bool _isSet = false;
 
     public static readonly DependencyProperty ValueProperty =
          DependencyProperty.Register("Value", typeof(object),
@@ -19,7 +20,7 @@ public class BindingProxy : Freezable, INotifyPropertyChanged
     public object? Value
     {
         get => Type is { } ? Convert.ChangeType(_value, Type) : _value;
-        set 
+        set
         {
             _value = value;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));

@@ -142,6 +142,19 @@ public class ParameterizedResourceExtension : MarkupExtension
         }
 
         _indention = string.Format($"{{0,{s_callStacks.Count}}}{s_callStacks.Count + 1})", "").Replace(" ", s_indentionStep);
+
+        foreach (ParameterizedResourceExtension resource in s_callStacks)
+        {
+            if (Strict && !resource.Strict)
+            {
+                Strict = false;
+            }
+            if (Verbose < resource.Verbose)
+            {
+                Verbose = resource.Verbose;
+            }
+            At = resource.At;
+        }
         _prompt = $"{_indention}[{ResourceKey}{(string.IsNullOrEmpty(At) ? string.Empty : $"@{At}")}]";
 
 
@@ -165,14 +178,6 @@ public class ParameterizedResourceExtension : MarkupExtension
                     {
                         Console.WriteLine($"{_prompt} < {parameterName}={_replacements[parameterName]} (from {nameof(Replaces)}) >");
                     }
-                }
-                if (Strict && !resource.Strict)
-                {
-                    Strict = false;
-                }
-                if (Verbose < resource.Verbose)
-                {
-                    Verbose = resource.Verbose;
                 }
                 foreach (string parameterName in resource._replacements.Keys)
                 {
@@ -242,8 +247,8 @@ public class ParameterizedResourceExtension : MarkupExtension
                     }
                     _value = new StaticResourceExtension(ResourceKey);
 
-                    //object result = _value.ProvideValue(_services);
-                    object result = (((IRootObjectProvider)_services.GetService(typeof(IRootObjectProvider))).RootObject as FrameworkElement).FindResource(ResourceKey);
+                    object result = _value.ProvideValue(_services);
+                    //object result = (((IRootObjectProvider)_services.GetService(typeof(IRootObjectProvider))).RootObject as FrameworkElement).FindResource(ResourceKey);
 
                     List<string> route = new();
 
@@ -258,7 +263,10 @@ public class ParameterizedResourceExtension : MarkupExtension
                 catch (Exception ex)
                 {
                     Console.WriteLine($"{ResourceKey} --- {ex}");
-                    throw;
+                    if (Strict)
+                    {
+                        throw;
+                    }
                 }
             }
             else if (Strict)
