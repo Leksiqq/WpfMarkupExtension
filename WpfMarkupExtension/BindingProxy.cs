@@ -9,7 +9,6 @@ public class BindingProxy : Freezable, INotifyPropertyChanged
     public event PropertyChangedEventHandler? PropertyChanged;
 
     private object? _value;
-    private bool _isSet = false;
 
     public static readonly DependencyProperty ValueProperty =
          DependencyProperty.Register("Value", typeof(object),
@@ -22,9 +21,27 @@ public class BindingProxy : Freezable, INotifyPropertyChanged
         get => Type is { } ? Convert.ChangeType(_value, Type) : _value;
         set
         {
+            if (_value is INotifyPropertyChanged notify)
+            {
+                notify.PropertyChanged -= Notify_PropertyChanged;
+            }
             _value = value;
+            if(_value is INotifyPropertyChanged notify1)
+            {
+                notify1.PropertyChanged += Notify_PropertyChanged;
+            }
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
         }
+    }
+
+    public void Touch()
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
+    }
+
+    private void Notify_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
     }
 
     public Type? Type { get; set; }
