@@ -34,11 +34,6 @@ public class BindingProxy : Freezable, INotifyPropertyChanged
         }
     }
 
-    public void Touch()
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
-    }
-
     private void Notify_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
@@ -57,6 +52,6 @@ public class BindingProxy : Freezable, INotifyPropertyChanged
 
     protected override Freezable CreateInstanceCore()
     {
-        throw new NotImplementedException();
+        return this;
     }
 }

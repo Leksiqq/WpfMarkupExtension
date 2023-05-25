@@ -117,6 +117,8 @@ public class ParameterizedResourceExtension : MarkupExtension
 
     public object? ResourceKey { get; set; }
 
+    public object? DefaultDataContext { get; set; }
+
     public ParameterizedResourceExtension(object key)
     {
         ResourceKey = key;
@@ -189,15 +191,14 @@ public class ParameterizedResourceExtension : MarkupExtension
                         }
                     }
                 }
-                _services = resource._services;
                 _root = resource;
             }
         }
         else
         {
-            _services = serviceProvider;
             _root = this;
         }
+        _services = serviceProvider;
 
 
         s_callStacks.Push(this);
@@ -245,9 +246,30 @@ public class ParameterizedResourceExtension : MarkupExtension
                     {
                         return type.IsAssignableFrom(ResourceKey.GetType()) ? ResourceKey : Convert.ChangeType(ResourceKey, type);
                     }
-                    _value = new StaticResourceExtension(ResourceKey);
+                    //_value = new StaticResourceExtension(ResourceKey);
 
-                    object result = _value.ProvideValue(_services);
+                    object? result = null;
+                    Exception? exception = null;
+
+                    foreach (ParameterizedResourceExtension resource in s_callStacks.ToArray())
+                    {
+                        try
+                        {
+                            result = new StaticResourceExtension(ResourceKey).ProvideValue(resource._services);
+                            exception = null;
+                            break;
+                        }
+                        catch (Exception ex)
+                        {
+                            exception = ex;
+                        }
+                    }
+
+                    if(exception is { })
+                    {
+                        throw exception;
+                    }
+
                     //object result = (((IRootObjectProvider)_services.GetService(typeof(IRootObjectProvider))).RootObject as FrameworkElement).FindResource(ResourceKey);
 
                     List<string> route = new();
