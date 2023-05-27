@@ -18,8 +18,8 @@ public class ParameterizedResourceExtension : MarkupExtension
 {
     private const string s_indentionStep = "  ";
     private StaticResourceExtension? _value = null;
-    private readonly Dictionary<string, string> _replacements = new();
-    private readonly Dictionary<string, string> _defaults = new();
+    private readonly Dictionary<string, object?> _replacements = new();
+    private readonly Dictionary<string, object?> _defaults = new();
     private object? _replaces;
     private object? _defaultsString;
     private static readonly Stack<ParameterizedResourceExtension> s_callStacks = new();
@@ -52,14 +52,22 @@ public class ParameterizedResourceExtension : MarkupExtension
                 }
                 else if (_replaces is object[] arr)
                 {
-                    foreach (
-                        string[]? ent in arr.Select(entry => entry.ToString()?.Split(':', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
-                            .Where(entry => entry is { } && entry.Length == 2)
-                    )
+                    foreach (object o in arr)
                     {
-                        if (ent is { })
+                        if(o is BindingProxy proxy)
                         {
-                            _replacements.TryAdd(ent[0], ent[1]);
+                            if(proxy.Name is { })
+                            {
+                                _replacements.TryAdd(proxy.Name, proxy.Value);
+                            }
+                        }
+                        else
+                        {
+                            string[]? ent = o?.ToString()!.Split(':', 2, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                            if (ent is { } && ent.Length == 2)
+                            {
+                                _replacements.TryAdd(ent[0], ent[1]);
+                            }
                         }
                     }
                 }
@@ -90,14 +98,22 @@ public class ParameterizedResourceExtension : MarkupExtension
                 }
                 else if (_defaultsString is object[] arr)
                 {
-                    foreach (
-                        string[]? ent in arr.Select(entry => entry.ToString()?.Split(':', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
-                            .Where(entry => entry is { } && entry.Length == 2)
-                    )
+                    foreach (object o in arr)
                     {
-                        if (ent is { })
+                        if (o is BindingProxy proxy)
                         {
-                            _defaults.TryAdd(ent[0], ent[1]);
+                            if (proxy.Name is { })
+                            {
+                                _replacements.TryAdd(proxy.Name, proxy.Value);
+                            }
+                        }
+                        else
+                        {
+                            string[]? ent = o?.ToString()!.Split(':', 2, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                            if (ent is { } && ent.Length == 2)
+                            {
+                                _replacements.TryAdd(ent[0], ent[1]);
+                            }
                         }
                     }
                 }
@@ -212,7 +228,8 @@ public class ParameterizedResourceExtension : MarkupExtension
                     Console.Write($"{_indention}< ResourceKey: {ResourceKey}");
                 }
                 properKey = false;
-                if (_replacements.TryGetValue(ResourceKey.ToString()!, out string? newKey))
+                if (_replacements.TryGetValue(ResourceKey.ToString()!, out object? newKey))
+
                 {
                     ResourceKey = newKey;
                     _prompt = $"{_indention}[{ResourceKey}{(string.IsNullOrEmpty(At) ? string.Empty : $"@{At}")}]";
@@ -223,7 +240,7 @@ public class ParameterizedResourceExtension : MarkupExtension
                         Console.WriteLine($" -> {ResourceKey} (from {nameof(Replaces)}) >");
                     }
                 }
-                else if (_defaults.TryGetValue(ResourceKey.ToString()!, out string? defaultKey))
+                else if (_defaults.TryGetValue(ResourceKey.ToString()!, out object? defaultKey))
                 {
                     ResourceKey = defaultKey;
                     _prompt = $"{_indention}[{ResourceKey}{(string.IsNullOrEmpty(At) ? string.Empty : $"@{At}")}]";
@@ -434,17 +451,17 @@ public class ParameterizedResourceExtension : MarkupExtension
                 {
                     Console.Write($"{_prompt} {string.Join('/', route)} < ElementName: {binding.ElementName}");
                 }
-                if (_replacements.TryGetValue(elementName, out string? newElementName))
+                if (_replacements.TryGetValue(elementName, out object? newElementName))
                 {
-                    binding.ElementName = newElementName;
+                    binding.ElementName = newElementName?.ToString();
                     if (Verbose > 0)
                     {
                         Console.WriteLine($" -> {binding.ElementName} (from {nameof(Replaces)}) >");
                     }
                 }
-                else if (_defaults.TryGetValue(elementName, out string? defaultElementName))
+                else if (_defaults.TryGetValue(elementName, out object? defaultElementName))
                 {
-                    binding.ElementName = defaultElementName;
+                    binding.ElementName = defaultElementName?.ToString();
                     if (Verbose > 0)
                     {
                         Console.WriteLine($" -> {binding.ElementName} (from {nameof(Defaults)}) >");
@@ -459,36 +476,59 @@ public class ParameterizedResourceExtension : MarkupExtension
                     Console.WriteLine($" - is not provided! >");
                 }
             }
-            if (binding.ConverterParameter is string converterParameter && converterParameter.Contains('$'))
+            if (
+                binding.ConverterParameter is string converterParameter && converterParameter.Contains('$')
+                || binding.ConverterParameter is Array 
+            )
             {
+                object?[] parameters = IUniversalConverter.SplitParameter(binding.ConverterParameter);
                 if (Verbose > 0)
                 {
-                    Console.Write($"{_prompt} {string.Join('/', route)} < ConverterParameter: {binding.ConverterParameter}");
+                    Console.Write($"{_prompt} {string.Join('/', route)} < ConverterParameter: [{string.Join(',', parameters)}]");
                 }
-                string newConverterParameter = converterParameter;
-                foreach (string key in _replacements.Keys.OrderByDescending(k => k))
+                bool changed = false;
+                bool failed = false;
+                for(int i = 0; i < parameters.Length; ++i)
                 {
-                    newConverterParameter = newConverterParameter.Replace(key, _replacements[key]);
-                }
-                foreach (string key in _defaults.Keys.OrderByDescending(k => k))
-                {
-                    newConverterParameter = newConverterParameter.Replace(key, _defaults[key]);
-                }
-                binding.ConverterParameter = newConverterParameter;
-                if (newConverterParameter.Contains('$'))
-                {
-                    if (Strict)
+                    if (parameters[i] is string str && str.StartsWith('$'))
                     {
-                        throw new XamlParseException($"ConverterParameter parameter is not provided: {newConverterParameter} at {ResourceKey}");
-                    }
-                    else if (Verbose > 0)
-                    {
-                        Console.WriteLine($" - is not provided! >");
+                        object? newConverterParameter = null;
+                        if(
+                            _replacements.TryGetValue(str, out newConverterParameter)
+                            || _defaults.TryGetValue(str, out newConverterParameter)
+                        )
+                        {
+                            changed = true;
+                            parameters[i] = newConverterParameter;
+                        }
+                        else
+                        {
+                            failed = true;
+                            if (Strict)
+                            {
+                                throw new XamlParseException($"ConverterParameter parameter is not provided: {parameters[i]} at {ResourceKey}");
+                            }
+                            else if (Verbose > 0)
+                            {
+                                Console.WriteLine($" - is not provided! >");
+                            }
+                        }
                     }
                 }
-                else if (Verbose > 0)
+                if (changed)
                 {
-                    Console.WriteLine($" -> {binding.ConverterParameter} >");
+                    if(parameters.Length == 1)
+                    {
+                        binding.ConverterParameter = parameters[0];
+                    }
+                    else
+                    {
+                        binding.ConverterParameter = parameters;
+                    }
+                }
+                if (!failed && Verbose > 0)
+                {
+                    Console.WriteLine($" -> [{string.Join(',', parameters)}] >");
                 }
             }
             if (binding.Source is string source && source.Contains('$'))
@@ -500,11 +540,11 @@ public class ParameterizedResourceExtension : MarkupExtension
                 string newSource = source;
                 foreach (string key in _replacements.Keys.OrderByDescending(k => k))
                 {
-                    newSource = newSource.Replace(key, _replacements[key]);
+                    newSource = newSource.Replace(key, _replacements[key]?.ToString());
                 }
                 foreach (string key in _defaults.Keys.OrderByDescending(k => k))
                 {
-                    newSource = newSource.Replace(key, _defaults[key]);
+                    newSource = newSource.Replace(key, _defaults[key]?.ToString());
                 }
                 binding.Source = newSource;
                 if (newSource.Contains('$'))
@@ -532,11 +572,11 @@ public class ParameterizedResourceExtension : MarkupExtension
                 string newPath = binding.Path.Path;
                 foreach (string key in _replacements.Keys.OrderByDescending(k => k))
                 {
-                    newPath = newPath.Replace(key, _replacements[key]);
+                    newPath = newPath.Replace(key, _replacements[key]?.ToString());
                 }
                 foreach (string key in _defaults.Keys.OrderByDescending(k => k))
                 {
-                    newPath = newPath.Replace(key, _defaults[key]);
+                    newPath = newPath.Replace(key, _defaults[key]?.ToString());
                 }
                 binding.Path.Path = newPath;
                 if (newPath.Contains('$'))
@@ -564,11 +604,11 @@ public class ParameterizedResourceExtension : MarkupExtension
                 string newXPath = xPath;
                 foreach (string key in _replacements.Keys.OrderByDescending(k => k))
                 {
-                    newXPath = newXPath.Replace(key, _replacements[key]);
+                    newXPath = newXPath.Replace(key, _replacements[key]?.ToString());
                 }
                 foreach (string key in _defaults.Keys.OrderByDescending(k => k))
                 {
-                    newXPath = newXPath.Replace(key, _defaults[key]);
+                    newXPath = newXPath.Replace(key, _defaults[key]?.ToString());
                 }
                 binding.XPath = newXPath;
                 if (newXPath.Contains('$'))
@@ -594,37 +634,64 @@ public class ParameterizedResourceExtension : MarkupExtension
         }
         else if (bindingBase is MultiBinding multiBinding)
         {
-            if (multiBinding.ConverterParameter is string converterParameter && converterParameter.Contains('$'))
+            if (
+                multiBinding.ConverterParameter is string converterParameter && converterParameter.Contains('$')
+                || multiBinding.ConverterParameter is Array
+            )
             {
+                object?[] parameters = IUniversalConverter.SplitParameter(multiBinding.ConverterParameter);
                 if (Verbose > 0)
                 {
-                    Console.Write($"{_prompt} {string.Join('/', route)} < ConverterParameter: {multiBinding.ConverterParameter}");
+                    Console.Write($"{_prompt} {string.Join('/', route)} < ConverterParameter: [{string.Join(',', parameters)}]");
                 }
-                string newConverterParameter = converterParameter;
-                foreach (string key in _replacements.Keys.OrderByDescending(k => k))
+                bool changed = false;
+                bool failed = false;
+                for (int i = 0; i < parameters.Length; ++i)
                 {
-                    newConverterParameter = newConverterParameter.Replace(key, _replacements[key]);
-                }
-                foreach (string key in _defaults.Keys.OrderByDescending(k => k))
-                {
-                    newConverterParameter = newConverterParameter.Replace(key, _defaults[key]);
-                }
-                multiBinding.ConverterParameter = newConverterParameter;
-                if (newConverterParameter.Contains('$'))
-                {
-                    if (Strict)
+                    if (parameters[i] is string str && str.StartsWith('$'))
                     {
-                        throw new XamlParseException($"ConverterParameter parameter is not provided: {newConverterParameter} at {ResourceKey}");
-                    }
-                    else if (Verbose > 0)
-                    {
-                        Console.WriteLine($" - is not provided! >");
+                        object? newConverterParameter = null;
+                        if (
+                            _replacements.TryGetValue(str, out newConverterParameter)
+                            || _defaults.TryGetValue(str, out newConverterParameter)
+                        )
+                        {
+                            changed = true;
+                            parameters[i] = newConverterParameter;
+                        }
+                        else
+                        {
+                            failed = true;
+                            if (Strict)
+                            {
+                                throw new XamlParseException($"ConverterParameter parameter is not provided: {parameters[i]} at {ResourceKey}");
+                            }
+                            else if (Verbose > 0)
+                            {
+                                Console.WriteLine($" - is not provided! >");
+                            }
+                        }
                     }
                 }
-                else if (Verbose > 0)
+                if (changed)
                 {
-                    Console.WriteLine($" -> {multiBinding.ConverterParameter} >");
+                    if (parameters.Length == 1)
+                    {
+                        multiBinding.ConverterParameter = parameters[0];
+                    }
+                    else
+                    {
+                        multiBinding.ConverterParameter = parameters;
+                    }
                 }
+                if (!failed && Verbose > 0)
+                {
+                    Console.WriteLine($" -> [{string.Join(',', parameters)}] >");
+                }
+            }
+            if (multiBinding.ConverterParameter is { })
+            {
+                WalkMarkup(MarkupWriter.GetMarkupObjectFor(multiBinding.ConverterParameter), route);
             }
             foreach (Binding bindingItem in multiBinding.Bindings)
             {

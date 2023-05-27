@@ -20,7 +20,7 @@ public class DataConverter : IUniversalConverter
         {
             return null;
         }
-        object?[] parameters = SplitParameter(parameter);
+        object?[] parameters = IUniversalConverter.SplitParameter(parameter);
         if (parameters.Length > 1 && ("IsMouseEnter".Equals(parameters[0]) || "IsMouseDown".Equals(parameters[0])))
         {
             return value is { } && value.Equals(parameters[1]);
@@ -82,7 +82,7 @@ public class DataConverter : IUniversalConverter
 
     public object? Convert(object[] values, Type targetType, object? parameter, CultureInfo culture)
     {
-        object?[] parameters = SplitParameter(parameter);
+        object?[] parameters = IUniversalConverter.SplitParameter(parameter);
         int choice = 0;
         if (
             parameters.Length > 0 && (
@@ -121,7 +121,7 @@ public class DataConverter : IUniversalConverter
         {
             return null;
         }
-        object?[] parameters = SplitParameter(parameter);
+        object?[] parameters = IUniversalConverter.SplitParameter(parameter);
         if (parameters.Length > 0 && "FieldTypeText".Equals(parameters[0]))
         {
             switch (value)
@@ -189,21 +189,6 @@ public class DataConverter : IUniversalConverter
     public object[] ConvertBack(object value, Type[] targetTypes, object? parameter, CultureInfo culture)
     {
         return new object[] { value };
-    }
-
-    private object?[] SplitParameter(object? parameter)
-    {
-        if (parameter is Array array)
-        {
-            object[] res = new object[array.Length];
-            array.CopyTo(res, 0);
-            return res;
-        }
-        if (parameter is string str)
-        {
-            return str.Split('|');
-        }
-        return new object?[] { parameter };
     }
 
 }
