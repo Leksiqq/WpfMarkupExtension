@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows.Data;
 
 namespace Net.Leksi.WpfMarkup;
 
 public interface IUniversalConverter : IValueConverter, IMultiValueConverter
 {
-    object? Convert(object?[]? values, Type targetType, object?[] parameters, CultureInfo? culture, bool multi);
+    object? Convert(object?[]? values, Type targetType, object?[] parameters, CultureInfo? culture, bool multi, string? caller = null);
 
-    object? ConvertBack(object? value, Type[] targetTypes, object?[] parameters, CultureInfo? culture, bool multi);
+    object? ConvertBack(object? value, Type[] targetTypes, object?[] parameters, CultureInfo? culture, bool multi, string? caller = null);
 
     object? IValueConverter.Convert(object? value, Type targetType, object? parameter, CultureInfo? culture)
     {
