@@ -8,9 +8,9 @@ namespace Net.Leksi.WpfMarkup;
 
 public interface IUniversalConverter : IValueConverter, IMultiValueConverter
 {
-    object? Convert(object?[]? values, Type targetType, object?[] parameters, CultureInfo? culture, bool multi, string? caller = null);
+    object? Convert(object?[]? values, Type targetType, object?[] parameters, CultureInfo? culture, bool multi);
 
-    object? ConvertBack(object? value, Type[] targetTypes, object?[] parameters, CultureInfo? culture, bool multi, string? caller = null);
+    object? ConvertBack(object? value, Type[] targetTypes, object?[] parameters, CultureInfo? culture, bool multi);
 
     object? IValueConverter.Convert(object? value, Type targetType, object? parameter, CultureInfo? culture)
     {
