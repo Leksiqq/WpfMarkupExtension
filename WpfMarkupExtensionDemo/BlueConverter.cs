@@ -7,31 +7,21 @@ namespace WpfMarkupExtensionDemo;
 
 internal class BlueConverter : IUniversalConverter
 {
-    public object Convert(object value, Type targetType, object? parameter, CultureInfo culture)
+    public object? Convert(object?[]? values, Type targetType, object?[] parameters, CultureInfo? culture, bool multi)
     {
-        if ("Color".Equals(parameter))
+        switch (parameters[0])
         {
-            return new SolidColorBrush(Colors.Blue);
+            case "Color":
+                return new SolidColorBrush(Colors.Blue);
+            case "Type":
+                return GetType().FullName!;
         }
-        if ("Type".Equals(parameter))
-        {
-            return GetType().FullName!;
-        }
-        return value;
+        return null;
     }
 
-    public object ConvertBack(object value, Type targetType, object? parameter, CultureInfo culture)
+    public object? ConvertBack(object? value, Type[] targetTypes, object?[] parameters, CultureInfo? culture, bool multi)
     {
         throw new NotImplementedException();
     }
 
-    public object Convert(object[] values, Type targetType, object? parameter, CultureInfo culture)
-    {
-        throw new NotImplementedException();
-    }
-
-    public object[] ConvertBack(object value, Type[] targetTypes, object? parameter, CultureInfo culture)
-    {
-        throw new NotImplementedException();
-    }
 }
