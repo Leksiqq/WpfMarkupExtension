@@ -43,7 +43,7 @@ public class ParameterizedResourceExtension : MarkupExtension
                 {
                     foreach (
                         string[] ent in str.Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-                            .Select(entry => entry.Split(':', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+                            .Select(entry => entry.Split(':', StringSplitOptions.TrimEntries))
                             .Where(entry => entry.Length == 2)
                     )
                     {
@@ -63,7 +63,7 @@ public class ParameterizedResourceExtension : MarkupExtension
                         }
                         else
                         {
-                            string[]? ent = o?.ToString()!.Split(':', 2, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                            string[]? ent = o?.ToString()!.Split(':', 2, StringSplitOptions.TrimEntries);
                             if (ent is { } && ent.Length == 2)
                             {
                                 _replacements.TryAdd(ent[0], ent[1]);
@@ -89,7 +89,7 @@ public class ParameterizedResourceExtension : MarkupExtension
                 {
                     foreach (
                         string[] ent in str.Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-                            .Select(entry => entry.Split(':', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+                            .Select(entry => entry.Split(':', StringSplitOptions.TrimEntries))
                             .Where(entry => entry.Length == 2)
                     )
                     {
@@ -109,7 +109,7 @@ public class ParameterizedResourceExtension : MarkupExtension
                         }
                         else
                         {
-                            string[]? ent = o?.ToString()!.Split(':', 2, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+                            string[]? ent = o?.ToString()!.Split(':', 2, StringSplitOptions.TrimEntries);
                             if (ent is { } && ent.Length == 2)
                             {
                                 _replacements.TryAdd(ent[0], ent[1]);
