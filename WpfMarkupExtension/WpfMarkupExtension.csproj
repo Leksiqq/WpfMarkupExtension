@@ -1,11 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFrameworks>net8.0-windows;net6.0-windows</TargetFrameworks>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <AssemblyName>Net.Leksi.WpfMarkupExtension</AssemblyName>
     <RootNamespace>Net.Leksi.WpfMarkup</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <Version>2.0.4</Version>
     <Authors>leksiq</Authors>
     <Company>leksiq</Company>
@@ -17,8 +19,7 @@
     <Copyright>Алексей Юрьевич Захаров &lt;leksi@leksi.net&gt;, 2023</Copyright>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Net.Leksi.WpfMarkupExtension</Title>
-    <Description>Some extensions for XAML markup.
-</Description>
+    <Description>Some extensions for XAML markup.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
       2.0.2         The empty parameter missing bug fixed.
@@ -39,16 +40,21 @@
     </PackageReleaseNotes>
   </PropertyGroup>
 
-  <Target Name="CopyPackage" AfterTargets="Pack">
+  <Target Name="CopyPackage" AfterTargets="Pack" Condition="'$(Configuration)'=='Release'">
     <Move SourceFiles="$(OutputPath)\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="W:\C#\nuget.local" />
   </Target>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(Configuration)'=='Release'">
     <None Include="..\README.md" />
+    <None Include="..\LICENSE" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="'$(Configuration)'=='Release'">
     <None Update="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="..\LICENSE">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
