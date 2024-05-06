@@ -5,10 +5,11 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>Net.Leksi.WpfMarkupExtension</AssemblyName>
     <RootNamespace>Net.Leksi.WpfMarkup</RootNamespace>
+    <LangVersion>12.0</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <Version>2.0.4</Version>
+    <Version>2.1.1</Version>
     <Authors>leksiq</Authors>
     <Company>leksiq</Company>
     <PackageProjectUrl>https://github.com/Leksiqq/WpfMarkupExtension/wiki</PackageProjectUrl>
@@ -22,6 +23,8 @@
     <Description>Some extensions for XAML markup.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
+      2.1.0         Added DataGridManager.
+      
       2.0.2         The empty parameter missing bug fixed.
 
       2.0.1         The IUniversalParameter was completely rethougt. The XamlServiceProviderCatcher was added to use The ParameterizedResourceExtension at code.
