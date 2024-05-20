@@ -19,7 +19,7 @@ public class SortByColumn(DataGridManager manager) : ICommand
     }
     public bool CanExecute(object? parameter)
     {
-        return parameter is SortByColumnArgs args && args.FieldName is { };
+        return manager.SortByColumnCanExecute(parameter);
     }
 
     public void Execute(object? parameter)
@@ -42,7 +42,11 @@ public class SortByColumn(DataGridManager manager) : ICommand
             {
                 newDirection = ListSortDirection.Ascending;
             }
-            manager.SortByColumnExecute(args.FieldName, newDirection);
+            try
+            {
+                manager.SortByColumnExecute(args.FieldName, newDirection);
+            }
+            catch { }
         }
     }
 }

@@ -18,11 +18,15 @@ public class Unsort(DataGridManager manager) : ICommand
     }
     public bool CanExecute(object? parameter)
     {
-        return true;
+        return manager.UnsortCanExecute(parameter);
     }
 
     public void Execute(object? parameter)
     {
-        manager.Unsort();
+        try
+        {
+            manager.Unsort();
+        }
+        catch { }
     }
 }
