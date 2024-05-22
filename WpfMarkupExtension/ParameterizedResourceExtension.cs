@@ -270,7 +270,7 @@ public class ParameterizedResourceExtension : MarkupExtension
                     {
                         try
                         {
-                            result = new StaticResourceExtension(ResourceKey).ProvideValue(resource._services);
+                            result = ResourceKey is { } ? new StaticResourceExtension(ResourceKey).ProvideValue(resource._services) : null;
                             exception = null;
                             break;
                         }
@@ -282,14 +282,15 @@ public class ParameterizedResourceExtension : MarkupExtension
 
                     if(exception is { })
                     {
-                        throw exception;
+                        throw new AggregateException(exception);
                     }
 
-                    //object result = (((IRootObjectProvider)_services.GetService(typeof(IRootObjectProvider))).RootObject as FrameworkElement).FindResource(ResourceKey);
+                    if(result is { })
+                    {
+                        List<string> route = new();
 
-                    List<string> route = new();
-
-                    WalkMarkup(MarkupWriter.GetMarkupObjectFor(result), route);
+                        WalkMarkup(MarkupWriter.GetMarkupObjectFor(result), route);
+                    }
 
                     if (Verbose > 0)
                     {
