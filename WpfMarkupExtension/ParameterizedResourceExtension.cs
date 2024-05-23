@@ -142,7 +142,8 @@ public class ParameterizedResourceExtension : MarkupExtension
 
     public override object? ProvideValue(IServiceProvider serviceProvider)
     {
-        if(ResourceKey is null)
+        Console.WriteLine($"ResourceKey: {ResourceKey}");
+        if (ResourceKey is null)
         {
             return null;
         }
