@@ -28,6 +28,7 @@ public class ParameterizedResourceExtension : MarkupExtension
     private HashSet<object>? _seenObjects;
     private IServiceProvider _services = null!;
     private ParameterizedResourceExtension? _root = null;
+    public static bool DefaultSrict { get; set; } = false;
 
     [Ambient]
     public object? Replaces
@@ -127,7 +128,7 @@ public class ParameterizedResourceExtension : MarkupExtension
 
     public int Verbose { get; set; } = 0;
 
-    public bool Strict { get; set; } = true;
+    public bool Strict { get; set; } = DefaultSrict;
 
     public object? ResourceKey { get; set; }
 
