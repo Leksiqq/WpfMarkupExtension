@@ -10,6 +10,6 @@ The **Net.Leksi.WpfMarkupExtension** library is designed to extend WPF markup. I
 * `IUniversalConverter` - combines the `System.Windows.Data.IValueConverter` and `System.Windows.Data.IMultiValueConverter` interfaces for convenience.
 * `DataSwitch` - used instead of a large number of `DataTrigger` that have the same binding but different trigger values. Reduces both the XAML text and the number of calls to the binding source.
 * `BoolExpressionConverter` - incomplete implementation of the `IMultiValueConverter` interface, which implements the `object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)` method, which is passed an array of `bool` values `values ` and a string describing the Boolean expression above them, as `parameter`. Returns the result of evaluating an expression.
-
+* `ConverterProxy` - an adapter that is a `MarkupExtension` for converters `IValueConverter` or `IMultiValueConverter`, which are not `MarkupExtension` and cannot become one, since they are already inherited from another type, but are required there, where `MarkupExtension` is expected.
 
 More info: [https://github.com/Leksiqq/WpfMarkupExtension/wiki](https://github.com/Leksiqq/WpfMarkupExtension/wiki)

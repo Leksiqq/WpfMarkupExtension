@@ -17,7 +17,6 @@ namespace Net.Leksi.WpfMarkup;
 public class ParameterizedResourceExtension : MarkupExtension
 {
     private const string s_indentionStep = "  ";
-    private StaticResourceExtension? _value = null;
     private readonly Dictionary<string, object?> _replacements = new();
     private readonly Dictionary<string, object?> _defaults = new();
     private object? _replaces;

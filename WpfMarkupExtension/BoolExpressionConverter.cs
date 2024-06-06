@@ -152,23 +152,23 @@ public class BoolExpressionConverter : IMultiValueConverter
         switch (next)
         {
             case '!':
-                arg1 = PopOrThrow(operands);
+                arg1 = BoolExpressionConverter.PopOrThrow(operands);
                 operands.Push(!arg1);
                 break;
             case '|':
-                arg2 = PopOrThrow(operands);
-                arg1 = PopOrThrow(operands);
+                arg2 = BoolExpressionConverter.PopOrThrow(operands);
+                arg1 = BoolExpressionConverter.PopOrThrow(operands);
                 operands.Push(arg2 || arg1);
                 break;
             case '&':
-                arg2 = PopOrThrow(operands);
-                arg1 = PopOrThrow(operands);
+                arg2 = BoolExpressionConverter.PopOrThrow(operands);
+                arg1 = BoolExpressionConverter.PopOrThrow(operands);
                 operands.Push(arg2 && arg1);
                 break;
         }
     }
 
-    private bool PopOrThrow(Stack<bool> operands)
+    private static bool PopOrThrow(Stack<bool> operands)
     {
         if(operands.TryPop(out bool b))
         {

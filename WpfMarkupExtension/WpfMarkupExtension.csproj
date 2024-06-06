@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <Version>2.3.0</Version>
+    <Version>2.4.0</Version>
     <Authors>leksiq</Authors>
     <Company>leksiq</Company>
     <PackageProjectUrl>https://github.com/Leksiqq/WpfMarkupExtension/wiki</PackageProjectUrl>
@@ -23,6 +23,8 @@
     <Description>Some extensions for XAML markup.</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
+      2.4.0         ConverterProxy added.
+      
       2.3.0         Changed ParameterizedResourceExtension Strict mode default assignment.
 
       2.2.2         Changed ParameterizedResourceExtension to enable use null replace parameters.

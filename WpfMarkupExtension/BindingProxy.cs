@@ -8,6 +8,7 @@ public class BindingProxy : Freezable, INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 
+    private readonly PropertyChangedEventArgs _propertyChangedEventArgs = new(nameof(Value));
     private object? _value;
 
     public static readonly DependencyProperty ValueProperty =
@@ -30,13 +31,13 @@ public class BindingProxy : Freezable, INotifyPropertyChanged
             {
                 notify1.PropertyChanged += Notify_PropertyChanged;
             }
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
+            PropertyChanged?.Invoke(this, _propertyChangedEventArgs);
         }
     }
 
     private void Notify_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Value)));
+        PropertyChanged?.Invoke(this, _propertyChangedEventArgs);
     }
 
     public Type? Type { get; set; }
