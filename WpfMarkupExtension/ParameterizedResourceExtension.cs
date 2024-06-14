@@ -288,7 +288,6 @@ public class ParameterizedResourceExtension : MarkupExtension
                     if(result is { })
                     {
                         List<string> route = new();
-
                         WalkMarkup(MarkupWriter.GetMarkupObjectFor(result), route);
                     }
 
