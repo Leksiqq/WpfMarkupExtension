@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net8.0-windows;net6.0-windows</TargetFrameworks>
+    <TargetFrameworks>net8.0-windows</TargetFrameworks>
+    <!--<TargetFrameworks>net8.0-windows;net6.0-windows</TargetFrameworks>-->
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <AssemblyName>Net.Leksi.WpfMarkupExtension</AssemblyName>
@@ -67,6 +68,10 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\leksi\Documents\leksi\c#\LifetimeObserver\Library\LifetimeObserver.csproj" />
   </ItemGroup>
 
 

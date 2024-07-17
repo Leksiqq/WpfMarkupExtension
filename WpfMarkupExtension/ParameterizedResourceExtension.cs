@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Net.Leksi.Util;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -132,12 +133,18 @@ public class ParameterizedResourceExtension : MarkupExtension
 
     public object? DefaultDataContext { get; set; }
 
-    public ParameterizedResourceExtension(object key)
+    public ParameterizedResourceExtension(object key): this()
     {
         ResourceKey = key;
     }
 
-    public ParameterizedResourceExtension() { }
+    public ParameterizedResourceExtension() 
+    {
+        if (Application.Current.TryFindResource("LifetimeObserver") is LifetimeObserver lto)
+        {
+            lto.TraceObject(this);
+        }
+    }
 
     public override object? ProvideValue(IServiceProvider serviceProvider)
     {
