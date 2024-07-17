@@ -24,13 +24,13 @@ public class DataGridManager: INotifyPropertyChanged
         {
             if(_dataGrid != value)
             {
-                if(_dataGrid is { })
+                if(_dataGrid != null)
                 {
                     _dataGrid.CellEditEnding -= _dataGrid_CellEditEnding;
                     _dataGrid.BeginningEdit -= _dataGrid_BeginningEdit;
                 }
                 _dataGrid = value;
-                if(_dataGrid is { })
+                if(_dataGrid != null)
                 {
                     _dataGrid.CellEditEnding += _dataGrid_CellEditEnding;
                     _dataGrid.BeginningEdit += _dataGrid_BeginningEdit;
@@ -96,7 +96,7 @@ public class DataGridManager: INotifyPropertyChanged
         public int GetSortDescriptionPosition(string? fieldName)
     {
         if (
-            fieldName is { }
+            fieldName != null
             && Enumerable.Range(0, ViewSource.SortDescriptions.Count)
                 .Where(i => ViewSource.SortDescriptions[i].PropertyName == fieldName)
                 .FirstOrDefault(-1) is int pos
@@ -110,7 +110,7 @@ public class DataGridManager: INotifyPropertyChanged
     public ListSortDirection? GetSortDirection(string? fieldName)
     {
         if (
-            fieldName is { }
+            fieldName != null
             && ViewSource.SortDescriptions
                 .Where(sd => sd.PropertyName == fieldName)
                 .FirstOrDefault() is SortDescription sd 
@@ -123,7 +123,7 @@ public class DataGridManager: INotifyPropertyChanged
     }
     internal bool SortByColumnCanExecute(object? parameter)
     {
-        return parameter is SortByColumnArgs args && args.FieldName is { } && (!_isInEditMode || AutoCommit);
+        return parameter is SortByColumnArgs args && args.FieldName != null && (!_isInEditMode || AutoCommit);
     }
 
     internal bool UnsortCanExecute(object? parameter)
@@ -141,7 +141,7 @@ public class DataGridManager: INotifyPropertyChanged
             switch (e.EditAction)
             {
                 case DataGridEditAction.Commit:
-                    if (lcw.CurrentAddItem is { })
+                    if (lcw.CurrentAddItem != null)
                     {
                         lcw.CommitNew();
                     }
@@ -151,7 +151,7 @@ public class DataGridManager: INotifyPropertyChanged
                     }
                     break;
                 case DataGridEditAction.Cancel:
-                    if (lcw.CurrentAddItem is { })
+                    if (lcw.CurrentAddItem != null)
                     {
                         lcw.CancelNew();
                     }

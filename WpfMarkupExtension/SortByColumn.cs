@@ -24,7 +24,7 @@ public class SortByColumn(DataGridManager manager) : ICommand
 
     public void Execute(object? parameter)
     {
-        if (parameter is SortByColumnArgs args && args.FieldName is { })
+        if (parameter is SortByColumnArgs args && args.FieldName != null)
         {
             ListSortDirection? newDirection;
             if (args.SortDirection is ListSortDirection direction)

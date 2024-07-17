@@ -56,7 +56,7 @@ public class ParameterizedResourceExtension : MarkupExtension
                     {
                         if(o is BindingProxy proxy)
                         {
-                            if(proxy.Name is { })
+                            if(proxy.Name != null)
                             {
                                 _replacements.TryAdd(proxy.Name, proxy.Value);
                             }
@@ -64,7 +64,7 @@ public class ParameterizedResourceExtension : MarkupExtension
                         else
                         {
                             string[]? ent = o?.ToString()!.Split(':', 2, StringSplitOptions.TrimEntries);
-                            if (ent is { } && ent.Length == 2)
+                            if (ent != null && ent.Length == 2)
                             {
                                 _replacements.TryAdd(ent[0], ent[1]);
                             }
@@ -102,7 +102,7 @@ public class ParameterizedResourceExtension : MarkupExtension
                     {
                         if (o is BindingProxy proxy)
                         {
-                            if (proxy.Name is { })
+                            if (proxy.Name != null)
                             {
                                 _replacements.TryAdd(proxy.Name, proxy.Value);
                             }
@@ -110,7 +110,7 @@ public class ParameterizedResourceExtension : MarkupExtension
                         else
                         {
                             string[]? ent = o?.ToString()!.Split(':', 2, StringSplitOptions.TrimEntries);
-                            if (ent is { } && ent.Length == 2)
+                            if (ent != null && ent.Length == 2)
                             {
                                 _replacements.TryAdd(ent[0], ent[1]);
                             }
@@ -120,7 +120,6 @@ public class ParameterizedResourceExtension : MarkupExtension
             }
         }
     }
-
     public Type? AsValueOfType { get; set; } = null;
 
     public string At { get; set; } = string.Empty;
@@ -270,7 +269,7 @@ public class ParameterizedResourceExtension : MarkupExtension
                     {
                         try
                         {
-                            result = ResourceKey is { } ? new StaticResourceExtension(ResourceKey).ProvideValue(resource._services) : null;
+                            result = ResourceKey != null ? new StaticResourceExtension(ResourceKey).ProvideValue(resource._services) : null;
                             exception = null;
                             break;
                         }
@@ -280,12 +279,12 @@ public class ParameterizedResourceExtension : MarkupExtension
                         }
                     }
 
-                    if(exception is { })
+                    if(exception != null)
                     {
                         throw new AggregateException(exception);
                     }
 
-                    if(result is { })
+                    if(result != null)
                     {
                         List<string> route = new();
                         WalkMarkup(MarkupWriter.GetMarkupObjectFor(result), route);
@@ -333,7 +332,7 @@ public class ParameterizedResourceExtension : MarkupExtension
         {
             foreach (
                 PropertyDescriptor pd in TypeDescriptor.GetProperties(
-                    dependencyObject, new Attribute[] { new PropertyFilterAttribute(PropertyFilterOptions.All) }
+                    dependencyObject, [new PropertyFilterAttribute(PropertyFilterOptions.All)]
                 )
             )
             {
@@ -364,7 +363,7 @@ public class ParameterizedResourceExtension : MarkupExtension
                     DependencyPropertyDescriptor dpd =
                         DependencyPropertyDescriptor.FromProperty(pd);
 
-                    if (dpd is { })
+                    if (dpd != null)
                     {
                         if (BindingOperations.GetBinding(dependencyObject, dpd.DependencyProperty) is Binding binding1)
                         {
@@ -409,7 +408,7 @@ public class ParameterizedResourceExtension : MarkupExtension
                 {
                     Console.WriteLine($"{_prompt} {prop.PropertyType} {string.Join('/', route)}");
                 }
-                if (prop.DependencyProperty is { })
+                if (prop.DependencyProperty != null)
                 {
                     if (BindingOperations.GetBinding((DependencyObject)mo.Instance, prop.DependencyProperty) is Binding binding)
                     {
@@ -563,7 +562,7 @@ public class ParameterizedResourceExtension : MarkupExtension
                     Console.WriteLine($" -> {binding.Source} >");
                 }
             }
-            if (binding.Path is { } && binding.Path.Path is { } && binding.Path.Path.Contains('$'))
+            if (binding.Path != null && binding.Path.Path != null && binding.Path.Path.Contains('$'))
             {
                 if (Verbose > 0)
                 {
@@ -627,7 +626,7 @@ public class ParameterizedResourceExtension : MarkupExtension
                     Console.WriteLine($" -> {binding.XPath} >");
                 }
             }
-            if(binding.ConverterParameter is { })
+            if(binding.ConverterParameter != null)
             {
                 WalkMarkup(MarkupWriter.GetMarkupObjectFor(binding.ConverterParameter), route);
             }
@@ -689,7 +688,7 @@ public class ParameterizedResourceExtension : MarkupExtension
                     Console.WriteLine($" -> [{string.Join(',', parameters)}] >");
                 }
             }
-            if (multiBinding.ConverterParameter is { })
+            if (multiBinding.ConverterParameter != null)
             {
                 WalkMarkup(MarkupWriter.GetMarkupObjectFor(multiBinding.ConverterParameter), route);
             }
