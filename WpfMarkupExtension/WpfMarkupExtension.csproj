@@ -71,7 +71,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="C:\Users\leksi\Documents\leksi\c#\LifetimeObserver\Library\LifetimeObserver.csproj" />
+    <ProjectReference Include="..\..\..\LifetimeObserver\Library\LifetimeObserver.csproj" />
   </ItemGroup>
 
 
