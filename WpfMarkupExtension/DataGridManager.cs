@@ -1,11 +1,8 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
-
 namespace Net.Leksi.WpfMarkup;
-
 public class DataGridManager: INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -42,6 +39,7 @@ public class DataGridManager: INotifyPropertyChanged
     {
         SortByColumnCommand = new SortByColumn(this);
         UnsortCommand = new Unsort(this);
+        NotifyInstanceCreated.InstanceCreated?.Invoke(this, NotifyInstanceCreated.s_instanceCreatedArgs);
     }
     public void SortByColumnExecute(string fieldName, ListSortDirection? direction)
     {

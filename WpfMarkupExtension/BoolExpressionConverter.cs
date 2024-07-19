@@ -4,15 +4,17 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
-
 namespace Net.Leksi.WpfMarkup;
-
 public class BoolExpressionConverter : IMultiValueConverter
 {
     private const char s_parameterPrefix = '@';
     private StringBuilder? _sb;
     public string PostfixRecord => _sb?.ToString().TrimEnd() ?? string.Empty;
     public bool Verbose {  get; set; } = false;
+    public BoolExpressionConverter()
+    {
+        NotifyInstanceCreated.InstanceCreated?.Invoke(this, NotifyInstanceCreated.s_instanceCreatedArgs);
+    }
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
         if(parameter is string expression)
@@ -143,7 +145,6 @@ public class BoolExpressionConverter : IMultiValueConverter
             }
         }
     }
-
     private void Apply(Stack<bool> operands, char next)
     {
         _sb?.Append($"{next} ");
@@ -167,7 +168,6 @@ public class BoolExpressionConverter : IMultiValueConverter
                 break;
         }
     }
-
     private static bool PopOrThrow(Stack<bool> operands)
     {
         if(operands.TryPop(out bool b))

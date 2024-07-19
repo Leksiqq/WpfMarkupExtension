@@ -2,9 +2,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-
 namespace Net.Leksi.WpfMarkup;
-
 public class ConverterProxy: Freezable, IValueConverter, IMultiValueConverter
 {
     public static readonly DependencyProperty ConverterProperty = DependencyProperty.Register(
@@ -25,22 +23,22 @@ public class ConverterProxy: Freezable, IValueConverter, IMultiValueConverter
         get => (IMultiValueConverter)GetValue(MultiConverterProperty);
         set => SetValue(MultiConverterProperty, value);
     }
-
+    public ConverterProxy()
+    {
+        NotifyInstanceCreated.InstanceCreated?.Invoke(this, NotifyInstanceCreated.s_instanceCreatedArgs);
+    }
     public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         return Converter?.Convert(value, targetType, parameter, culture);
     }
-
     public object? Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
         return MultiConverter?.Convert(values, targetType, parameter, culture);
     }
-
     public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
         return Converter?.ConvertBack(value, targetType, parameter, culture);
     }
-
     public object[]? ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
     {
         return MultiConverter?.ConvertBack(value, targetTypes, parameter, culture);

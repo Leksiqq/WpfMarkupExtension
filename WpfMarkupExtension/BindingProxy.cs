@@ -1,22 +1,14 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows;
-
 namespace Net.Leksi.WpfMarkup;
-
 public class BindingProxy : Freezable, INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
-
+    public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(object), typeof(BindingProxy));
     private readonly PropertyChangedEventArgs _propertyChangedEventArgs = new(nameof(Value));
     private object? _value;
-
-    public static readonly DependencyProperty ValueProperty =
-         DependencyProperty.Register("Value", typeof(object),
-            typeof(BindingProxy));
-
     public string? Name { get; set; }
-
     public object? Value
     {
         get => Type != null ? Convert.ChangeType(_value, Type) : _value;
@@ -34,14 +26,11 @@ public class BindingProxy : Freezable, INotifyPropertyChanged
             PropertyChanged?.Invoke(this, _propertyChangedEventArgs);
         }
     }
-
-    private void Notify_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        PropertyChanged?.Invoke(this, _propertyChangedEventArgs);
-    }
-
     public Type? Type { get; set; }
-
+    public BindingProxy()
+    {
+        NotifyInstanceCreated.InstanceCreated?.Invoke(this, NotifyInstanceCreated.s_instanceCreatedArgs);
+    }
     protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
     {
         if (e.Property == ValueProperty)
@@ -50,9 +39,13 @@ public class BindingProxy : Freezable, INotifyPropertyChanged
         }
         base.OnPropertyChanged(e);
     }
-
     protected override Freezable CreateInstanceCore()
     {
         return this;
     }
+    private void Notify_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        PropertyChanged?.Invoke(this, _propertyChangedEventArgs);
+    }
+
 }

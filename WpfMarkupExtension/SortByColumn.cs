@@ -1,10 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Input;
-
 namespace Net.Leksi.WpfMarkup;
-
-public class SortByColumn(DataGridManager manager) : ICommand
+public class SortByColumn : ICommand
 {
     public event EventHandler? CanExecuteChanged
     {
@@ -17,11 +15,16 @@ public class SortByColumn(DataGridManager manager) : ICommand
             CommandManager.RequerySuggested -= value;
         }
     }
+    private readonly DataGridManager _manager;
+    public SortByColumn(DataGridManager manager)
+    {
+        _manager = manager;
+        NotifyInstanceCreated.InstanceCreated?.Invoke(this, NotifyInstanceCreated.s_instanceCreatedArgs);
+    }
     public bool CanExecute(object? parameter)
     {
-        return manager.SortByColumnCanExecute(parameter);
+        return _manager.SortByColumnCanExecute(parameter);
     }
-
     public void Execute(object? parameter)
     {
         if (parameter is SortByColumnArgs args && args.FieldName != null)
@@ -44,7 +47,7 @@ public class SortByColumn(DataGridManager manager) : ICommand
             }
             try
             {
-                manager.SortByColumnExecute(args.FieldName, newDirection);
+                _manager.SortByColumnExecute(args.FieldName, newDirection);
             }
             catch { }
         }

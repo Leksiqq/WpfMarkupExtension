@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
-
 namespace Net.Leksi.WpfMarkup;
-
 [MarkupExtensionReturnType(typeof(DataTrigger))]
 [ContentProperty("Triggers")]
-
 public class DataSwitch : MarkupExtension
 {
     public List<DataTrigger> Triggers { get; init; } = new();
-
     public BindingBase? Binding { get; set; }
-
+    public DataSwitch()
+    {
+        NotifyInstanceCreated.InstanceCreated?.Invoke(this, NotifyInstanceCreated.s_instanceCreatedArgs);
+    }
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         IProvideValueTarget? target = (IProvideValueTarget?)serviceProvider.GetService(typeof(IProvideValueTarget));
@@ -52,8 +51,6 @@ public class DataSwitch : MarkupExtension
                 }
             }
         }
-
         return result;
     }
-
 }

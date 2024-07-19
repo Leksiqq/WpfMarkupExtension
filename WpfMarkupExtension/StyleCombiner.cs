@@ -2,19 +2,18 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Markup;
-
 namespace Net.Leksi.WpfMarkup;
-
 [MarkupExtensionReturnType(typeof(Style))]
 [ContentProperty("Styles")]
 [DictionaryKeyProperty("TargetType")]
 public class StyleCombiner : MarkupExtension
 {
- 
     public List<Style> Styles { get; init; } = new();
-
     public Type? TargetType { get; set; } = null;
-
+    public StyleCombiner()
+    {
+        NotifyInstanceCreated.InstanceCreated?.Invoke(this, NotifyInstanceCreated.s_instanceCreatedArgs);
+    }
     public override object ProvideValue(IServiceProvider serviceProvider)
     {
         if (Styles.Count == 1)
@@ -48,8 +47,6 @@ public class StyleCombiner : MarkupExtension
                 }
             }
         }
-
         return result;
     }
-
 }

@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace Net.Leksi.WpfMarkup;
 
-public class Unsort(DataGridManager manager) : ICommand
+public class Unsort : ICommand
 {
     public event EventHandler? CanExecuteChanged
     {
@@ -16,16 +16,22 @@ public class Unsort(DataGridManager manager) : ICommand
             CommandManager.RequerySuggested -= value;
         }
     }
+    private readonly DataGridManager _manager;
+    public Unsort(DataGridManager manager)
+    {
+        _manager = manager;
+        NotifyInstanceCreated.InstanceCreated?.Invoke(this, NotifyInstanceCreated.s_instanceCreatedArgs);
+    }
     public bool CanExecute(object? parameter)
     {
-        return manager.UnsortCanExecute(parameter);
+        return _manager.UnsortCanExecute(parameter);
     }
 
     public void Execute(object? parameter)
     {
         try
         {
-            manager.Unsort();
+            _manager.Unsort();
         }
         catch { }
     }

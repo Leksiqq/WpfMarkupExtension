@@ -1,5 +1,4 @@
-﻿using Net.Leksi.Util;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -140,10 +139,7 @@ public class ParameterizedResourceExtension : MarkupExtension
 
     public ParameterizedResourceExtension() 
     {
-        if (Application.Current.TryFindResource("LifetimeObserver") is LifetimeObserver lto)
-        {
-            lto.TraceObject(this);
-        }
+        NotifyInstanceCreated.InstanceCreated?.Invoke(this, NotifyInstanceCreated.s_instanceCreatedArgs);
     }
 
     public override object? ProvideValue(IServiceProvider serviceProvider)

@@ -23,6 +23,10 @@ public class SortByColumnArgs : Freezable
         get => (ListSortDirection?)GetValue(ButtonProperty);
         set => SetValue(ButtonProperty, value);
     }
+    public SortByColumnArgs()
+    {
+        NotifyInstanceCreated.InstanceCreated?.Invoke(this, NotifyInstanceCreated.s_instanceCreatedArgs);
+    }
     protected override Freezable CreateInstanceCore()
     {
         return this;

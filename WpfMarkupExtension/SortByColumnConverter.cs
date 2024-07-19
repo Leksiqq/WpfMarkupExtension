@@ -2,14 +2,11 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-
 namespace Net.Leksi.WpfMarkup;
-
 public class SortByColumnConverter: Freezable, IValueConverter
 {
     public static string SortPosition { get; private set; } = "sortPosition";
     public static string SortDirection { get; private set; } = "sortDirection";
-
     public static readonly DependencyProperty FieldNameProperty = DependencyProperty.Register(
        "FieldName", typeof(string),
        typeof(SortByColumnConverter)
@@ -27,6 +24,10 @@ public class SortByColumnConverter: Freezable, IValueConverter
     {
         get => (DataGridManager)GetValue(DataGridManagerProperty);
         set => SetValue(DataGridManagerProperty, value);
+    }
+    public SortByColumnConverter()
+    {
+        NotifyInstanceCreated.InstanceCreated?.Invoke(this, NotifyInstanceCreated.s_instanceCreatedArgs);
     }
     public virtual object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
