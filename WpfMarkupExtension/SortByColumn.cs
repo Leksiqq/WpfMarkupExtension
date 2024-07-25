@@ -32,7 +32,7 @@ public class SortByColumn : ICommand
             ListSortDirection? newDirection;
             if (args.SortDirection is ListSortDirection direction)
             {
-                if (direction is ListSortDirection.Ascending)
+                if (direction == ListSortDirection.Ascending)
                 {
                     newDirection = ListSortDirection.Descending;
                 }
